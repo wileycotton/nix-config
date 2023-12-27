@@ -88,7 +88,8 @@
       };
 
       nixosConfigurations = {
-        testnix = nixosSystem "x86_64-linux" "testnix" "bcotton";
+        admin = nixosSystem "x86_64-linux" "admin" "bcotton";
+        # testnix = nixosSystem "x86_64-linux" "testnix" "bcotton";
       };
     };
 

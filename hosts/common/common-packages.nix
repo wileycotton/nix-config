@@ -72,6 +72,7 @@ with pkgs; [
   vim
   wezterm
   yq
+  zsh
 
   # requires nixpkgs.config.allowUnfree = true;
   vscode-extensions.ms-vscode-remote.remote-ssh
