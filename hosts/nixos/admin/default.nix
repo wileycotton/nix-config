@@ -5,9 +5,12 @@
 { config, pkgs, unstablePkgs, ... }:
 
 {
+  # How to write modules to be imported here
+  # https://discourse.nixos.org/t/append-to-a-list-in-multiple-imports-in-configuration-nix/4364/3
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./sound.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -66,6 +69,10 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.autoSuspend = false;
+
+  # Not sure this works
+  # services.gnome.gnome-remote-desktop.enable = true;
 
 environment.gnome.excludePackages = (with pkgs; [
   gnome-photos
@@ -92,10 +99,6 @@ environment.gnome.excludePackages = (with pkgs; [
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
-  # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
