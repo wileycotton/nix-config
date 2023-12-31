@@ -4,6 +4,9 @@
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
 
+      disko.url = "github:nix-community/disko";
+      disko.inputs.nixpkgs.follows = "nixpkgs";
+
       vscode-server.url = "github:nix-community/nixos-vscode-server";
       
       home-manager.url = "github:nix-community/home-manager/release-23.05";
@@ -15,7 +18,7 @@
 
   outputs = inputs@{ self
     , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
-    , home-manager, nix-darwin, vscode-server, ... }:
+    , home-manager, nix-darwin, vscode-server, disko, ... }:
     let  
       inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
       # creates correct package sets for specified arch
@@ -41,6 +44,7 @@
               # adds unstable to be available in top-level evals (like in common-packages)
               { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
 
+              disko.nixosModules.disko
               ./hosts/nixos/${hostName} # ip address, host specific stuff
               vscode-server.nixosModules.default
               home-manager.nixosModules.home-manager
@@ -89,6 +93,7 @@
 
       nixosConfigurations = {
         admin = nixosSystem "x86_64-linux" "admin" "bcotton";
+        nix-01 = nixosSystem "x86_64-linux" "nix-01" "bcotton";
         # testnix = nixosSystem "x86_64-linux" "testnix" "bcotton";
       };
     };
