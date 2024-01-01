@@ -138,7 +138,9 @@ in
 
       extraConfig = ''
           zstyle :omz:plugins:ssh-agent identities id_ed25519
-          zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
+          if [[ `uname` == "Darwin" ]]; then
+            zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
+         fi
       '';
       plugins = [
         "brew"
@@ -209,7 +211,7 @@ in
     };
   };
 
-  # home.packages = with pkgs; [
+  home.packages = with pkgs; [
   #   ## unstable
   #   unstablePkgs.yt-dlp
   #   unstablePkgs.terraform
@@ -244,7 +246,8 @@ in
   #   mc
   #   mosh
   #   neofetch
-  #   nmap
+  #    nmap
+#      (python311.withPackages(ps: with ps; [ libtmux ]))
   #   ripgrep
   #   skopeo
   #   smartmontools
@@ -253,5 +256,5 @@ in
   #   watch
   #   wget
   #   wireguard-tools
-  # ];
+  ];
 }

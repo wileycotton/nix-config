@@ -66,32 +66,32 @@
 
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm.autoSuspend = false;
+#  services.xserver.enable = true;
+#  services.xserver.displayManager.gdm.enable = true;
+#  services.xserver.desktopManager.gnome.enable = true;
+#  services.xserver.displayManager.gdm.autoSuspend = false;
 
   # Not sure this works
   # services.gnome.gnome-remote-desktop.enable = true;
 
-environment.gnome.excludePackages = (with pkgs; [
-  gnome-photos
-  gnome-tour
-]) ++ (with pkgs.gnome; [
-  cheese # webcam tool
-  gnome-music
-  gnome-terminal
-  gedit # text editor
-  epiphany # web browser
-  geary # email reader
-  evince # document viewer
-  gnome-characters
-  totem # video player
-  tali # poker game
-  iagno # go game
-  hitori # sudoku game
-  atomix # puzzle game
-]);
+#environment.gnome.excludePackages = (with pkgs; [
+#  gnome-photos
+#  gnome-tour
+#]) ++ (with pkgs.gnome; [
+#  cheese # webcam tool
+#  gnome-music
+#  gnome-terminal
+#  gedit # text editor
+#  epiphany # web browser
+#  geary # email reader
+#  evince # document viewer
+#  gnome-characters
+#  totem # video player
+#  tali # poker game
+#  iagno # go game
+#  hitori # sudoku game
+#  atomix # puzzle game
+#]);
 
   # Configure keymap in X11
 #  services.xserver.xkb.layout = "us";
@@ -110,7 +110,7 @@ environment.gnome.excludePackages = (with pkgs; [
   users.users.bcotton = {
     shell = pkgs.zsh;
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "audio" ]; # Enable ‘sudo’ for the user.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
     ];

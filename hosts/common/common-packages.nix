@@ -44,6 +44,7 @@ with pkgs; [
   hub
 #  hugo
 #  ipmitool
+  inxi
   jetbrains-mono # font
   just
   jq

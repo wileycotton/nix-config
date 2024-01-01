@@ -21,6 +21,7 @@ in
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    alsaUtils
     intel-gpu-tools
     libva-utils
     intel-media-driver
