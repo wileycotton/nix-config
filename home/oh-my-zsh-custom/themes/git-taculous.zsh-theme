@@ -64,6 +64,10 @@ function +vi-git-username() {
 function setprompt() {
     local -a lines infoline
     local x i filler i_width i_pad
+	
+    # Username & host
+    infoline+=( "(%n)" )
+    infoline+=( "@%m" )
 
     ### First, assemble the top line
     # Current dir; show in yellow if not writable
@@ -73,8 +77,8 @@ function setprompt() {
     infoline+=("$(kube_ps1)")
 
     # Username & host
-    infoline+=( "(%n)" )
-    [[ -n $SSH_CLIENT ]] && infoline+=( "@%m" )
+    # infoline+=( "(%n)" )
+    # [[ -n $SSH_CLIENT ]] && infoline+=( "@%m" )
 
     i_width=${(S)infoline//\%\{*\%\}} # search-and-replace color escapes
     i_width=${#${(%)i_width}} # expand all escapes and count the chars
