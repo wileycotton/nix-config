@@ -66,25 +66,21 @@ function setprompt() {
     local x i filler i_width i_pad
 	
     # Username & host
-    infoline+=( "(%n)" )
+    infoline+=( "%n" )
     infoline+=( "@%m" )
 
     ### First, assemble the top line
     # Current dir; show in yellow if not writable
     [[ -w $PWD ]] && infoline+=( ${green} ) || infoline+=( ${yellow} )
-    infoline+=( "(${PWD/#$HOME/~})${reset} " )
+    infoline+=( " (%3~)${reset} " )
 
     infoline+=("$(kube_ps1)")
-
-    # Username & host
-    # infoline+=( "(%n)" )
-    # [[ -n $SSH_CLIENT ]] && infoline+=( "@%m" )
 
     i_width=${(S)infoline//\%\{*\%\}} # search-and-replace color escapes
     i_width=${#${(%)i_width}} # expand all escapes and count the chars
 
     filler="${grey}${(l:$(( $COLUMNS - $i_width ))::-:)}${reset}"
-    infoline[2]=( "${infoline[2]} ${filler} " )
+    infoline[4]=( "${infoline[4]} ${filler} " )
 
     ### Now, assemble all prompt lines
     lines+=( ${(j::)infoline} )
