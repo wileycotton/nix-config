@@ -66,7 +66,7 @@ function setprompt() {
     local x i filler i_width i_pad
 	
     # Username & host
-    infoline+=( "%n" )
+    infoline+=( "-- %n" )
     infoline+=( "@%m" )
 
     ### First, assemble the top line
