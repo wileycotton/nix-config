@@ -134,11 +134,6 @@
 #    nodePackages.meshcommander
 #    netbootxyz-efi
 #  ];
-  environment.systemPackages = import ./../../common/common-packages.nix
-  { #what is this?
-    pkgs = pkgs; 
-    unstablePkgs = unstablePkgs; 
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

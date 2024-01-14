@@ -1,5 +1,6 @@
 {
   inputs = {
+      agenix.url = "github:ryantm/agenix";
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
@@ -17,10 +18,10 @@
   };
 
   outputs = inputs@{ self
-    , nixpkgs, nixpkgs-unstable, nixpkgs-darwin
+    , agenix, nixpkgs, nixpkgs-unstable, nixpkgs-darwin
     , home-manager, nix-darwin, vscode-server, disko, ... }:
     let  
-      inputs = { inherit nix-darwin home-manager nixpkgs nixpkgs-unstable; };
+      inputs = { inherit agenix nix-darwin home-manager nixpkgs nixpkgs-unstable; };
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
         inherit system;
@@ -42,7 +43,11 @@
             inherit system;
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              { _module.args = { 
+                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+                  system = system;
+                }; 
+              }
 
               disko.nixosModules.disko
               ./hosts/nixos/${hostName} # ip address, host specific stuff
@@ -55,6 +60,7 @@
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
               }
               ./hosts/common/nixos-common.nix
+              agenix.nixosModules.default
             ];
           };
 
@@ -66,9 +72,14 @@
           nix-darwin.lib.darwinSystem 
           {
             inherit system inputs;
+
             modules = [
               # adds unstable to be available in top-level evals (like in common-packages)
-              { _module.args = { unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system}; }; }
+              { _module.args = { 
+                  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+                  system = system;
+                }; 
+              }
 
               ./hosts/darwin/${hostName} # ip address, host specific stuff
               home-manager.darwinModules.home-manager 
@@ -78,7 +89,9 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
               }
+              ./hosts/common/common-packages.nix
               ./hosts/common/darwin-common.nix
+              agenix.nixosModules.default
             ];
           };
     in
