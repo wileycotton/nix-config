@@ -67,12 +67,18 @@ in
       bind j select-pane -D
       bind k select-pane -U
       bind l select-pane -R
+      bind "C-h" select-pane -L
+      bind "C-j" select-pane -D
+      bind "C-k" select-pane -U
+      bind "C-l" select-pane -R
       bind-key "C-f" run-shell -b "${pkgs.tmuxPlugins.tmux-fzf}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
 
       # tmux-fzf stuff
     '';
   };
 
+  # TODO: add ~/bin
+  # code --remote ssh-remote+<remoteHost> <remotePath>
 
   home.file."oh-my-zsh-custom" = {
     enable = true;
@@ -110,7 +116,7 @@ in
       export FULLNAME='Bob Cotton'
       export EMAIL=bob.cotton@gmail.com
       export GOPATH=$HOME/go
-      export PATH=$GOPATH/bin:/opt/homebrew/share/google-cloud-sdk/bin:$PATH
+      export PATH=$GOPATH/bin:/opt/homebrew/share/google-cloud-sdk/bin:~/projects/deployment_tools/scripts/gcom:$PATH
       export OKTA_MFA_OPTION=1
 
       export GOPRIVATE="github.com/grafana/*"
@@ -205,6 +211,7 @@ in
     extraConfig = ''
     Host *
       StrictHostKeyChecking no
+      ForwardAgent yes
     '';
     matchBlocks = {
 
