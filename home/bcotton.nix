@@ -146,7 +146,7 @@ in
           zstyle :omz:plugins:ssh-agent identities id_ed25519
           if [[ `uname` == "Darwin" ]]; then
             zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
-         fi
+          fi
       '';
       plugins = [
         "brew"
@@ -179,7 +179,9 @@ in
         tmux-window-name() {
           (${builtins.toString(tmux-window-name)}/share/tmux-plugins/tmux-window-name/scripts/rename_session_windows.py &)
         }
-        add-zsh-hook chpwd tmux-window-name
+        if [[ `uname` == "Darwin" ]]; then
+          add-zsh-hook chpwd tmux-window-name
+        fi
         source <(kubectl completion zsh)
 
         bindkey -e

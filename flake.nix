@@ -32,7 +32,6 @@
         config.allowUnfree = true;
       };
       
-    
       # creates a nixos system config
       nixosSystem = system: hostName: username:
         let
@@ -46,8 +45,21 @@
               { _module.args = { 
                   unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
                   system = system;
+                  inputs = inputs;
                 }; 
               }
+
+
+              # To repl the flake
+              # > nix repl
+              # > :lf .
+              # > e.g. admin.[tab]
+              # add the following inline module definition
+              #   here, all parameters of modules are passed to overlays
+              # (args: { nixpkgs.overlays = import ./overlays args; })
+              ## or
+              # ./overlays.nix
+
 
               disko.nixosModules.disko
               ./hosts/nixos/${hostName} # ip address, host specific stuff
@@ -59,6 +71,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.users.${username} = { imports = [ ./home/${username}.nix ]; };
               }
+              ./hosts/common/common-packages.nix
               ./hosts/common/nixos-common.nix
               agenix.nixosModules.default
             ];

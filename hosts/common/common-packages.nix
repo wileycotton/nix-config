@@ -58,6 +58,7 @@
         kubectl
         lazydocker
         lazygit
+        lsof
         mage
         mc
         mkdocs
