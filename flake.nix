@@ -1,6 +1,7 @@
 {
   inputs = {
       agenix.url = "github:ryantm/agenix";
+      nixinate.url = "github:matthewcroughan/nixinate";
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
       nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
       nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
@@ -18,10 +19,10 @@
   };
 
   outputs = inputs@{ self
-    , agenix, nixpkgs, nixpkgs-unstable, nixpkgs-darwin
+    , agenix, nixinate, nixpkgs, nixpkgs-unstable, nixpkgs-darwin
     , home-manager, nix-darwin, vscode-server, disko, ... }:
     let  
-      inputs = { inherit agenix nix-darwin home-manager nixpkgs nixpkgs-unstable; };
+      inputs = { inherit agenix nixinate nix-darwin home-manager nixpkgs nixpkgs-unstable; };
       # creates correct package sets for specified arch
       genPkgs = system: import nixpkgs {
         inherit system;
@@ -36,6 +37,12 @@
       nixosSystem = system: hostName: username:
         let
           pkgs = genPkgs system;
+          nixinateConfig = {
+            host = hostName;
+            sshUser = "root";
+            buildOn = "remote";
+
+          };
         in
           nixpkgs.lib.nixosSystem
           {
@@ -46,6 +53,7 @@
                   unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
                   system = system;
                   inputs = inputs;
+                  nixinate = nixinateConfig;
                 }; 
               }
 
@@ -109,6 +117,8 @@
           };
     in
     {
+      apps = nixinate.nixinate.x86_64-linux self;
+
       darwinConfigurations = {
         bobs-laptop = darwinSystem "aarch64-darwin" "bobs-laptop" "bcotton";
         # magrathea = darwinSystem "aarch64-darwin" "magrathea" "alex";
@@ -120,6 +130,7 @@
       nixosConfigurations = {
         admin = nixosSystem "x86_64-linux" "admin" "bcotton";
         nix-01 = nixosSystem "x86_64-linux" "nix-01" "bcotton";
+        nix-02 = nixosSystem "x86_64-linux" "nix-02" "bcotton";
         # testnix = nixosSystem "x86_64-linux" "testnix" "bcotton";
       };
     };
