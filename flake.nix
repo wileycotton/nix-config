@@ -132,7 +132,7 @@
         nix-01 = nixosSystem "x86_64-linux" "nix-01" "bcotton";
         nix-02 = nixosSystem "x86_64-linux" "nix-02" "bcotton";
         nix-03 = nixosSystem "x86_64-linux" "nix-03" "bcotton";
-        # dns-01 = nixosSystem "x86_64-linux" "dns-01" "bcotton";
+        dns-01 = nixosSystem "x86_64-linux" "dns-01" "bcotton";
         # testnix = nixosSystem "x86_64-linux" "testnix" "bcotton";
       };
     };
