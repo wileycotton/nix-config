@@ -14,10 +14,23 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nix-01"; # Define your hostname.
-  # Pick only one of the below networking options.
+  networking = {
+      hostName = "nix-01";
+      defaultGateway = "192.168.5.1";
+      nameservers = [ "192.168.5.53" ];
+      interfaces.enp3s0.ipv4.addresses = [{
+        address = "192.168.5.210";
+        prefixLength = 24;
+      }];
+      interfaces.enp2s0.ipv4.addresses = [{
+        address = "192.168.5.211";
+        prefixLength = 24;
+      }];
+  };
+
+    # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this bzy default.
 
   # Set your time zone.
   time.timeZone = "America/Denver";

@@ -15,33 +15,17 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "nix-02";
+    hostName = "nix-03";
     defaultGateway = "192.168.5.1";
     nameservers = [ "192.168.5.53" ];
     interfaces.enp3s0.ipv4.addresses = [{
-      address = "192.168.5.212";
+      address = "192.168.5.214";
       prefixLength = 24;
     }];
     interfaces.enp2s0.ipv4.addresses = [{
-      address = "192.168.5.213";
+      address = "192.168.5.215";
       prefixLength = 24;
     }];
-
-   vlans = {
-    vlan20 = { id=20; interface="enp2s0"; };
-    vlan30 = { id=30; interface="enp2s0"; };
-   };
-
-   interfaces.vlan20.ipv4.addresses = [{
-    address = "192.168.20.213";
-    prefixLength = 24;
-   }];
-
-   interfaces.vlan30.ipv4.addresses = [{
-    address = "192.168.30.213";
-    prefixLength = 24;
-   }];
-
   };
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
