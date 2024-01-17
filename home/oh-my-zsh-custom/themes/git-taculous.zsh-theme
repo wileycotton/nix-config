@@ -67,7 +67,7 @@ function setprompt() {
 	
     # Username & host
     infoline+=( "-- %n" )
-    infoline+=( "@%m" )
+    infoline+=( "@${red}%m${reset}" )
 
     ### First, assemble the top line
     # Current dir; show in yellow if not writable

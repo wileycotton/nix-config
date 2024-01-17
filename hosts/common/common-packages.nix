@@ -17,6 +17,7 @@
         bitwarden-cli
         ctlptl
         coreutils
+        coreutils-prefixed
         cue
         curl
         diffr # Modern Unix `diff`
@@ -75,6 +76,7 @@
         unzip
         watch
         wget
+        which
         wireguard-tools
         vim
         wezterm

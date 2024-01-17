@@ -116,7 +116,7 @@ in
       export FULLNAME='Bob Cotton'
       export EMAIL=bob.cotton@gmail.com
       export GOPATH=$HOME/go
-      export PATH=$GOPATH/bin:/opt/homebrew/share/google-cloud-sdk/bin:~/projects/deployment_tools/scripts/gcom:$PATH
+      export PATH=$GOPATH/bin:/opt/homebrew/share/google-cloud-sdk/bin:~/projects/deployment_tools/scripts/gcom:~/projects/grafana-app-sdk/target:$PATH
       export OKTA_MFA_OPTION=1
 
       export GOPRIVATE="github.com/grafana/*"
@@ -194,8 +194,6 @@ in
 
         setopt autocd autopushd autoresume cdablevars correct correctall extendedglob globdots histignoredups longlistjobs mailwarning  notify pushdminus pushdsilent pushdtohome rcquotes recexact sunkeyboardhack menucomplete always_to_end hist_allow_clobber no_share_history
         unsetopt bgnice
-
-
     '';
 
     #initExtra = (builtins.readFile ../mac-dot-zshrc);
@@ -211,9 +209,13 @@ in
   programs.ssh = {
     enable = true;
     extraConfig = ''
-    Host *
-      StrictHostKeyChecking no
-      ForwardAgent yes
+      Host *
+        StrictHostKeyChecking no
+        ForwardAgent yes
+
+      Host github.com
+        Hostname ssh.github.com
+        Port 443
     '';
     matchBlocks = {
 

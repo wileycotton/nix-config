@@ -30,7 +30,6 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-  services.tailscale.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -152,7 +151,6 @@
   services.openssh.enable = true;
 
   services.nfs.server.enable = true;
-  services.vscode-server.enable = true;
 
   # See https://xeiaso.net/blog/prometheus-grafana-loki-nixos-2020-11-20/
   # Turn on node_exporter
