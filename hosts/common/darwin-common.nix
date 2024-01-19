@@ -1,8 +1,17 @@
 {
+  pkgs,
+  unstablePkgs,
+  lib,
+  inputs,
+  ...
+}: let
+  inherit (inputs) nixpkgs nixpkgs-unstable;
+in {
   config = {
     # These are packages are just for darwin systems
     environment.systemPackages = [
       pkgs.awscli
+      pkgs.kind
     ];
 
     users.users.bcotton.home = "/Users/bcotton";
