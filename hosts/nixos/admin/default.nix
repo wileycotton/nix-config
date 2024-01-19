@@ -29,6 +29,7 @@
   # boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
   networking.hostName = "admin"; # Define your hostname.
+  services.tailscale.enable = true;
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
