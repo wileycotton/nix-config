@@ -1,47 +1,60 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, pkgs, unstablePkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../../modules/dnsmasq/dnsmasq.nix
-    ];
+  config,
+  pkgs,
+  unstablePkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../../modules/dnsmasq/dnsmasq.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-      hostName = "dns-01";
-      defaultGateway = "192.168.5.1";
-      nameservers = [ "192.168.5.53" ];
-      interfaces.eno1.ipv4.addresses = [{
+    hostName = "dns-01";
+    defaultGateway = "192.168.5.1";
+    nameservers = ["192.168.5.53"];
+    interfaces.eno1.ipv4.addresses = [
+      {
         address = "192.168.5.220";
         prefixLength = 24;
-      }];
+      }
+    ];
 
     vlans = {
-      vlan20 = { id=20; interface="eno1"; };
-      vlan30 = { id=30; interface="eno1"; };
+      vlan10 = {
+        id = 10;
+        interface = "eno1";
+      };
+      vlan20 = {
+        id = 20;
+        interface = "eno1";
+      };
     };
 
-    interfaces.vlan20.ipv4.addresses = [{
-      address = "192.168.20.220";
-      prefixLength = 24;
-    }];
+    interfaces.vlan10.ipv4.addresses = [
+      {
+        address = "192.168.10.220";
+        prefixLength = 24;
+      }
+    ];
 
-    interfaces.vlan30.ipv4.addresses = [{
-      address = "192.168.30.220";
-      prefixLength = 24;
-    }];
-
+    interfaces.vlan20.ipv4.addresses = [
+      {
+        address = "192.168.20.220";
+        prefixLength = 24;
+      }
+    ];
   };
 
-    # Pick only one of the below networking options.
+  # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this bzy default.
 
@@ -82,7 +95,7 @@
   users.users.bcotton = {
     shell = pkgs.zsh;
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker"]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "docker"]; # Enable ‘sudo’ for the user.
     hashedPassword = "$6$G9latKdzvUGuwcba$/8qQObrrQdMYIpQMXV4.04Zn1zhvZmtATFM5iSrmWgL9jybIkh7B1sHMhr2l/6jDhXz80OjAWQuFFsdQUTQyp.";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
@@ -116,7 +129,6 @@
   #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #   wget
   # ];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -159,6 +171,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }
-

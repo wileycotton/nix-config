@@ -1,5 +1,10 @@
-{ config, pkgs, lib, unstablePkgs, ... }:
 {
+  config,
+  pkgs,
+  lib,
+  unstablePkgs,
+  ...
+}: {
   home.stateVersion = "23.05";
 
   # list of programs
@@ -59,8 +64,8 @@
   programs.ssh = {
     enable = true;
     extraConfig = ''
-    Host *
-      StrictHostKeyChecking no
+      Host *
+        StrictHostKeyChecking no
     '';
     matchBlocks = {
       # wd

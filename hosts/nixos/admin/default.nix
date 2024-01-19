@@ -1,17 +1,19 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, pkgs, unstablePkgs, ... }:
-
 {
+  config,
+  pkgs,
+  unstablePkgs,
+  ...
+}: {
   # How to write modules to be imported here
   # https://discourse.nixos.org/t/append-to-a-list-in-multiple-imports-in-configuration-nix/4364/3
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./sound.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./sound.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 20;
@@ -47,55 +49,58 @@
   # };
 
   services.rpcbind.enable = true; # needed for NFS
-  systemd.mounts = [{
-    type = "nfs";
-    mountConfig = {
-      Options = "noatime";
-    };
-    what = "192.168.5.7:/Multimedia/Music";
-    where = "/mnt/music";
-  }];
+  systemd.mounts = [
+    {
+      type = "nfs";
+      mountConfig = {
+        Options = "noatime";
+      };
+      what = "192.168.5.7:/Multimedia/Music";
+      where = "/mnt/music";
+    }
+  ];
 
-  systemd.automounts = [{
-    wantedBy = [ "multi-user.target" ];
-    automountConfig = {
-      TimeoutIdleSec = "600";
-    };
-    where = "/mnt/music";
-  }];
-
+  systemd.automounts = [
+    {
+      wantedBy = ["multi-user.target"];
+      automountConfig = {
+        TimeoutIdleSec = "600";
+      };
+      where = "/mnt/music";
+    }
+  ];
 
   # Enable the X11 windowing system.
-#  services.xserver.enable = true;
-#  services.xserver.displayManager.gdm.enable = true;
-#  services.xserver.desktopManager.gnome.enable = true;
-#  services.xserver.displayManager.gdm.autoSuspend = false;
+  #  services.xserver.enable = true;
+  #  services.xserver.displayManager.gdm.enable = true;
+  #  services.xserver.desktopManager.gnome.enable = true;
+  #  services.xserver.displayManager.gdm.autoSuspend = false;
 
   # Not sure this works
   # services.gnome.gnome-remote-desktop.enable = true;
 
-#environment.gnome.excludePackages = (with pkgs; [
-#  gnome-photos
-#  gnome-tour
-#]) ++ (with pkgs.gnome; [
-#  cheese # webcam tool
-#  gnome-music
-#  gnome-terminal
-#  gedit # text editor
-#  epiphany # web browser
-#  geary # email reader
-#  evince # document viewer
-#  gnome-characters
-#  totem # video player
-#  tali # poker game
-#  iagno # go game
-#  hitori # sudoku game
-#  atomix # puzzle game
-#]);
+  #environment.gnome.excludePackages = (with pkgs; [
+  #  gnome-photos
+  #  gnome-tour
+  #]) ++ (with pkgs.gnome; [
+  #  cheese # webcam tool
+  #  gnome-music
+  #  gnome-terminal
+  #  gedit # text editor
+  #  epiphany # web browser
+  #  geary # email reader
+  #  evince # document viewer
+  #  gnome-characters
+  #  totem # video player
+  #  tali # poker game
+  #  iagno # go game
+  #  hitori # sudoku game
+  #  atomix # puzzle game
+  #]);
 
   # Configure keymap in X11
-#  services.xserver.xkb.layout = "us";
-#  services.xserver.xkb.options = "eurosign:e,caps:escape";
+  #  services.xserver.xkb.layout = "us";
+  #  services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -110,7 +115,7 @@
   users.users.bcotton = {
     shell = pkgs.zsh;
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "audio" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "docker" "audio"]; # Enable ‘sudo’ for the user.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
     ];
@@ -123,17 +128,17 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-#  environment.systemPackages = with pkgs; [
-#    vim 
-#    wget
-#    curl
-#    zsh
-#    docker
-#    file
-#    nfs-utils
-#    nodePackages.meshcommander
-#    netbootxyz-efi
-#  ];
+  #  environment.systemPackages = with pkgs; [
+  #    vim
+  #    wget
+  #    curl
+  #    zsh
+  #    docker
+  #    file
+  #    nfs-utils
+  #    nodePackages.meshcommander
+  #    netbootxyz-efi
+  #  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -158,7 +163,7 @@
     exporters = {
       node = {
         enable = true;
-        enabledCollectors = [ "systemd" ];
+        enabledCollectors = ["systemd"];
         port = 9100;
       };
       pve = {
@@ -169,18 +174,18 @@
     };
   };
 
-# Contents of pve.yml
-# default:
-#  user: metrics@pve
-#  password: metrics
-#  verify_ssl: false
+  # Contents of pve.yml
+  # default:
+  #  user: metrics@pve
+  #  password: metrics
+  #  verify_ssl: false
 
   services.grafana = {
     enable = true;
     settings.server.http_port = 3000;
     settings.server.http_addr = "0.0.0.0";
   };
- 
+
   services.prometheus = {
     enable = true;
     port = 9001;
@@ -188,53 +193,52 @@
       "--log.level=debug"
     ];
     scrapeConfigs = [
-        {
-          job_name = "node";
-          scrape_interval = "15s";
-          static_configs = [
-            {
-              targets = [
-                "localhost:9100"
-              ];
-              labels = {
-                alias = "prometheus.example.com";
-              };
-            }
-          ];
-       }
-       {
-	  job_name = "pve";
-          scrape_interval = "15s";
-          static_configs = [
-            {
-              targets = [
-                "192.168.5.200"
-              ];
-            }
-          ];
-	  metrics_path = "/pve";
-          params = {
-            module = [ "default" ];
-            cluster = [ "1" ];
-            node = [ "1" ];
-          };
-	  relabel_configs = [
-            {
-              source_labels = [ "__address__" ];
-              target_label = "__param_target";
-            }
-            {
-              source_labels = [ "__param_target" ];
-              target_label = "instance";
-            }
-            {
-              target_label = "__address__";
-              replacement = "localhost:9221";
-            }
-          ];
-       }
-   ];
-
+      {
+        job_name = "node";
+        scrape_interval = "15s";
+        static_configs = [
+          {
+            targets = [
+              "localhost:9100"
+            ];
+            labels = {
+              alias = "prometheus.example.com";
+            };
+          }
+        ];
+      }
+      {
+        job_name = "pve";
+        scrape_interval = "15s";
+        static_configs = [
+          {
+            targets = [
+              "192.168.5.200"
+            ];
+          }
+        ];
+        metrics_path = "/pve";
+        params = {
+          module = ["default"];
+          cluster = ["1"];
+          node = ["1"];
+        };
+        relabel_configs = [
+          {
+            source_labels = ["__address__"];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = ["__param_target"];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "localhost:9221";
+          }
+        ];
+      }
+    ];
   };
 
   # Open ports in the firewall.
@@ -265,6 +269,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }
-

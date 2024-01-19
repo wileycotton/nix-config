@@ -1,22 +1,25 @@
-
-{ config, pkgs, lib, unstablePkgs, ... }:
-let
-  # See https://haseebmajid.dev/posts/2023-07-10-setting-up-tmux-with-nix-home-manager/
-  tmux-window-name = pkgs.tmuxPlugins.mkTmuxPlugin
-  {
-    pluginName = "tmux-window-name";
-    version = "head";
-    src = pkgs.fetchFromGitHub {
-      owner = "ofirgall";
-      repo = "tmux-window-name";
-      rev = "fe4d65a14f80fb4b681b7e2dcf361ada88733203";
-      sha256 = "sha256-3LyS52Bi49IePkA2JbjDxqhooV5V0vT+4Wu+ykWrp0w=";
-    };
-  };
-in
 {
+  config,
+  pkgs,
+  lib,
+  unstablePkgs,
+  ...
+}: let
+  # See https://haseebmajid.dev/posts/2023-07-10-setting-up-tmux-with-nix-home-manager/
+  tmux-window-name =
+    pkgs.tmuxPlugins.mkTmuxPlugin
+    {
+      pluginName = "tmux-window-name";
+      version = "head";
+      src = pkgs.fetchFromGitHub {
+        owner = "ofirgall";
+        repo = "tmux-window-name";
+        rev = "fe4d65a14f80fb4b681b7e2dcf361ada88733203";
+        sha256 = "sha256-3LyS52Bi49IePkA2JbjDxqhooV5V0vT+4Wu+ykWrp0w=";
+      };
+    };
+in {
   home.stateVersion = "23.05";
-
 
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
@@ -102,11 +105,10 @@ in
     ];
 
     dirHashes = {
-        docs  = "$HOME/Documents";
-        proj  = "$HOME/projects";
-        dl    = "$HOME/Downloads";
+      docs = "$HOME/Documents";
+      proj = "$HOME/projects";
+      dl = "$HOME/Downloads";
     };
-
 
     envExtra = ''
       export XDG_CONFIG_HOME="$HOME/.config"
@@ -121,7 +123,7 @@ in
 
       export GOPRIVATE="github.com/grafana/*"
       export QMK_HOME=~/projects/qmk_firmware
-      #export DOCKER_HOST=unix://"$HOME/.docker/run/docker.sock"
+      #export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
       export EXA_COLORS="da=1;35"
       export BAT_THEME="Visual Studio Dark+"
       export TMPDIR=/tmp/
@@ -139,14 +141,14 @@ in
       enable = true;
       custom = "$HOME/.oh-my-zsh-custom";
 
-     theme = "git-taculous";
+      theme = "git-taculous";
       # theme = "agnoster-nix";
 
       extraConfig = ''
-          zstyle :omz:plugins:ssh-agent identities id_ed25519
-          if [[ `uname` == "Darwin" ]]; then
-            zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
-          fi
+        zstyle :omz:plugins:ssh-agent identities id_ed25519
+        if [[ `uname` == "Darwin" ]]; then
+          zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
+        fi
       '';
       plugins = [
         "brew"
@@ -159,41 +161,43 @@ in
         "kube-ps1"
         "ssh-agent"
         "tmux"
-        "z" 
+        "z"
       ];
     };
 
     shellAliases = {
-      batj  = "bat -l json";
+      batj = "bat -l json";
       batly = "bat -l yaml";
       batmd = "bat -l md";
-      dir   = "exa -l --icons --no-user --group-directories-first  --time-style long-iso --color=always";
-      k     = "kubectl";
-      kctx  = "kubectx";
-      kns   = "kubens";
-      tf    = "terraform";
-      tree  = "exa -Tl --color=always";
+      dir = "exa -l --icons --no-user --group-directories-first  --time-style long-iso --color=always";
+      k = "kubectl";
+      kctx = "kubectx";
+      kns = "kubens";
+      tf = "terraform";
+      tree = "exa -Tl --color=always";
     };
 
     initExtra = ''
-        tmux-window-name() {
-          (${builtins.toString(tmux-window-name)}/share/tmux-plugins/tmux-window-name/scripts/rename_session_windows.py &)
-        }
-        if [[ `uname` == "Darwin" ]]; then
-          add-zsh-hook chpwd tmux-window-name
-        fi
-        source <(kubectl completion zsh)
+      tmux-window-name() {
+        (${builtins.toString tmux-window-name}/share/tmux-plugins/tmux-window-name/scripts/rename_session_windows.py &)
+      }
+      if [[ `uname` == "Darwin" ]]; then
+        add-zsh-hook chpwd tmux-window-name
+      fi
+      source <(kubectl completion zsh)
 
-        bindkey -e
-        bindkey '^[[A' up-history
-        bindkey '^[[B' down-history
-        #bindkey -m
-        bindkey '\M-\b' backward-delete-word
-        bindkey -s "^Z" "^[Qls ^D^U^[G"
-        bindkey -s "^X^F" "e "
+      bindkey -e
+      bindkey '^[[A' up-history
+      bindkey '^[[B' down-history
+      #bindkey -m
+      bindkey '\M-\b' backward-delete-word
+      bindkey -s "^Z" "^[Qls ^D^U^[G"
+      bindkey -s "^X^F" "e "
 
-        setopt autocd autopushd autoresume cdablevars correct correctall extendedglob globdots histignoredups longlistjobs mailwarning  notify pushdminus pushdsilent pushdtohome rcquotes recexact sunkeyboardhack menucomplete always_to_end hist_allow_clobber no_share_history
-        unsetopt bgnice
+      setopt autocd autopushd autoresume cdablevars correct correctall extendedglob globdots histignoredups longlistjobs mailwarning  notify pushdminus pushdsilent pushdtohome rcquotes recexact sunkeyboardhack menucomplete always_to_end hist_allow_clobber no_share_history
+      unsetopt bgnice
+
+
     '';
 
     #initExtra = (builtins.readFile ../mac-dot-zshrc);
@@ -202,9 +206,9 @@ in
   programs.exa.enable = true;
   programs.exa.enableAliases = true;
   programs.home-manager.enable = true;
-#  programs.neovim.enable = true;
+  #  programs.neovim.enable = true;
   programs.nix-index.enable = true;
-#  programs.zoxide.enable = true;
+  #  programs.zoxide.enable = true;
 
   programs.ssh = {
     enable = true;
@@ -218,54 +222,53 @@ in
         Port 443
     '';
     matchBlocks = {
-
     };
   };
 
   home.packages = with pkgs; [
-  #   ## unstable
-  #   unstablePkgs.yt-dlp
-  #   unstablePkgs.terraform
+    #   ## unstable
+    #   unstablePkgs.yt-dlp
+    #   unstablePkgs.terraform
 
-  #   ## stable
-  #   ansible
-  #   asciinema
-  #   bitwarden-cli
-  #   coreutils
-  #   # direnv # programs.direnv
-  #   #docker
-  #   drill
-  #   du-dust
-  #   dua
-  #   duf
-  #   esptool
-  #   ffmpeg
-  #   fd
-  #   #fzf # programs.fzf
-  #   #git # programs.git
-  #   gh
-  #   go
-  #   gnused
-  #   #htop # programs.htop
-  #   hub
-  #   hugo
-  #   ipmitool
-  #   jetbrains-mono # font
-  #   just
-  #   jq
-  #   mas # mac app store cli
-  #   mc
-  #   mosh
-  #   neofetch
-  #    nmap
-#      (python311.withPackages(ps: with ps; [ libtmux ]))
-  #   ripgrep
-  #   skopeo
-  #   smartmontools
-  #   tree
-  #   unzip
-  #   watch
-  #   wget
-  #   wireguard-tools
+    #   ## stable
+    #   ansible
+    #   asciinema
+    #   bitwarden-cli
+    #   coreutils
+    #   # direnv # programs.direnv
+    #   #docker
+    #   drill
+    #   du-dust
+    #   dua
+    #   duf
+    #   esptool
+    #   ffmpeg
+    #   fd
+    #   #fzf # programs.fzf
+    #   #git # programs.git
+    #   gh
+    #   go
+    #   gnused
+    #   #htop # programs.htop
+    #   hub
+    #   hugo
+    #   ipmitool
+    #   jetbrains-mono # font
+    #   just
+    #   jq
+    #   mas # mac app store cli
+    #   mc
+    #   mosh
+    #   neofetch
+    #    nmap
+    #      (python311.withPackages(ps: with ps; [ libtmux ]))
+    #   ripgrep
+    #   skopeo
+    #   smartmontools
+    #   tree
+    #   unzip
+    #   watch
+    #   wget
+    #   wireguard-tools
   ];
 }

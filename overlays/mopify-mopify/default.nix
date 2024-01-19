@@ -1,6 +1,5 @@
-{  ... }:
+{...}:
 # https://nixos.org/manual/nixpkgs/stable/#how-to-override-a-python-package-using-overlays
-
 (final: prev: {
   python3 = prev.python3.override {
     packageOverrides = python-final: python-prev: {
@@ -14,4 +13,3 @@
     };
   };
 })
-
