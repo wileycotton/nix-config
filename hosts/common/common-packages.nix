@@ -12,14 +12,21 @@
       ## unstable
       unstablePkgs.yt-dlp
       unstablePkgs.get_iplayer
+      unstablePkgs.monaspace
 
       ## stable
       #  asciinema
       bat
+      bat-extras.batman
+      bat-extras.batgrep
+      bat-extras.batdiff
+      bat-extras.batwatch
+      bat-extras.prettybat
       btop
       bitwarden-cli
       ctlptl
       coreutils
+      coreutils-prefixed
       cue
       curl
       diffr # Modern Unix `diff`
@@ -79,6 +86,7 @@
       watch
       wget
       wireguard-tools
+      viddy
       vim
       wezterm
       yq

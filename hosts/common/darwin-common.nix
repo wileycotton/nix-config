@@ -89,6 +89,8 @@ in {
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
+        "1password-cli"
+        "1password"
         "alfred"
         "amethyst"
         "balenaetcher"
@@ -153,6 +155,8 @@ in {
         #   "Resize Master" = 1025306797;
         #   # "Steam Link" = 123;
         "Tailscale" = 1475387142;
+        # "BookPlayer" = 1138219998;
+
         #   "Telegram" = 747648890;
         #   "The Unarchiver" = 425424353;
         #   "Todoist" = 585829637;

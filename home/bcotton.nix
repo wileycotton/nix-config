@@ -173,8 +173,11 @@ in {
       k = "kubectl";
       kctx = "kubectx";
       kns = "kubens";
+      ltr = "ll -snew";
       tf = "terraform";
       tree = "exa -Tl --color=always";
+      # watch = "watch --color "; # Note the trailing space for alias expansion https://unix.stackexchange.com/questions/25327/watch-command-alias-expansion
+      watch = "viddy ";
     };
 
     initExtra = ''
