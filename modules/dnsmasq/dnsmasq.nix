@@ -28,9 +28,11 @@ in {
       settings.dhcp-option = [
         "option:router,192.168.5.1"
         "vlan10,3,192.168.10.1"
-        "vlan10,6,192.168.10.220" # Change me to this addr
+        "vlan10,6,192.168.10.220" 
+        "vlan10,option:router,192.168.10.1"
         "vlan20.20,3,192.168.20.1"
-        "vlan20.20,6,192.168.20.220" # Change me to this addr
+        "vlan20.20,6,192.168.20.220" 
+        "vlan20,option:router,192.168.20.1"
       ];
 
       # enable-tftp
@@ -68,6 +70,7 @@ in {
       settings.log-async = true;
       settings.local-ttl = 300;
 
+      settings.no-hosts = true;
       settings.no-resolv = true;
       settings.server = ["1.1.1.1" "8.8.4.4"];
     };
