@@ -19,7 +19,7 @@
   networking = {
     hostName = "nix-02";
     defaultGateway = "192.168.5.1";
-    nameservers = ["192.168.5.53"];
+    nameservers = ["192.168.5.220"];
     interfaces.enp3s0.ipv4.addresses = [
       {
         address = "192.168.5.212";

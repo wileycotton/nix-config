@@ -201,6 +201,7 @@
           {
             targets = [
               "localhost:9100"
+              "nix-01:9100"
             ];
             labels = {
               alias = "prometheus.example.com";

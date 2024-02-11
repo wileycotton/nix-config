@@ -10,6 +10,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../../modules/node-exporter
+    ../../../modules/nfs
+    ../../../modules/docker/minecraft
+    ../../../modules/docker/audiobookshelf
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -19,7 +23,7 @@
   networking = {
     hostName = "nix-01";
     defaultGateway = "192.168.5.1";
-    nameservers = ["192.168.5.53"];
+    nameservers = ["192.168.5.220"];
     interfaces.enp3s0.ipv4.addresses = [
       {
         address = "192.168.5.210";
