@@ -3,7 +3,7 @@ let
   users = [bcotton];
 
   admin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMjeiDeFxI7BcbjDxtPyeWfsUWBW2HKTyjT8/X0719+p root@nixos";
-  nix-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHQZ30jhjs15gaZkJcKsKXvNqkvgF/rwmKLqcj7rSvCj root@nix-01";
+  nix-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJDEJMkba6F8w5b1nDZ3meKEb7PNcWbErBtofbejrIh+ root@nix-01";
   nix-02 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMVfXXmolLt0FWt5Qw9ihT0XObNM/YKkUZEnjYFEs1Bu root@nix-02";
   nix-03 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIUbuIL/nH/8ncAIc8lzzEgvUaT84BtchDmLEQEYTTKC root@nix-03";
 

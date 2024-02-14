@@ -20,7 +20,7 @@
   networking = {
     hostName = "dns-01";
     defaultGateway = "192.168.5.1";
-    nameservers = ["192.168.5.53"];
+    nameservers = ["192.168.5.220"];
     interfaces.eno1.ipv4.addresses = [
       {
         address = "192.168.5.220";

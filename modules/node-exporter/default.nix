@@ -1,7 +1,9 @@
-{ pkgs, lib, ... }:
-
 {
-    services.prometheus = {
+  pkgs,
+  lib,
+  ...
+}: {
+  services.prometheus = {
     exporters = {
       node = {
         enable = true;
@@ -10,5 +12,4 @@
       };
     };
   };
-
 }
