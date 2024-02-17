@@ -18,6 +18,18 @@
         sha256 = "sha256-3LyS52Bi49IePkA2JbjDxqhooV5V0vT+4Wu+ykWrp0w=";
       };
     };
+  tmux-fzf-head =
+    pkgs.tmuxPlugins.mkTmuxPlugin
+    {
+      pluginName = "tmux-fzf";
+      version = "head";
+      src = pkgs.fetchFromGitHub {
+        owner = "sainnhe";
+        repo = "tmux-fzf";
+        rev = "6b31cbe454649736dcd6dc106bb973349560a949";
+        sha256 = "sha256-RXoJ5jR3PLiu+iymsAI42PrdvZ8k83lDJGA7MQMpvPY=";
+      };
+    };
 in {
   home.stateVersion = "23.05";
 
@@ -39,7 +51,58 @@ in {
     enable = true;
     userEmail = "bob.cotton@gmail.com";
     userName = "Bob Cotton";
-    delta.enable = true;
+    extraConfig = {
+      alias = {
+        br = "branch";
+        co = "checkout";
+        ci = "commit";
+        d = "diff";
+        dc = "diff --cached";
+        st = "status";
+        la = "config --get-regexp alias";
+        lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit";
+        lga = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all";
+      };
+      url = {
+        "ssh://git@github.com/" = {
+          insteadOf = "https://github.com/";
+        };
+      };
+      init.defaultBranch = "main";
+      pager.difftool = true;
+
+      core = {
+        whitespace = "trailing-space,space-before-tab";
+        # pager = "difftastic";
+      };
+      # interactive.diffFilter = "difft";
+      merge.conflictstyle = "diff3";
+      diff = {
+        # tool = "difftastic";
+        colorMoved = "default";
+      };
+      # difftool."difftastic".cmd = "difft $LOCAL $REMOTE";
+    };
+    difftastic = {
+      enable = false;
+      background = "dark";
+      display = "side-by-side";
+    };
+    delta = {
+      enable = true;
+      options = {
+        decorations = {
+          commit-decoration-style = "bold yellow box ul";
+          file-decoration-style = "none";
+          file-style = "bold yellow ul";
+        };
+        features = "decorations";
+        whitespace-error-style = "22 reverse";
+        navigate = true;
+        light = false;
+        side-by-side = true;
+      };
+    };
   };
 
   programs.htop = {
@@ -56,8 +119,7 @@ in {
     historyLimit = 10000;
     plugins = with pkgs.tmuxPlugins; [
       gruvbox
-      tmux-fzf
-      # unstablePkgs.tmuxPlugins.tmux-fzf
+      tmux-fzf-head
       tmux-colors-solarized
       {
         plugin = tmux-window-name;
@@ -74,7 +136,7 @@ in {
       bind "C-j" select-pane -D
       bind "C-k" select-pane -U
       bind "C-l" select-pane -R
-      bind-key "C-f" run-shell -b "${pkgs.tmuxPlugins.tmux-fzf}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
+      bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
 
       # tmux-fzf stuff
     '';
@@ -111,6 +173,7 @@ in {
     };
 
     envExtra = ''
+      export DFT_DISPLAY=side-by-side
       export XDG_CONFIG_HOME="$HOME/.config"
       export LESS="-iMSx4 -FXR"
       export PAGER=less

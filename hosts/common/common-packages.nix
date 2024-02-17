@@ -75,7 +75,7 @@
       mosh
       neofetch
       nmap
-      # qmk
+      unstablePkgs.qmk
       ripgrep
       stern
       #  skopeo
