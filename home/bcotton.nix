@@ -30,6 +30,11 @@
         sha256 = "sha256-RXoJ5jR3PLiu+iymsAI42PrdvZ8k83lDJGA7MQMpvPY=";
       };
     };
+
+  nixVsCodeServer = fetchTarball {
+    url = "https://github.com/bcotton/nixos-vscode-server/tarball/support-for-new-dir-structure-of-vscode-server";
+    sha256 = "sha256:1sp4h0nb7dh7mcm8vdflihv76yz8azf5zifkcbxhq7xz48c8k5pd";
+  };
 in {
   home.stateVersion = "23.05";
 
@@ -141,6 +146,12 @@ in {
       # tmux-fzf stuff
     '';
   };
+
+  imports = [
+    "${nixVsCodeServer}/modules/vscode-server/home.nix"
+  ];
+  services.vscode-server.enable = true;
+  services.vscode-server.installPath = "$HOME/.vscode-server";
 
   # TODO: add ~/bin
   # code --remote ssh-remote+<remoteHost> <remotePath>

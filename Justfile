@@ -41,6 +41,10 @@ switch target_host=hostname:
 update:
   nix flake update
 
+fmt:
+  nix fmt
+
+
 
 # Garbage collect old OS generations and remove stale packages from the nix store
 gc generations="5d":

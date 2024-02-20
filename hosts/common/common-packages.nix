@@ -76,6 +76,8 @@
       neofetch
       nmap
       unstablePkgs.qmk
+      nodejs_20
+      # qmk
       ripgrep
       stern
       #  skopeo
@@ -88,6 +90,7 @@
       wireguard-tools
       viddy
       vim
+      vscode
       wezterm
       yq
       zsh
