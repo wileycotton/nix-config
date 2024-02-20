@@ -94,6 +94,7 @@
       wezterm
       yq
       zsh
+      zsh-syntax-highlighting
 
       # requires nixpkgs.config.allowUnfree = true;
       vscode-extensions.ms-vscode-remote.remote-ssh

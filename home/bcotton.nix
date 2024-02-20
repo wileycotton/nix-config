@@ -223,6 +223,7 @@ in {
         if [[ `uname` == "Darwin" ]]; then
           zstyle :omz:plugins:ssh-agent ssh-add-args --apple-load-keychain
         fi
+        source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
       '';
       plugins = [
         "brew"
