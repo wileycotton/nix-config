@@ -13,6 +13,7 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/roon-server
+    ../../../modules/docker/immich
   ];
 
   # Use the systemd-boot EFI boot loader.
