@@ -12,5 +12,11 @@ in {
       fsType = "nfs";
       options = ["x-systemd.automount" "noauto"];
     };
+
+    fileSystems."/mnt/music" = {
+      device = "192.168.5.7:/Multimedia/Music";
+      fsType = "nfs";
+      options = ["x-systemd.automount" "noauto"];
+    };
   };
 }

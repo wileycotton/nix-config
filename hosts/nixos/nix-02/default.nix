@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ../../../modules/node-exporter
     ../../../modules/nfs
+    ../../../modules/roon-server
   ];
 
   # Use the systemd-boot EFI boot loader.

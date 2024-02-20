@@ -75,7 +75,7 @@
           #   here, all parameters of modules are passed to overlays
           # (args: { nixpkgs.overlays = import ./overlays args; })
           ## or
-          # ./overlays.nix
+          ./overlays.nix
 
           disko.nixosModules.disko
           ./hosts/nixos/${hostName} # ip address, host specific stuff

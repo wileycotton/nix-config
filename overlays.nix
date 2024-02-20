@@ -3,13 +3,27 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  version = "2.0-1365";
+  urlVersion = builtins.replaceStrings ["." "-"] ["00" "0"] version;
+in {
   nixpkgs.overlays = [
     # Overlay 1: Use `self` and `super` to express
     # the inheritance relationship
+    # (self: super: {
+    #   google-chrome = super.google-chrome.override {
+    #     commandLineArgs = "--proxy-server='https=127.0.0.1:3128;http=127.0.0.1:3128'";
+    #   };
+    # })
+
     (self: super: {
-      google-chrome = super.google-chrome.override {
-        commandLineArgs = "--proxy-server='https=127.0.0.1:3128;http=127.0.0.1:3128'";
+      roon-server = super.roon-server.overrideAttrs {
+        version = version;
+        src = pkgs.fetchurl {
+          url = "https://download.roonlabs.com/updates/production/RoonServer_linuxx64_${urlVersion}.tar.bz2";
+          hash = "sha256-RwmBszv3zCFX8IvDu/XMVu92EH/yd1tyaw0P4CmODCA=";
+        };
+        #    src = newsrc;
       };
     })
 
