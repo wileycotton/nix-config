@@ -43,7 +43,7 @@
       duf
       entr # Modern Unix `watch`
       esptool
-      exa
+      eza
       #  ffmpeg
       #  fira-code
       #  fira-mono

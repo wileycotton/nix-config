@@ -13,6 +13,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./sound.nix
+    ../../../modules/homepage
   ];
 
   boot.loader.systemd-boot.enable = true;

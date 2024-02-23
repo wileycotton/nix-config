@@ -281,8 +281,8 @@ in {
     #initExtra = (builtins.readFile ../mac-dot-zshrc);
   };
 
-  programs.exa.enable = true;
-  programs.exa.enableAliases = true;
+  programs.eza.enable = true;
+  programs.eza.enableAliases = true;
   programs.home-manager.enable = true;
   #  programs.neovim.enable = true;
   programs.nix-index.enable = true;
