@@ -80,7 +80,7 @@ in {
         # "doctl"
         # "helm"
         # "flyctl"
-        "azure-cli"
+        #"azure-cli"
         "npm"
         "node"
         "tailscale"
