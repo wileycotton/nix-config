@@ -8,14 +8,6 @@
   urlVersion = builtins.replaceStrings ["." "-"] ["00" "0"] version;
 in {
   nixpkgs.overlays = [
-    # Overlay 1: Use `self` and `super` to express
-    # the inheritance relationship
-    # (self: super: {
-    #   google-chrome = super.google-chrome.override {
-    #     commandLineArgs = "--proxy-server='https=127.0.0.1:3128;http=127.0.0.1:3128'";
-    #   };
-    # })
-
     (self: super: {
       roon-server = super.roon-server.overrideAttrs {
         version = version;
@@ -25,6 +17,23 @@ in {
         };
         #    src = newsrc;
       };
+    })
+
+    (self: super: {
+      delta = super.delta.overrideAttrs (previousAttrs: {
+        # src = pkgs.fetchFromGitHub {
+        #   owner = "dandavison";
+        #   repo = "delta";
+        #   rev = "main";
+        #   sha256 = "sha256-3sMkxmchgC4mvhjagiZLfvZHR5PwRwNYGCi0fyUCkiE=";
+        # };
+        # cargoHash = "";
+        postInstall =
+          (previousAttrs.postInstall or "")
+          + ''
+            cp $src/themes.gitconfig $out/share
+          '';
+      });
     })
 
     # (final: prev: {

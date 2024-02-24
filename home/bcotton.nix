@@ -93,16 +93,20 @@ in {
       background = "dark";
       display = "side-by-side";
     };
+    includes = [
+      {path = "${pkgs.delta}/share/themes.gitconfig";}
+    ];
     delta = {
       enable = true;
       options = {
-        decorations = {
-          commit-decoration-style = "bold yellow box ul";
-          file-decoration-style = "none";
-          file-style = "bold yellow ul";
-        };
-        features = "decorations";
-        whitespace-error-style = "22 reverse";
+        # decorations = {
+        #   commit-decoration-style = "bold yellow box ul";
+        #   file-decoration-style = "none";
+        #   file-style = "bold yellow ul";
+        # };
+        # features = "mellow-barbet";
+        features = "collared-trogon";
+        # whitespace-error-style = "22 reverse";
         navigate = true;
         light = false;
         side-by-side = true;

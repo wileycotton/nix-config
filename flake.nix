@@ -110,6 +110,7 @@
             };
           }
 
+          ./overlays.nix
           ./hosts/darwin/${hostName} # ip address, host specific stuff
           home-manager.darwinModules.home-manager
           {
