@@ -84,6 +84,7 @@
       #  smartmontools
       #  terraform
       tree
+      ttyplot
       unzip
       watch
       wget
