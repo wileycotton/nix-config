@@ -2,6 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
+  self,
   config,
   pkgs,
   unstablePkgs,
@@ -13,7 +14,9 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./sound.nix
+    ../../../modules/node-exporter
     ../../../modules/homepage
+    ../../../modules/prometheus
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -31,24 +34,9 @@
 
   networking.hostName = "admin"; # Define your hostname.
   services.tailscale.enable = true;
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/Denver";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
 
   services.rpcbind.enable = true; # needed for NFS
   systemd.mounts = [
@@ -128,46 +116,16 @@
     ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  #  environment.systemPackages = with pkgs; [
-  #    vim
-  #    wget
-  #    curl
-  #    zsh
-  #    docker
-  #    file
-  #    nfs-utils
-  #    nodePackages.meshcommander
-  #    netbootxyz-efi
-  #  ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   programs.zsh.enable = true;
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
   services.nfs.server.enable = true;
 
   # See https://xeiaso.net/blog/prometheus-grafana-loki-nixos-2020-11-20/
   # Turn on node_exporter
   services.prometheus = {
     exporters = {
-      node = {
-        enable = true;
-        enabledCollectors = ["systemd"];
-        port = 9100;
-      };
       pve = {
         enable = true;
         configFile = "/etc/prometheus-pve-exporter/pve.yml";
@@ -176,72 +134,10 @@
     };
   };
 
-  # Contents of pve.yml
-  # default:
-  #  user: metrics@pve
-  #  password: metrics
-  #  verify_ssl: false
-
   services.grafana = {
     enable = true;
     settings.server.http_port = 3000;
     settings.server.http_addr = "0.0.0.0";
-  };
-
-  services.prometheus = {
-    enable = true;
-    port = 9001;
-    extraFlags = [
-      "--log.level=debug"
-    ];
-    scrapeConfigs = [
-      {
-        job_name = "node";
-        scrape_interval = "15s";
-        static_configs = [
-          {
-            targets = [
-              "localhost:9100"
-              "nix-01:9100"
-            ];
-            labels = {
-              alias = "prometheus.example.com";
-            };
-          }
-        ];
-      }
-      {
-        job_name = "pve";
-        scrape_interval = "15s";
-        static_configs = [
-          {
-            targets = [
-              "192.168.5.200"
-            ];
-          }
-        ];
-        metrics_path = "/pve";
-        params = {
-          module = ["default"];
-          cluster = ["1"];
-          node = ["1"];
-        };
-        relabel_configs = [
-          {
-            source_labels = ["__address__"];
-            target_label = "__param_target";
-          }
-          {
-            source_labels = ["__param_target"];
-            target_label = "instance";
-          }
-          {
-            target_label = "__address__";
-            replacement = "localhost:9221";
-          }
-        ];
-      }
-    ];
   };
 
   # Open ports in the firewall.

@@ -56,6 +56,7 @@
       nixpkgs.lib.nixosSystem
       {
         inherit system;
+        specialArgs = {inherit self system inputs;};
         modules = [
           # adds unstable to be available in top-level evals (like in common-packages)
           {
