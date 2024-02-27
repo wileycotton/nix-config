@@ -79,6 +79,7 @@
       nodejs_20
       # qmk
       ripgrep
+      redis
       stern
       #  skopeo
       #  smartmontools

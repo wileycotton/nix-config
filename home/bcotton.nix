@@ -236,6 +236,7 @@ in {
         "dotenv"
         "fzf"
         "git"
+        "gh"
         "kubectl"
         "kube-ps1"
         "ssh-agent"
