@@ -258,6 +258,8 @@ in {
       tree = "exa -Tl --color=always";
       # watch = "watch --color "; # Note the trailing space for alias expansion https://unix.stackexchange.com/questions/25327/watch-command-alias-expansion
       watch = "viddy ";
+      # Automatically run `go test` for a package when files change.
+      autotest = "watchexec -c clear -o do-nothing --delay-run 100ms --exts go 'pkg=\".\${WATCHEXEC_COMMON_PATH/\$PWD/}/...\"; echo \"running tests for \$pkg\"; go test \"\$pkg\"'";
     };
 
     initExtra = ''

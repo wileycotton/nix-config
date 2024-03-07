@@ -88,6 +88,7 @@
       ttyplot
       unzip
       watch
+      watchexec
       wget
       wireguard-tools
       viddy
