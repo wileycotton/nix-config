@@ -219,13 +219,14 @@
       REDIS_HOSTNAME = "immich_redis";
       TYPESENSE_API_KEY = "some-random-text";
       UPLOAD_LOCATION = "/mnt/docker_volumes/immich/immich-data/upload";
+      PORT = "80";
     };
     volumes = [
       "/etc/localtime:/etc/localtime:ro"
       "/mnt/docker_volumes/immich/immich-data/upload:/usr/src/app/upload:rw"
     ];
     ports = [
-      "3001:80/tcp"
+      "80:2283/tcp"
     ];
     cmd = ["start.sh" "immich"];
     dependsOn = [

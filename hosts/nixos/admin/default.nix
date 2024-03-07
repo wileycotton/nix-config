@@ -116,6 +116,14 @@
     ];
   };
 
+  age.secrets."pushover-key" = {
+    file = ../../../secrets/pushover-key.age;
+  };
+  age.secrets."pushover-token" = {
+    file = ../../../secrets/pushover-token.age;
+  };
+
+
   programs.zsh.enable = true;
 
   # List services that you want to enable:

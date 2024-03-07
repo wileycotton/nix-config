@@ -41,6 +41,10 @@
   # Flatten the scrapeConfigsByHost into a list
   autogenScrapeConfigs = lib.flatten (map builtins.attrValues (builtins.attrValues scrapeConfigsByHost));
 in {
+  imports = [
+    ./alert-manager.nix
+  ];
+
   services.prometheus = {
     enable = true;
     port = 9001;

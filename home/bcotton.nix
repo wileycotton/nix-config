@@ -147,6 +147,7 @@ in {
       bind "C-l" select-pane -R
       bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
 
+      set-option -g status-position top
       # tmux-fzf stuff
     '';
   };
