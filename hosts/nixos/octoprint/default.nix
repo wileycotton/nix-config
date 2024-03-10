@@ -22,10 +22,11 @@
     nameservers = ["192.168.5.220"];
     interfaces.eno1.ipv4.addresses = [
       {
-        address = "192.168.5.46";
+        address = "192.168.5.49";
         prefixLength = 24;
       }
     ];
+  };
 
 
   # Pick only one of the below networking options.
