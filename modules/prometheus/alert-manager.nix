@@ -8,6 +8,7 @@ in {
   services.prometheus.alertmanager = {
     enable = true;
     listenAddress = "127.0.0.1";
+    logLevel = "debug";
     # webExternalUrl = "https://alertmanager.routing.rocks";
     configuration = {
       route = {

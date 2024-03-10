@@ -118,11 +118,14 @@
 
   age.secrets."pushover-key" = {
     file = ../../../secrets/pushover-key.age;
+    owner = "alertmanager";
+    group = "alertmanager";
   };
   age.secrets."pushover-token" = {
     file = ../../../secrets/pushover-token.age;
+    owner = "alertmanager";
+    group = "alertmanager";
   };
-
 
   programs.zsh.enable = true;
 
