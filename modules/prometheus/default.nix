@@ -122,37 +122,6 @@ in {
             }
           ];
         }
-        {
-          job_name = "pve";
-          scrape_interval = "15s";
-          static_configs = [
-            {
-              targets = [
-                "192.168.5.200"
-              ];
-            }
-          ];
-          metrics_path = "/pve";
-          params = {
-            module = ["default"];
-            cluster = ["1"];
-            node = ["1"];
-          };
-          relabel_configs = [
-            {
-              source_labels = ["__address__"];
-              target_label = "__param_target";
-            }
-            {
-              source_labels = ["__param_target"];
-              target_label = "instance";
-            }
-            {
-              target_label = "__address__";
-              replacement = "localhost:9221";
-            }
-          ];
-        }
       ]
       ++ autogenScrapeConfigs;
   };

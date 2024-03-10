@@ -142,11 +142,6 @@
   # Turn on node_exporter
   services.prometheus = {
     exporters = {
-      pve = {
-        enable = true;
-        configFile = "/etc/prometheus-pve-exporter/pve.yml";
-        port = 9221;
-      };
     };
   };
 
