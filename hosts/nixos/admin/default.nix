@@ -126,6 +126,11 @@
     owner = "alertmanager";
     group = "alertmanager";
   };
+  age.secrets."condo-ha-token" = {
+    file = ../../../secrets/condo-ha-token.age;
+    owner = "prometheus";
+    group = "prometheus";
+  };
 
   programs.zsh.enable = true;
 

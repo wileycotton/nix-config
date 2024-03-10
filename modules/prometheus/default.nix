@@ -51,6 +51,7 @@ in {
     extraFlags = [
       "--log.level=debug"
     ];
+    checkConfig = "syntax-only";
     rules = [
       (builtins.readFile ./prometheus.rules.yaml)
     ];
@@ -76,6 +77,20 @@ in {
 
     scrapeConfigs =
       [
+        {
+          job_name = "condo-ha";
+          honor_timestamps = true;
+          scrape_interval = "1m";
+          scrape_timeout = "10s";
+          metrics_path = "/api/prometheus";
+          scheme = "http";
+          bearer_token_file = config.age.secrets.condo-ha-token.path;
+          static_configs = [
+            {
+              targets = ["condo-ha:8123"];
+            }
+          ];
+        }
         {
           job_name = "blackbox_http";
           metrics_path = "/probe";

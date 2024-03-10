@@ -7,7 +7,7 @@ with lib; let
 in {
   services.prometheus.alertmanager = {
     enable = true;
-    listenAddress = "127.0.0.1";
+    listenAddress = "";
     logLevel = "debug";
     # webExternalUrl = "https://alertmanager.routing.rocks";
     configuration = {

@@ -14,4 +14,5 @@ in {
   "tailscale-keys.env".publicKeys = users ++ systems;
   "pushover-token.age".publicKeys = users ++ systems;
   "pushover-key.age".publicKeys = users ++ systems;
+  "condo-ha-token.age".publicKeys = users ++ systems;
 }
