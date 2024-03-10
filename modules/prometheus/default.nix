@@ -92,6 +92,20 @@ in {
           ];
         }
         {
+          job_name = "homeassistant";
+          honor_timestamps = true;
+          scrape_interval = "1m";
+          scrape_timeout = "10s";
+          metrics_path = "/api/prometheus";
+          scheme = "http";
+          bearer_token_file = config.age.secrets.homeassistant-token.path;
+          static_configs = [
+            {
+              targets = ["homeassistant:8123"];
+            }
+          ];
+        }
+        {
           job_name = "blackbox_http";
           metrics_path = "/probe";
           params = {

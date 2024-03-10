@@ -15,4 +15,5 @@ in {
   "pushover-token.age".publicKeys = users ++ systems;
   "pushover-key.age".publicKeys = users ++ systems;
   "condo-ha-token.age".publicKeys = users ++ systems;
+  "homeassistant-token.age".publicKeys = users ++ systems;
 }

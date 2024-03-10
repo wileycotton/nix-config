@@ -131,6 +131,11 @@
     owner = "prometheus";
     group = "prometheus";
   };
+  age.secrets."homeassistant-token" = {
+    file = ../../../secrets/homeassistant-token.age;
+    owner = "prometheus";
+    group = "prometheus";
+  };
 
   programs.zsh.enable = true;
 
