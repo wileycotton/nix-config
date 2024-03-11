@@ -10,6 +10,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../../modules/octoprint
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -27,7 +28,6 @@
       }
     ];
   };
-
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
