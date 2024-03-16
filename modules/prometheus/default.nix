@@ -17,6 +17,7 @@
   # Build the scrape config for each enabled node_exporter
   mkScrapeConfigExporterF = hostname: ename: ecfg: {
     job_name = "${hostname}-${ename}";
+    scrape_interval = "30s";
     static_configs = [{targets = ["${hostname}:${toString ecfg.port}"];}];
     relabel_configs = [
       {
@@ -80,7 +81,7 @@ in {
         {
           job_name = "condo-ha";
           honor_timestamps = true;
-          scrape_interval = "1m";
+          scrape_interval = "30s";
           scrape_timeout = "10s";
           metrics_path = "/api/prometheus";
           scheme = "http";
@@ -94,7 +95,7 @@ in {
         {
           job_name = "homeassistant";
           honor_timestamps = true;
-          scrape_interval = "1m";
+          scrape_interval = "30s";
           scrape_timeout = "10s";
           metrics_path = "/api/prometheus";
           scheme = "http";

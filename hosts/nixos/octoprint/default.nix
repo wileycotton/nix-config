@@ -10,6 +10,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../../modules/node-exporter
     ../../../modules/octoprint
   ];
 
@@ -17,17 +18,19 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  age.secrets."wireless-config" = {
+    file = ../../../secrets/wireless-config.age;
+  };
+
   networking = {
     hostName = "octoprint";
-    defaultGateway = "192.168.5.1";
-    nameservers = ["192.168.5.220"];
-    interfaces.eno1.ipv4.addresses = [
-      {
-        address = "192.168.5.49";
-        prefixLength = 24;
-      }
-    ];
+    wireless.enable = true;
+    wireless.userControlled.enable = true;
+    wireless.environmentFile = config.age.secrets.wireless-config.path;
+    wireless.networks."clubcotton2_5G".psk = "@PSK@";
   };
+
+  services.tailscale.enable = true;
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
