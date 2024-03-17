@@ -165,6 +165,10 @@ in {
 
       # set-option -g status-position top
 
+      set-option -g status-left "#[bg=colour241,fg=colour248] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
+      set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #S "
+
+
       # https://github.com/samoshkin/tmux-config/blob/master/tmux/tmux.conf
       set -g buffer-limit 20
       set -g display-time 1500
@@ -184,7 +188,7 @@ in {
       # keybind to recursively enable all tmux instances
       set -g @nested_up_recursive_keybind 'M-U'
       # status style of inactive tmux
-      set -g @nested_inactive_status_style '#[fg=black,bg=red] #S #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
+      set -g @nested_inactive_status_style '#[fg=black,bg=red] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
       set -g @nested_inactive_status_style_target 'status-left'
 
       # The above setting need to be set before running the nested.tmux script
