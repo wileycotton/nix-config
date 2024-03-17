@@ -30,6 +30,18 @@
         sha256 = "sha256-RXoJ5jR3PLiu+iymsAI42PrdvZ8k83lDJGA7MQMpvPY=";
       };
     };
+  tmux-nested =
+    pkgs.tmuxPlugins.mkTmuxPlugin
+    {
+      pluginName = "tmux-nested";
+      version = "target-style-config";
+      src = pkgs.fetchFromGitHub {
+        owner = "bcotton";
+        repo = "tmux-nested";
+        rev = "2878b1d05569a8e41c506e74756ddfac7b0ffebe";
+        sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
+      };
+    };
 
   nixVsCodeServer = fetchTarball {
     url = "https://github.com/bcotton/nixos-vscode-server/tarball/support-for-new-dir-structure-of-vscode-server";
@@ -125,7 +137,11 @@ in {
     clock24 = true;
     mouse = true;
     prefix = "C-Space";
-    historyLimit = 10000;
+    historyLimit = 20000;
+    baseIndex = 1;
+    aggressiveResize = true;
+    # escapeTime = 0;
+    terminal = "screen-256color";
     plugins = with pkgs.tmuxPlugins; [
       gruvbox
       tmux-fzf-head
@@ -147,8 +163,35 @@ in {
       bind "C-l" select-pane -R
       bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
 
-      set-option -g status-position top
+      # set-option -g status-position top
+
+      # https://github.com/samoshkin/tmux-config/blob/master/tmux/tmux.conf
+      set -g buffer-limit 20
+      set -g display-time 1500
+      set -g remain-on-exit off
+      set -g repeat-time 300
+      setw -g allow-rename off
+      setw -g automatic-rename off
+
+      # https://gist.github.com/samoshkin/05e65f7f1c9b55d3fc7690b59d678734?permalink_comment_id=4616322#gistcomment-4616322
+
+      # keybind to disable outer-most active tmux
+      set -g @nested_down_keybind 'M-o'
+      # keybind to enable inner-most inactive tmux
+      set -g @nested_up_keybind 'M-O'
+      # keybind to recursively enable all tmux instances
+      set -g @nested_up_recursive_keybind 'M-U'
+      # status style of inactive tmux
+      set -g @nested_inactive_status_style '#[fg=black,bg=red] #S #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
+      set -g @nested_inactive_status_style_target 'status-left'
+
+      # The above setting need to be set before running the nested.tmux script
+      run-shell ${tmux-nested}/share/tmux-plugins/tmux-nested/nested.tmux
+
       # tmux-fzf stuff
+
+      # git-popup: (<prefix> + ctrl-g)
+      bind-key C-g display-popup -E -d "#{pane_current_path}" -xC -yC -w 80% -h 75% "lazygit"
     '';
   };
 
