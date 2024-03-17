@@ -170,10 +170,12 @@ in {
       set -g display-time 1500
       set -g remain-on-exit off
       set -g repeat-time 300
-      setw -g allow-rename off
-      setw -g automatic-rename off
+      # setw -g allow-rename off
+      # setw -g automatic-rename off
 
+      # Turn off the prefix key when nesting tmux sessions, led to this
       # https://gist.github.com/samoshkin/05e65f7f1c9b55d3fc7690b59d678734?permalink_comment_id=4616322#gistcomment-4616322
+      # Whcih led to the tmux-nested plugin
 
       # keybind to disable outer-most active tmux
       set -g @nested_down_keybind 'M-o'
