@@ -104,6 +104,12 @@
 
       # lib.optionals boolean stdenv is darwin
       #mas # mac app store cli
+
+      (pkgs.python3.withPackages (python-pkgs: [
+        python-pkgs.libtmux
+        python-pkgs.requests
+        python-pkgs.pytest
+      ]))
     ];
   };
 }

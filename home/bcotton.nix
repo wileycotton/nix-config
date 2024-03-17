@@ -12,10 +12,10 @@
       pluginName = "tmux-window-name";
       version = "head";
       src = pkgs.fetchFromGitHub {
-        owner = "ofirgall";
+        owner = "bcotton";
         repo = "tmux-window-name";
-        rev = "fe4d65a14f80fb4b681b7e2dcf361ada88733203";
-        sha256 = "sha256-3LyS52Bi49IePkA2JbjDxqhooV5V0vT+4Wu+ykWrp0w=";
+        rev = "0bb0148623782dbfb5c15741111f0402609f516f";
+        sha256 = "sha256-xb0GGBZ4Ox3LQjKZJ8MzJluElxRJm3BB73F2CMFJEa0=";
       };
     };
   tmux-fzf-head =
