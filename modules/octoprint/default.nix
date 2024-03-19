@@ -17,7 +17,7 @@
       ];
   };
 
- services.mjpg-streamer = {
+  services.mjpg-streamer = {
     enable = true;
     # using yuv mode, see https://github.com/jacksonliam/mjpg-streamer/issues/236
     # -> limited to VGA resolution
@@ -25,11 +25,10 @@
     # This seems to work well enough.
     inputPlugin = "input_uvc.so -d /dev/video0 -r 1280x720 --minimum_size 4096";
   };
-  
-  networking.firewall.allowedTCPPorts = [ 5000 5050 ];
+
+  networking.firewall.allowedTCPPorts = [5000 5050];
 
   # don't abort a running print, please
   # (NixOS will tell us when a restart is necessary and we can do it at a time of our choosing.)
   systemd.services.octoprint.restartIfChanged = false;
-
 }

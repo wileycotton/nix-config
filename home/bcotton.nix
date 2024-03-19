@@ -144,7 +144,9 @@ in {
     terminal = "screen-256color";
     plugins = with pkgs.tmuxPlugins; [
       gruvbox
+      fzf-tmux-url
       tmux-fzf-head
+      tmux-thumbs
       tmux-colors-solarized
       {
         plugin = tmux-window-name;
@@ -164,6 +166,8 @@ in {
       bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
 
       # set-option -g status-position top
+      set -g renumber-windows on
+
 
       set-option -g status-left "#[bg=colour241,fg=colour248] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
       set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #S "
@@ -255,6 +259,9 @@ in {
       export EXA_COLORS="da=1;35"
       export BAT_THEME="Visual Studio Dark+"
       export TMPDIR=/tmp/
+
+      export FZF_CTRL_R_OPTS="--reverse"
+      export FZF_TMUX_OPTS="-p"
 
       export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
