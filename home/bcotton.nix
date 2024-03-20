@@ -23,6 +23,7 @@
     {
       pluginName = "tmux-fzf";
       version = "head";
+      rtpFilePath = "main.tmux";
       src = pkgs.fetchFromGitHub {
         owner = "sainnhe";
         repo = "tmux-fzf";
@@ -159,10 +160,14 @@ in {
       bind j select-pane -D
       bind k select-pane -U
       bind l select-pane -R
+
+      # Need to decide if these are the commands I want to use
       bind "C-h" select-pane -L
       bind "C-j" select-pane -D
       bind "C-k" select-pane -U
       bind "C-l" select-pane -R
+
+
       bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
 
       # set-option -g status-position top
@@ -202,6 +207,8 @@ in {
 
       # git-popup: (<prefix> + ctrl-g)
       bind-key C-g display-popup -E -d "#{pane_current_path}" -xC -yC -w 80% -h 75% "lazygit"
+      # k9s popup: (<prefix> + ctrl-k)
+      bind-key C-k display-popup -E -d "#{pane_current_path}" -xC -yC -w 80% -h 75% "k9s"
     '';
   };
 
