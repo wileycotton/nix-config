@@ -9,8 +9,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    vscode-server.url = "github:bcotton/nixos-vscode-server/support-for-new-dir-structure-of-vscode-server";
-
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 

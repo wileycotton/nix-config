@@ -5,6 +5,7 @@
 }: {
   environment.systemPackages = with pkgs; [
     v4l-utils
+    ustreamer
   ];
   services.octoprint = {
     enable = true;
@@ -23,7 +24,7 @@
     # -> limited to VGA resolution
     #inputPlugin = "input_uvc.so -d /dev/video0 -r 1920x1080 -f 15 -y";
     # This seems to work well enough.
-    inputPlugin = "input_uvc.so -d /dev/video0 -r 1280x720 --minimum_size 4096";
+    inputPlugin = "input_uvc.so -d /dev/video0 -r 1280x720 --minimum_size 4096 -vf";
   };
 
   networking.firewall.allowedTCPPorts = [5000 5050];

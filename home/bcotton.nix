@@ -43,11 +43,6 @@
         sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
       };
     };
-
-  nixVsCodeServer = fetchTarball {
-    url = "https://github.com/bcotton/nixos-vscode-server/tarball/support-for-new-dir-structure-of-vscode-server";
-    sha256 = "sha256:1sp4h0nb7dh7mcm8vdflihv76yz8azf5zifkcbxhq7xz48c8k5pd";
-  };
 in {
   home.stateVersion = "23.05";
 
@@ -145,10 +140,16 @@ in {
     terminal = "screen-256color";
     plugins = with pkgs.tmuxPlugins; [
       gruvbox
-      fzf-tmux-url
-      tmux-fzf-head
-      tmux-thumbs
       tmux-colors-solarized
+
+      # Default: <prefix> + u - show and open urls
+      fzf-tmux-url
+
+      # Run the latest tmux-fzf
+      tmux-fzf-head
+
+      # Default <prefix> + space - show a list of things to copy
+      tmux-thumbs
       {
         plugin = tmux-window-name;
       }

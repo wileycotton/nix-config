@@ -12,6 +12,7 @@ in {
     environment.systemPackages = [
       pkgs.awscli
       pkgs.kind
+      unstablePkgs.esphome
     ];
 
     users.users.bcotton.home = "/Users/bcotton";

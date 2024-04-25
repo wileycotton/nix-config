@@ -304,16 +304,15 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1694401971,
-        "narHash": "sha256-7ZaJGCK/Hwz7YtPFX9xX6HtzNozUtY0qqwe2syyA5Oo=",
-        "owner": "bcotton",
+        "lastModified": 1713958148,
+        "narHash": "sha256-8PDNi/dgoI2kyM7uSiU4eoLBqUKoA+3TXuz+VWmuCOc=",
+        "owner": "nix-community",
         "repo": "nixos-vscode-server",
-        "rev": "7e581626a07486b1779ef02320e7e310feb11611",
+        "rev": "fc900c16efc6a5ed972fb6be87df018bcf3035bc",
         "type": "github"
       },
       "original": {
-        "owner": "bcotton",
-        "ref": "support-for-new-dir-structure-of-vscode-server",
+        "owner": "nix-community",
         "repo": "nixos-vscode-server",
         "type": "github"
       }
