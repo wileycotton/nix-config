@@ -43,6 +43,10 @@
         sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
       };
     };
+  nixVsCodeServer = fetchTarball {
+    url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
+    sha256 = "sha256:1rq8mrlmbzpcbv9ys0x88alw30ks70jlmvnfr2j8v830yy5wvw7h";
+  };
 in {
   home.stateVersion = "23.05";
 
