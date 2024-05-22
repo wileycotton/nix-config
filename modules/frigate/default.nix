@@ -4,8 +4,8 @@
   unstablePkgs,
   ...
 }: {
-    environment.systemPackages = with unstablePkgs; [
-      unstablePkgs.frigate
+  environment.systemPackages = with unstablePkgs; [
+    unstablePkgs.frigate
   ];
 
   services.frigate = {
