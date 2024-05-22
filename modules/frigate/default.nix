@@ -10,7 +10,7 @@
 
   services.frigate = {
     enable = true;
-    hostname = "nix-03";
+    hostname = "frigate";
 
     settings = {
       # ffmpeg = {
