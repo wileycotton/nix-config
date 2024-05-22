@@ -18,4 +18,5 @@ in {
   "condo-ha-token.age".publicKeys = users ++ systems;
   "homeassistant-token.age".publicKeys = users ++ systems;
   "wireless-config.age".publicKeys = users ++ systems;
+  "mqtt.age".publicKeys = users ++ systems;
 }

@@ -12,7 +12,10 @@
     ./hardware-configuration.nix
     ../../../modules/node-exporter
     ../../../modules/nfs
+    ../../../modules/frigate
   ];
+
+  services.tailscale.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -38,6 +41,10 @@
 
   age.secrets."tailscale-keys.env" = {
     file = ../../../secrets/tailscale-keys.env;
+  };
+
+  age.secrets."mqtt" = {
+    file = ../../../secrets/mqtt.age;
   };
 
   # Pick only one of the below networking options.
