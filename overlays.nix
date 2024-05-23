@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  unstablePkgs,
   ...
 }: let
   version = "2.0-1365";
@@ -34,6 +35,11 @@ in {
             cp $src/themes.gitconfig $out/share
           '';
       });
+    })
+
+    # # https://discourse.nixos.org/t/override-the-package-used-by-a-service/32529/2?u=bcotton
+    (self: super: {
+      frigate = unstablePkgs.frigate;
     })
 
     # (final: prev: {

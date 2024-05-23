@@ -4,10 +4,6 @@
   unstablePkgs,
   ...
 }: {
-  environment.systemPackages = with unstablePkgs; [
-    unstablePkgs.frigate
-  ];
-
   services.frigate = {
     enable = true;
     hostname = "frigate";
