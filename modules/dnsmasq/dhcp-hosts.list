@@ -2,6 +2,7 @@
 C8:C9:A3:FC:EC:24,192.168.20.137,esp-ble-broadcast-1
 8C:CE:4E:95:9C:D3,192.168.20.180,zigbee-controller
 d0:3f:27:4e:fd:6a:,192.168.20.140,wyze-cam-01
+6c:4b:90:90:31:73:7e,192.168.20.173,frigate
 
 AC:87:A3:0E:C5:97,192.168.5.176,bobs-imac
 00:08:9B:C2:D7:5F,192.168.5.7,qnap1

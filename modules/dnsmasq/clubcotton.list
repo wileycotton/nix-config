@@ -3,9 +3,10 @@
 192.168.5.210 nix-01.lan minecraft minecraft.lan
 192.168.5.214 nix-03.lan frigate
 192.168.5.220 dns-01.lan
-192.168.5.62  kvm
+192.168.5.62 kvm
 192.168.5.47 audio-01
-192.168.5.48 octoprint
+192.168.5.49 octoprint
 192.168.5.192 fireplace-led
 
 192.168.20.140 wyze-cam-01 cam-01
+192.168.20.174 frigate-host.lan frigate-host

@@ -24,7 +24,7 @@
     # -> limited to VGA resolution
     #inputPlugin = "input_uvc.so -d /dev/video0 -r 1920x1080 -f 15 -y";
     # This seems to work well enough.
-    inputPlugin = "input_uvc.so -d /dev/video0 -r 1280x720 --minimum_size 4096 -vf";
+    inputPlugin = "input_uvc.so -d /dev/video0 -r 1280x720 --minimum_size 4096";
   };
 
   networking.firewall.allowedTCPPorts = [5000 5050];
