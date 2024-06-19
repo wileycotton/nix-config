@@ -1,4 +1,4 @@
-# Auto-generated using compose2nix v0.1.6.
+# Auto-generated using compose2nix v0.2.0-pre.
 {
   pkgs,
   lib,
@@ -25,6 +25,7 @@
     environmentFiles = [
       "/run/agenix/tailscale-keys.env"
     ];
+
     volumes = [
       "/dev/net/tun:/dev/net/tun:rw"
       "/mnt/docker_volumes/tailscale/immich:/var/lib/tailscale:rw"
@@ -35,7 +36,7 @@
       "--cap-add=sys_module"
       "--hostname=photos"
       "--network-alias=tailscale"
-      "--network=immich-default"
+      "--network=immich_default"
     ];
   };
   systemd.services."podman-immich-tailscale" = {
@@ -43,10 +44,10 @@
       Restart = lib.mkOverride 500 "always";
     };
     after = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     requires = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     partOf = [
       "podman-compose-immich-root.target"
@@ -56,13 +57,14 @@
     ];
   };
   virtualisation.oci-containers.containers."immich_machine_learning" = {
-    image = "ghcr.io/immich-app/immich-machine-learning:v1.95.1";
+    image = "ghcr.io/immich-app/immich-machine-learning:v1.106.4";
     environment = {
       DB_DATABASE_NAME = "immich";
+      DB_DATA_LOCATION = "/mnt/docker_volumes/immich/immich_pgdata";
       DB_HOSTNAME = "immich_postgres";
       DB_PASSWORD = "postgres";
       DB_USERNAME = "postgres";
-      IMMICH_VERSION = "v1.95.1";
+      IMMICH_VERSION = "v1.106.4";
       REDIS_HOSTNAME = "immich_redis";
       TYPESENSE_API_KEY = "some-random-text";
       UPLOAD_LOCATION = "/mnt/docker_volumes/immich/immich-data/upload";
@@ -73,7 +75,7 @@
     log-driver = "journald";
     extraOptions = [
       "--network-alias=immich-machine-learning"
-      "--network=immich-default"
+      "--network=immich_default"
     ];
   };
   systemd.services."podman-immich_machine_learning" = {
@@ -81,61 +83,13 @@
       Restart = lib.mkOverride 500 "always";
     };
     after = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     requires = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     partOf = [
       "podman-compose-immich-root.target"
-    ];
-    wantedBy = [
-      "podman-compose-immich-root.target"
-    ];
-  };
-  virtualisation.oci-containers.containers."immich_microservices" = {
-    image = "ghcr.io/immich-app/immich-server:v1.95.1";
-    environment = {
-      DB_DATABASE_NAME = "immich";
-      DB_HOSTNAME = "immich_postgres";
-      DB_PASSWORD = "postgres";
-      DB_USERNAME = "postgres";
-      IMMICH_VERSION = "v1.95.1";
-      REDIS_HOSTNAME = "immich_redis";
-      TYPESENSE_API_KEY = "some-random-text";
-      UPLOAD_LOCATION = "/mnt/docker_volumes/immich/immich-data/upload";
-    };
-    volumes = [
-      "/etc/localtime:/etc/localtime:ro"
-      "/mnt/docker_volumes/immich/immich-data/upload:/usr/src/app/upload:rw"
-    ];
-    cmd = ["start.sh" "microservices"];
-    dependsOn = [
-      "immich_postgres"
-      "immich_redis"
-    ];
-    log-driver = "journald";
-    extraOptions = [
-      "--network-alias=immich-microservices"
-      "--network=immich-default"
-    ];
-  };
-  systemd.services."podman-immich_microservices" = {
-    serviceConfig = {
-      Restart = lib.mkOverride 500 "always";
-    };
-    after = [
-      "podman-network-immich-default.service"
-    ];
-    requires = [
-      "podman-network-immich-default.service"
-    ];
-    partOf = [
-      "podman-compose-immich-root.target"
-    ];
-    unitConfig.UpheldBy = [
-      "podman-immich_postgres.service"
-      "podman-immich_redis.service"
     ];
     wantedBy = [
       "podman-compose-immich-root.target"
@@ -143,13 +97,13 @@
   };
   virtualisation.oci-containers.containers."immich_postgres" = {
     image = "tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
-    #image = "tensorchord/pgvecto-rs:pg14-v0.1.11@sha256:0335a1a22f8c5dd1b697f14f079934f5152eaaa216c09b61e293be285491f8ee";
     environment = {
       DB_DATABASE_NAME = "immich";
+      DB_DATA_LOCATION = "/mnt/docker_volumes/immich/immich_pgdata";
       DB_HOSTNAME = "immich_postgres";
       DB_PASSWORD = "postgres";
       DB_USERNAME = "postgres";
-      IMMICH_VERSION = "v1.95.1";
+      IMMICH_VERSION = "v1.106.4";
       POSTGRES_DB = "immich";
       POSTGRES_PASSWORD = "postgres";
       POSTGRES_USER = "postgres";
@@ -163,7 +117,7 @@
     log-driver = "journald";
     extraOptions = [
       "--network-alias=database"
-      "--network=immich-default"
+      "--network=immich_default"
     ];
   };
   systemd.services."podman-immich_postgres" = {
@@ -171,10 +125,10 @@
       Restart = lib.mkOverride 500 "always";
     };
     after = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     requires = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     partOf = [
       "podman-compose-immich-root.target"
@@ -188,7 +142,7 @@
     log-driver = "journald";
     extraOptions = [
       "--network-alias=redis"
-      "--network=immich-default"
+      "--network=immich_default"
     ];
   };
   systemd.services."podman-immich_redis" = {
@@ -196,10 +150,10 @@
       Restart = lib.mkOverride 500 "always";
     };
     after = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     requires = [
-      "podman-network-immich-default.service"
+      "podman-network-immich_default.service"
     ];
     partOf = [
       "podman-compose-immich-root.target"
@@ -209,26 +163,26 @@
     ];
   };
   virtualisation.oci-containers.containers."immich_server" = {
-    image = "ghcr.io/immich-app/immich-server:v1.95.1";
+    image = "ghcr.io/immich-app/immich-server:v1.106.4";
     environment = {
       DB_DATABASE_NAME = "immich";
+      DB_DATA_LOCATION = "/mnt/docker_volumes/immich/immich_pgdata";
       DB_HOSTNAME = "immich_postgres";
       DB_PASSWORD = "postgres";
       DB_USERNAME = "postgres";
-      IMMICH_VERSION = "v1.95.1";
+      IMMICH_VERSION = "v1.106.4";
+      IMMICH_PORT = "80";
       REDIS_HOSTNAME = "immich_redis";
       TYPESENSE_API_KEY = "some-random-text";
       UPLOAD_LOCATION = "/mnt/docker_volumes/immich/immich-data/upload";
-      PORT = "80";
     };
     volumes = [
       "/etc/localtime:/etc/localtime:ro"
       "/mnt/docker_volumes/immich/immich-data/upload:/usr/src/app/upload:rw"
     ];
     ports = [
-      "80:2283/tcp"
+      "2283:3001/tcp"
     ];
-    cmd = ["start.sh" "immich"];
     dependsOn = [
       "immich-tailscale"
       "immich_postgres"
@@ -246,26 +200,21 @@
     partOf = [
       "podman-compose-immich-root.target"
     ];
-    unitConfig.UpheldBy = [
-      "podman-immich-tailscale.service"
-      "podman-immich_postgres.service"
-      "podman-immich_redis.service"
-    ];
     wantedBy = [
       "podman-compose-immich-root.target"
     ];
   };
 
   # Networks
-  systemd.services."podman-network-immich-default" = {
+  systemd.services."podman-network-immich_default" = {
     path = [pkgs.podman];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStop = "${pkgs.podman}/bin/podman network rm -f immich-default";
+      ExecStop = "${pkgs.podman}/bin/podman network rm -f immich_default";
     };
     script = ''
-      podman network inspect immich-default || podman network create immich-default --opt isolate=true
+      podman network inspect immich_default || podman network create immich_default
     '';
     partOf = ["podman-compose-immich-root.target"];
     wantedBy = ["podman-compose-immich-root.target"];
