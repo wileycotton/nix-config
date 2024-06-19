@@ -140,6 +140,7 @@
       nix-03 = nixosSystem "x86_64-linux" "nix-03" "bcotton";
       dns-01 = nixosSystem "x86_64-linux" "dns-01" "bcotton";
       octoprint = nixosSystem "x86_64-linux" "octoprint" "bcotton";
+      frigate = nixosSystem "x86_64-linux" "frigate" "bcotton";
     };
   };
 }
