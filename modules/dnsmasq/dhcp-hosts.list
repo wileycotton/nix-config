@@ -27,7 +27,10 @@ b8:27:eb:4d:e6:cd,192.168.5.47,audio-01,inifinite
 D2:21:F9:29:F6:B5 192.168.20.199,esp-keyboard-wake
 D0:21:F9:49:F6:B5 192.168.20.187,plant-cam
 5c:cf:7f:c3:cb:0b 192.168.20.140,plant-light-controller
+68:f6:3b:d8:cb:7d 192.168.20.168,kitchen-tablet
+c2:30:bc:16:17:ef 192.168.20.52,master-bath-tablet
 d2:21:f9:29:f6:b5 192.168.20.188,plant-monitor
 C8:C9:A3:1B:B4:5E 192.168.20.78,ratgdo
 b8:8a:60:cb:2d:39 192.168.5.49,octoprint
 c8:c9:a3:f9:cc:68 192.168.5.192,fireplace-led
+

@@ -116,7 +116,7 @@ in {
             {
               targets = [
                 "books"
-                "photos:3001"
+                "photos"
               ];
             }
           ];
