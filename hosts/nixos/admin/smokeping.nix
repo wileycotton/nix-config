@@ -16,6 +16,32 @@
       title = Network Latency Grapher
       remark = Welcome to the SmokePing website of Bob Cotton.
 
+      + ClubCotton
+      menu = ClubCotton Hosts
+
+      ++ Router
+      menu = UDM Pro
+      host = 192.168.5.1
+
+      ++ HomeAssistant
+      menu = Home Assistant
+      host = 192.168.20.20
+
+      ++ ShellySmoke
+      menu = Shelly Smoke Detector
+      host = 192.168.20.125
+
+      ++ ShellyCO
+      menu = Shelly CO Detector
+      host = 192.168.20.83
+
+      + CenturyLink
+      menu = Century Link
+
+      ++ UpstreamHop
+      menu = Upstream Hop
+      host = 75.166.123.123
+
       + Cloudflare
       menu = Cloudflare DNS
 

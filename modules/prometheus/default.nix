@@ -31,7 +31,7 @@
     ];
   };
 
-  # From all the know hosts, fetch the enabled node_exporters
+  # From all the known hosts, fetch the enabled node_exporters
   enabledExporters = builtins.mapAttrs enabledNodeExportersF self.nixosConfigurations;
 
   # Build the scrape config for each host
@@ -63,7 +63,12 @@ in {
       };
       smokeping = {
         enable = true;
-        hosts = ["admin"];
+        hosts = [
+          "admin"
+          "shelly-smokedetector"
+          "shelly-codetecter"
+          "75.166.123.123"
+          ];
       };
     };
 
@@ -82,6 +87,12 @@ in {
 
     scrapeConfigs =
       [
+        {
+          job_name = "smokeping";
+          static_configs = [{
+            targets = [ "localhost:${toString config.services.prometheus.exporters.smokeping.port}" ];
+          }];
+        }
         {
           job_name = "condo-ha";
           honor_timestamps = true;
