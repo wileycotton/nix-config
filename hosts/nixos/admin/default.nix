@@ -14,6 +14,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./sound.nix
+    ./smokeping.nix
     ../../../modules/node-exporter
     ../../../modules/homepage
     ../../../modules/prometheus

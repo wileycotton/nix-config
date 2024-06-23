@@ -55,7 +55,6 @@
   };
 
   programs.exa.enable = true;
-  programs.exa.enableAliases = true;
   programs.home-manager.enable = true;
   programs.neovim.enable = true;
   programs.nix-index.enable = true;

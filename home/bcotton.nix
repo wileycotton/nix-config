@@ -234,7 +234,7 @@ in {
 
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     defaultKeymap = "emacs";
     autocd = true;
@@ -358,7 +358,6 @@ in {
   };
 
   programs.eza.enable = true;
-  programs.eza.enableAliases = true;
   programs.home-manager.enable = true;
   #  programs.neovim.enable = true;
   programs.nix-index.enable = true;

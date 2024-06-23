@@ -61,6 +61,10 @@ in {
         enable = true;
         configFile = "${./blackbox.yml}";
       };
+      smokeping = {
+        enable = true;
+        hosts = ["admin"];
+      };
     };
 
     alertmanagers = [
