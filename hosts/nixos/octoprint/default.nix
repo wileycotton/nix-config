@@ -60,8 +60,8 @@
       xterm.enable = false;
       xfce.enable = true;
     };
-    displayManager.defaultSession = "xfce";
   };
+  services.displayManager.defaultSession = "xfce";
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";

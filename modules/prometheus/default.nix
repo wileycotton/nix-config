@@ -68,6 +68,8 @@ in {
           "shelly-smokedetector"
           "shelly-codetecter"
           "75.166.123.123"
+          "1.1.1.1"
+          "8.8.8.8"
           ];
       };
     };
