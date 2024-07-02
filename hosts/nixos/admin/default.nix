@@ -18,6 +18,8 @@
     ../../../modules/node-exporter
     ../../../modules/homepage
     ../../../modules/prometheus
+    ../../../modules/unpoller
+    ../../../modules/grafana
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -137,6 +139,11 @@
     owner = "prometheus";
     group = "prometheus";
   };
+  age.secrets."unpoller" = {
+    file = ../../../secrets/unpoller.age;
+    owner = "unifi-poller";
+    group = "unifi-poller";
+  };
 
   programs.zsh.enable = true;
 
@@ -149,12 +156,6 @@
   services.prometheus = {
     exporters = {
     };
-  };
-
-  services.grafana = {
-    enable = true;
-    settings.server.http_port = 3000;
-    settings.server.http_addr = "0.0.0.0";
   };
 
   # Open ports in the firewall.

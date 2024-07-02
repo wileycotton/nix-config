@@ -73,6 +73,9 @@ in {
           "8.8.8.8"
         ];
       };
+      # unpoller = {
+      #   enable = true;
+      # };
     };
 
     alertmanagers = [
@@ -90,6 +93,14 @@ in {
 
     scrapeConfigs =
       [
+        {
+          job_name = "unpoller";
+          static_configs = [
+            {
+              targets = ["localhost:${toString config.services.prometheus.exporters.unpoller.port}"];
+            }
+          ];
+        }
         {
           job_name = "smokeping";
           static_configs = [

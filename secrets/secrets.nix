@@ -19,4 +19,5 @@ in {
   "homeassistant-token.age".publicKeys = users ++ systems;
   "wireless-config.age".publicKeys = users ++ systems;
   "mqtt.age".publicKeys = users ++ systems;
+  "unpoller.age".publicKeys = users ++ systems;
 }
