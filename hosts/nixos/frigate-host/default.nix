@@ -19,7 +19,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "frigate";
+    hostName = "frigate-host";
     defaultGateway = "192.168.20.1";
     nameservers = ["192.168.20.220"];
     interfaces.enp0s31f6.ipv4.addresses = [

@@ -31,6 +31,7 @@ D0:21:F9:49:F6:B5 192.168.20.187,plant-cam
 c2:30:bc:16:17:ef 192.168.20.52,master-bath-tablet
 d2:21:f9:29:f6:b5 192.168.20.188,plant-monitor
 C8:C9:A3:1B:B4:5E 192.168.20.78,ratgdo
+ec:71:db:7d:70:f3 192.168.20.129,camera-reolink-outside-north
 b8:8a:60:cb:2d:39 192.168.5.49,octoprint
 c8:c9:a3:f9:cc:68 192.168.5.192,fireplace-led
 3C:61:05:73:0D:4C 192.168.20.125,shelly-smokedetector

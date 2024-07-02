@@ -28,6 +28,11 @@
         };
       };
 
+      birdseye = {
+        enabled = true;
+        mode = "continuous";
+      };
+
       cameras."front-porch" = {
         ffmpeg.inputs = [
           {
@@ -52,6 +57,11 @@
             roles = ["detect"];
           }
         ];
+      };
+
+      go2rtc = {
+        streams."back-porch" = ["rtsp://192.168.20.140:8554/1080p?mp4"];
+        streams."front-porch" = ["rtsp://192.168.20.194:8554/1080p?mp4"];
       };
     };
   };

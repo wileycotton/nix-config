@@ -10,5 +10,6 @@
 
 192.168.20.140 wyze-cam-01 cam-01
 192.168.20.174 frigate-host.lan frigate-host
+192.168.20.129 camera-reolink-outside-north camera-outside-north
 192.168.20.125 shelly-smokedetector
 192.168.20.83  shelly-codetecter

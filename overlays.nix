@@ -5,16 +5,16 @@
   unstablePkgs,
   ...
 }: let
-  version = "2.0-1365";
-  urlVersion = builtins.replaceStrings ["." "-"] ["00" "0"] version;
+  roonVersion = "2.0-1413";
+  roonUrlVersion = builtins.replaceStrings ["." "-"] ["00" "0"] roonVersion;
 in {
   nixpkgs.overlays = [
     (self: super: {
       roon-server = super.roon-server.overrideAttrs {
-        version = version;
+        version = roonVersion;
         src = pkgs.fetchurl {
-          url = "https://download.roonlabs.com/updates/production/RoonServer_linuxx64_${urlVersion}.tar.bz2";
-          hash = "sha256-RwmBszv3zCFX8IvDu/XMVu92EH/yd1tyaw0P4CmODCA=";
+          url = "https://download.roonlabs.com/updates/production/RoonServer_linuxx64_${roonUrlVersion}.tar.bz2";
+          hash = "sha256-VoTJu5+zuFFknDolGJ/69e1i6B4vfR9ev7sAKhfeRlU=";
         };
         #    src = newsrc;
       };

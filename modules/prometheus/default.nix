@@ -67,10 +67,11 @@ in {
           "admin"
           "shelly-smokedetector"
           "shelly-codetecter"
+          "192.168.20.105"
           "75.166.123.123"
           "1.1.1.1"
           "8.8.8.8"
-          ];
+        ];
       };
     };
 
@@ -91,9 +92,11 @@ in {
       [
         {
           job_name = "smokeping";
-          static_configs = [{
-            targets = [ "localhost:${toString config.services.prometheus.exporters.smokeping.port}" ];
-          }];
+          static_configs = [
+            {
+              targets = ["localhost:${toString config.services.prometheus.exporters.smokeping.port}"];
+            }
+          ];
         }
         {
           job_name = "condo-ha";
