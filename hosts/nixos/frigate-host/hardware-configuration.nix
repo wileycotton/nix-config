@@ -41,4 +41,17 @@ in {
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Enable quicksync support
+  # https://discourse.nixos.org/t/jellyfin-qsv-config/37717
+  boot.kernelParams = [
+    "i915.enable_guc=2"
+  ];
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-compute-runtime
+    ];
+  };
 }

@@ -11,8 +11,12 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../../modules/node-exporter
-    # ../../../modules/frigate
+    ../../../modules/frigate
   ];
+
+  age.secrets."mqtt" = {
+    file = ../../../secrets/mqtt.age;
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -30,7 +34,7 @@
     ];
   };
 
-  services.tailscale.enable = true;
+  services.tailscale.enable = false;
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

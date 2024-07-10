@@ -7,8 +7,9 @@ let
   nix-02 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFP84qqvaOkowcYY3B1b96AJ3TPBo0EOlIJuqYQF/AfM root@nix-02";
   nix-03 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIUbuIL/nH/8ncAIc8lzzEgvUaT84BtchDmLEQEYTTKC root@nix-03";
   octoprint = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKtxU4yWKvKtZUV82nISi21UCnZ8D2ua8mPMkhk1flNH root@octoprint";
+  frigate-host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7E24JIWthIHIyTnqjdmJPeGUw8UreinxDNfVq9N2AP root@frigate-host";
 
-  systems = [admin nix-01 nix-02 nix-03 octoprint];
+  systems = [admin nix-01 nix-02 nix-03 octoprint frigate-host];
 in {
   "librespot.age".publicKeys = users ++ systems;
   "mopidy.age".publicKeys = users ++ systems;

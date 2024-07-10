@@ -12,7 +12,7 @@
     ./hardware-configuration.nix
     ../../../modules/node-exporter
     ../../../modules/nfs
-    ../../../modules/frigate
+    # ../../../modules/frigate
   ];
 
   services.tailscale.enable = true;
