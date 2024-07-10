@@ -4,24 +4,19 @@
   unstablePkgs,
   ...
 }: let
-  libedgetpu = pkgs.callPackage ../../pkgs/libedgetpu { };
-
+  libedgetpu = pkgs.callPackage ../../pkgs/libedgetpu {};
 in {
- 
   services.frigate = {
     enable = true;
     hostname = "frigate";
 
     settings = {
-
       # detectors = {
       #   coral = {
       #     type = "edgetpu";
       #     device = "pci";
       #   };
       # };
-        
-
 
       ffmpeg = {
         hwaccel_args = "preset-vaapi";
@@ -86,5 +81,5 @@ in {
     CapabilityBoundingSet = "cap_perfmon";
   };
   # append to the render group in nixos
-  users.users.frigate.extraGroups = [ "render" "video"];
+  users.users.frigate.extraGroups = ["render" "video"];
 }
