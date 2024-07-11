@@ -2,6 +2,7 @@
   config,
   pkgs,
   unstablePkgs,
+  lib,
   ...
 }: let
   libedgetpu = pkgs.callPackage ../../pkgs/libedgetpu {};
@@ -11,12 +12,12 @@ in {
     hostname = "frigate";
 
     settings = {
-      # detectors = {
-      #   coral = {
-      #     type = "edgetpu";
-      #     device = "pci";
-      #   };
-      # };
+      detectors = {
+        coral = {
+          type = "edgetpu";
+          device = "pci";
+        };
+      };
 
       ffmpeg = {
         hwaccel_args = "preset-vaapi";
@@ -96,7 +97,11 @@ in {
       };
     };
   };
-  systemd.services.frigate.environment.LD_LIBRARY_PATH = "${libedgetpu}/lib";
+  # systemd.services.frigate.environment.LD_LIBRARY_PATH = "${libedgetpu}/lib";
+  systemd.services.frigate.environment.LD_LIBRARY_PATH = lib.makeLibraryPath [
+    "${libedgetpu}"
+    pkgs.libusb # libusb
+  ];
   systemd.services.frigate.serviceConfig = {
     EnvironmentFile = config.age.secrets.mqtt.path;
     AmbientCapabilities = "cap_pefmon";
