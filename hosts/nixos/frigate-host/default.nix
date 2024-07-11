@@ -34,7 +34,7 @@
     ];
   };
 
-  services.tailscale.enable = false;
+  services.tailscale.enable = true;
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

@@ -20,6 +20,7 @@ in {
 
       ffmpeg = {
         hwaccel_args = "preset-vaapi";
+        # hwaccel_args = "-vaapi_device /dev/dri/renderD128 -hwaccel_output_format qsv -c:v h264_qsv";
       };
 
       mqtt = {
@@ -43,16 +44,18 @@ in {
       };
 
       cameras."front-porch" = {
-        ffmpeg.inputs = [
-          {
-            path = "rtsp://192.168.20.140:8554/1080p?mp4";
-            roles = ["record"];
-          }
-          {
-            path = "rtsp://192.168.20.140:8554/360p?mp4";
-            roles = ["detect"];
-          }
-        ];
+        ffmpeg = {
+          inputs = [
+            {
+              path = "rtsp://192.168.20.140:8554/1080p?mp4";
+              roles = ["record"];
+            }
+            {
+              path = "rtsp://192.168.20.140:8554/360p?mp4";
+              roles = ["detect"];
+            }
+          ];
+        };
       };
 
       cameras."back-porch" = {
@@ -67,10 +70,29 @@ in {
           }
         ];
       };
+      cameras."north-side" = {
+        ffmpeg = {
+          inputs = [
+            {
+              path = "rtmp://192.168.20.129/bcs/channel0_main.bcs?channel=0&stream=0&user={FRIGATE_CAMERA_USER}&password={FRIGATE_CAMERA_PASSWORD}";
+              roles = ["record"];
+            }
+            {
+              path = "rtmp://192.168.20.129/bcs/channel0_ext.bcs?channel=0&stream=2&user={FRIGATE_CAMERA_USER}&password={FRIGATE_CAMERA_PASSWORD}";
+              roles = ["detect"];
+            }
+          ];
+          input_args = "-avoid_negative_ts make_zero -flags low_delay -fflags discardcorrupt -strict experimental -rw_timeout 5000000 -use_wallclock_as_timestamps 1 -f live_flv";
+          output_args = {
+            record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy";
+          };
+        };
+      };
 
       go2rtc = {
         streams."back-porch" = ["ffmpeg:rtsp://192.168.20.140:8554/1080p?mp4"];
         streams."front-porch" = ["ffmpeg:rtsp://192.168.20.194:8554/1080p?mp4"];
+        streams."north-side" = ["ffmpeg:rtmp://192.168.20.129/bcs/channel0_main.bcs?channel=0&stream=0&user={FRIGATE_CAMERA_USER}&password={FRIGATE_CAMERA_PASSWORD}"];
       };
     };
   };
