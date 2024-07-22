@@ -7,6 +7,11 @@
 }: let
   libedgetpu = pkgs.callPackage ../../pkgs/libedgetpu {};
 in {
+  services.go2rtc = {
+    enable = true;
+    settings.streams = config.services.frigate.settings.go2rtc.streams;
+  };
+
   services.frigate = {
     enable = true;
     hostname = "frigate";
@@ -44,56 +49,54 @@ in {
         mode = "continuous";
       };
 
-      cameras."front-porch" = {
-        ffmpeg = {
-          inputs = [
+      cameras = {
+        frontporch = {
+          ffmpeg.inputs = [
             {
-              path = "rtsp://192.168.20.140:8554/1080p?mp4";
-              roles = ["record"];
-            }
-            {
-              path = "rtsp://192.168.20.140:8554/360p?mp4";
-              roles = ["detect"];
+              path = "rtsp://127.0.0.1:8554/frontporch?video=copy&audio=aac";
+              roles = ["record" "detect"];
             }
           ];
         };
-      };
 
-      cameras."back-porch" = {
-        ffmpeg.inputs = [
-          {
-            path = "rtsp://192.168.20.194:8554/1080p?mp4";
-            roles = ["record"];
-          }
-          {
-            path = "rtsp://192.168.20.194:8554/360p?mp4";
-            roles = ["detect"];
-          }
-        ];
-      };
-      cameras."north-side" = {
-        ffmpeg = {
-          inputs = [
+        backporch = {
+          ffmpeg.inputs = [
             {
-              path = "rtmp://192.168.20.129/bcs/channel0_main.bcs?channel=0&stream=0&user={FRIGATE_CAMERA_USER}&password={FRIGATE_CAMERA_PASSWORD}";
-              roles = ["record"];
-            }
-            {
-              path = "rtmp://192.168.20.129/bcs/channel0_ext.bcs?channel=0&stream=2&user={FRIGATE_CAMERA_USER}&password={FRIGATE_CAMERA_PASSWORD}";
-              roles = ["detect"];
+              path = "rtsp://127.0.0.1:8554/backporch?video=copy&audio=aac";
+              roles = ["record" "detect"];
             }
           ];
-          input_args = "-avoid_negative_ts make_zero -flags low_delay -fflags discardcorrupt -strict experimental -rw_timeout 5000000 -use_wallclock_as_timestamps 1 -f live_flv";
-          output_args = {
-            record = "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c copy";
-          };
+        };
+        northside = {
+          ffmpeg.inputs = [
+            {
+              path = "rtsp://127.0.0.1:8554/northside?video=copy&audio=aac";
+              roles = ["record" "detect"];
+            }
+          ];
         };
       };
 
       go2rtc = {
-        streams."back-porch" = ["ffmpeg:rtsp://192.168.20.140:8554/1080p?mp4"];
-        streams."front-porch" = ["ffmpeg:rtsp://192.168.20.194:8554/1080p?mp4"];
-        streams."north-side" = ["ffmpeg:rtmp://192.168.20.129/bcs/channel0_main.bcs?channel=0&stream=0&user={FRIGATE_CAMERA_USER}&password={FRIGATE_CAMERA_PASSWORD}"];
+        log = {
+          format = "text";
+          exec = "trace";
+        };
+
+        streams.backporch = [
+          "rtsp://192.168.20.194:8554/1080p?mp4"
+          "ffmpeg:backporch#video=h264#hardware"
+        ];
+
+        streams.frontporch = [
+          "rtsp://192.168.20.140:8554/1080p?mp4"
+          "ffmpeg:frontporch#video=h264#hardware"
+        ];
+
+        streams.northside = [
+          "rtmp://192.168.20.129/bcs/channel0_main.bcs?channel=0&stream=0&user=\${FRIGATE_CAMERA_USER}&password=\${FRIGATE_CAMERA_PASSWORD}"
+          "ffmpeg:northside#video=h264#hardware"
+          ];
       };
     };
   };
@@ -104,8 +107,11 @@ in {
   ];
   systemd.services.frigate.serviceConfig = {
     EnvironmentFile = config.age.secrets.mqtt.path;
-    AmbientCapabilities = "cap_pefmon";
+    AmbientCapabilities = "cap_perfmon";
     CapabilityBoundingSet = "cap_perfmon";
+  };
+  systemd.services.go2rtc.serviceConfig = {
+    EnvironmentFile = config.age.secrets.mqtt.path;
   };
   # append to the render group in nixos
   users.users.frigate.extraGroups = ["render" "video"];

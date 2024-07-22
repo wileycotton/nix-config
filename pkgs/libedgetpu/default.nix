@@ -1,7 +1,4 @@
-{
-  stdenv,
-}:
-
+{stdenv}:
 stdenv.mkDerivation {
   src = ./libedgetpu.so.1.0;
 
