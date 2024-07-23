@@ -6,6 +6,10 @@
   ...
 }: let
   libedgetpu = pkgs.callPackage ../../pkgs/libedgetpu {};
+  setApexPermissionsScript = pkgs.writeShellScript "set-apex-permissions" ''
+    chown frigate:frigate /dev/apex_0
+    chmod 660 /dev/apex_0
+  '';
 in {
   services.go2rtc = {
     enable = true;
@@ -57,6 +61,21 @@ in {
               roles = ["record" "detect"];
             }
           ];
+          snapshots = {
+            enabled = true;
+            required_zones = ["zone_0"];
+          };
+          record = {
+            enabled = true;
+            retain.days = 5;
+            events.retain.default = 10;
+            events.required_zones = ["zone_0"];
+          };
+          zones = {
+            zone_0 = {
+              coordinates = "0,1080,1920,1080,1899,256,0,239";
+            };
+          };
         };
 
         backporch = {
@@ -74,6 +93,21 @@ in {
               roles = ["record" "detect"];
             }
           ];
+          snapshots = {
+            enabled = true;
+            required_zones = ["zone_0"];
+          };
+          record = {
+            enabled = true;
+            retain.days = 5;
+            events.retain.default = 10;
+            events.required_zones = ["zone_0"];
+          };
+          zones = {
+            zone_0 = {
+              coordinates = "411,1549,1754,1855,1717,561,716,524,0,1212";
+            };
+          };
         };
       };
 
@@ -96,19 +130,32 @@ in {
         streams.northside = [
           "rtmp://192.168.20.129/bcs/channel0_main.bcs?channel=0&stream=0&user=\${FRIGATE_CAMERA_USER}&password=\${FRIGATE_CAMERA_PASSWORD}"
           "ffmpeg:northside#video=h264#hardware"
-          ];
+        ];
       };
     };
   };
-  # systemd.services.frigate.environment.LD_LIBRARY_PATH = "${libedgetpu}/lib";
+
   systemd.services.frigate.environment.LD_LIBRARY_PATH = lib.makeLibraryPath [
     "${libedgetpu}"
     pkgs.libusb # libusb
   ];
-  systemd.services.frigate.serviceConfig = {
-    EnvironmentFile = config.age.secrets.mqtt.path;
-    AmbientCapabilities = "cap_perfmon";
-    CapabilityBoundingSet = "cap_perfmon";
+
+  systemd.services.set-apex-permissions = {
+    description = "Set permissions for /dev/apex_0";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${setApexPermissionsScript}";
+    };
+    wantedBy = ["multi-user.target"];
+  };
+
+  systemd.services.frigate = {
+    serviceConfig = {
+      EnvironmentFile = config.age.secrets.mqtt.path;
+      AmbientCapabilities = "cap_perfmon";
+      CapabilityBoundingSet = "cap_perfmon";
+    };
+    wants = ["set-apex-permissions.service"];
   };
   systemd.services.go2rtc.serviceConfig = {
     EnvironmentFile = config.age.secrets.mqtt.path;
