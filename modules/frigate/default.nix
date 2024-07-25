@@ -53,6 +53,10 @@ in {
         mode = "continuous";
       };
 
+      objects = {
+        filters.person.threshold = "0.8";
+      };
+
       cameras = {
         frontporch = {
           ffmpeg.inputs = [
@@ -67,8 +71,8 @@ in {
           };
           record = {
             enabled = true;
-            retain.days = 5;
-            events.retain.default = 10;
+            retain.days = 2;
+            events.retain.default = 5;
             events.required_zones = ["zone_0"];
           };
           zones = {
@@ -99,8 +103,8 @@ in {
           };
           record = {
             enabled = true;
-            retain.days = 5;
-            events.retain.default = 10;
+            retain.days = 2;
+            events.retain.default = 5;
             events.required_zones = ["zone_0"];
           };
           zones = {
