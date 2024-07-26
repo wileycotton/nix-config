@@ -63,6 +63,7 @@
       jetbrains-mono # font
       just
       jq
+      killall
       kubernetes-helm
       kubectx
       kubectl
