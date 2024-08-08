@@ -168,6 +168,44 @@ in {
             }
           ];
         }
+        {
+          job_name = "homeassistant_node";
+          scrape_interval = "30s";
+          static_configs = [
+            {
+              targets = ["homeassistant:9100"];
+            }
+          ];
+          relabel_configs = [
+            {
+              target_label = "instance";
+              replacement = "homeassistant";
+            }
+            {
+              target_label = "job";
+              replacement = "node";
+            }
+          ];
+        }
+        {
+          job_name = "condo_ha_node";
+          scrape_interval = "30s";
+          static_configs = [
+            {
+              targets = ["condo-ha:9100"];
+            }
+          ];
+          relabel_configs = [
+            {
+              target_label = "instance";
+              replacement = "condo-ha";
+            }
+            {
+              target_label = "job";
+              replacement = "node";
+            }
+          ];
+        }
       ]
       ++ autogenScrapeConfigs;
   };
