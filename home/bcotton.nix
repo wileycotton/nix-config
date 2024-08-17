@@ -214,6 +214,8 @@ in {
       bind-key C-g display-popup -E -d "#{pane_current_path}" -xC -yC -w 80% -h 75% "lazygit"
       # k9s popup: (<prefix> + ctrl-k)
       bind-key C-k display-popup -E -d "#{pane_current_path}" -xC -yC -w 80% -h 75% "k9s"
+      # jq as a popup, from the clipboard
+      bind-key C-j display-popup -E -d "#{pane_current_path}" -xC -yC -w 80% -h 75% "pbpaste | jq -C '.' | less -R"
     '';
   };
 
