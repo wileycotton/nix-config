@@ -15,6 +15,7 @@ in {
     ];
 
     users.users.bcotton.home = "/Users/bcotton";
+    system.stateVersion = 5;
 
     nix = {
       #package = lib.mkDefault pkgs.unstable.nix;

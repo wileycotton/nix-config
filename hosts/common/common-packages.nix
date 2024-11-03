@@ -49,7 +49,7 @@
       #  fira-mono
       fd
       gh
-      unstablePkgs.go_1_21
+      unstablePkgs.go_1_23
       glow
       go-migrate
       gron
