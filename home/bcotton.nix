@@ -45,7 +45,7 @@
     };
   nixVsCodeServer = fetchTarball {
     url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
-    sha256 = "sha256:1rq8mrlmbzpcbv9ys0x88alw30ks70jlmvnfr2j8v830yy5wvw7h";
+    sha256 = "sha256:09j4kvsxw1d5dvnhbsgih0icbrxqv90nzf0b589rb5z6gnzwjnqf";
   };
 in {
   home.stateVersion = "23.05";
@@ -236,6 +236,13 @@ in {
     target = ".oh-my-zsh-custom";
   };
 
+  xdg = {
+    enable = true;
+    configFile."containers/registries.conf" = {
+      source = ./dot.config/containers/registries.conf;
+    };
+  };
+
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -284,6 +291,11 @@ in {
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
       [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+      if [ -e "/var/run/user/1000/podman/podman.sock" ]; then
+         export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+         export DOCKER_BUILDKIT=0
+      fi
 
       [ -e ~/.config/sensitive/.zshenv ] && \. ~/.config/sensitive/.zshenv
     '';

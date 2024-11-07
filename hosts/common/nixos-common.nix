@@ -32,6 +32,7 @@ in {
     jellyfin-ffmpeg
     hddtemp
     synergy
+    quickemu
   ];
 
   ## pins to stable as unstable updates very often

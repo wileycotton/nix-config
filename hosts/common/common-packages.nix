@@ -24,7 +24,13 @@
       bat-extras.prettybat
       btop
       bitwarden-cli
+
+      # K8s development tools
       ctlptl
+      tilt
+      kind
+
+
       coreutils
       coreutils-prefixed
       cue
@@ -76,9 +82,13 @@
       mosh
       neofetch
       nmap
-      unstablePkgs.qmk
-      nodejs_20
+
+      # Node and friends
+      nodejs_22
+      yarn-berry
+
       # qmk
+      unstablePkgs.qmk
       ripgrep
       redis
       stern
