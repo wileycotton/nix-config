@@ -24,6 +24,7 @@
       EULA = "TRUE";
       GAMEMODE = "survival";
       TICK_DISTANCE = "8";
+      VERSION = "latest";
     };
     volumes = [
       "/mnt/docker_volumes/bds:/data:rw"
