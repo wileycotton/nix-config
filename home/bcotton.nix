@@ -90,12 +90,12 @@ in {
 
       core = {
         whitespace = "trailing-space,space-before-tab";
-        pager = "diffnav";
+        # pager = "difftastic";
       };
-      interactive.diffFilter = "diffnav";
+      # interactive.diffFilter = "difft";
       merge.conflictstyle = "diff3";
       diff = {
-        tool = "diffnav";
+        # tool = "difftastic";
         colorMoved = "default";
       };
       # difftool."difftastic".cmd = "difft $LOCAL $REMOTE";
@@ -108,22 +108,22 @@ in {
     includes = [
       {path = "${pkgs.delta}/share/themes.gitconfig";}
     ];
-    # delta = {
-    #   enable = true;
-    #   options = {
-    #     # decorations = {
-    #     #   commit-decoration-style = "bold yellow box ul";
-    #     #   file-decoration-style = "none";
-    #     #   file-style = "bold yellow ul";
-    #     # };
-    #     # features = "mellow-barbet";
-    #     features = "collared-trogon";
-    #     # whitespace-error-style = "22 reverse";
-    #     navigate = true;
-    #     light = false;
-    #     side-by-side = true;
-    #   };
-    # };
+    delta = {
+      enable = true;
+      options = {
+        # decorations = {
+        #   commit-decoration-style = "bold yellow box ul";
+        #   file-decoration-style = "none";
+        #   file-style = "bold yellow ul";
+        # };
+        # features = "mellow-barbet";
+        features = "collared-trogon";
+        # whitespace-error-style = "22 reverse";
+        navigate = true;
+        light = false;
+        side-by-side = true;
+      };
+    };
   };
 
   programs.htop = {

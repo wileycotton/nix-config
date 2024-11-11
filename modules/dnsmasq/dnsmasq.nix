@@ -10,6 +10,8 @@
   };
 in {
   config = {
+
+    services.prometheus.exporters.dnsmasq.enable = true;
     services.dnsmasq = {
       enable = true;
       settings.addn-hosts = [hostsFile "${./clubcotton.list}"];

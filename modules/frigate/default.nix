@@ -5,6 +5,20 @@
   lib,
   ...
 }: let
+
+  go2rtcExporter = pkgs.python3Packages.buildPythonApplication {
+    pname = "go2rtc-exporter";
+    version = "1.0.0";
+    src = pkgs.fetchFromGitHub {
+      owner = "mateuszdrab";
+      repo = "go2rtc-exporter";
+      rev = "v1.0.0";
+      sha256 = "";
+    };
+    propagatedBuildInputs = [ pkgs.python3Packages.requests pkgs.python3Packages.prometheus_client pkgs.python3Packages.flask];
+  };
+
+
   libedgetpu = pkgs.callPackage ../../pkgs/libedgetpu {};
   setApexPermissionsScript = pkgs.writeShellScript "set-apex-permissions" ''
     chown frigate:frigate /dev/apex_0
