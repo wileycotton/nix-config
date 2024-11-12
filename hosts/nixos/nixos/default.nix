@@ -15,6 +15,9 @@
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.device = "nodev"; # or "nodev" for efi only
+  #boot.loader.grub.device = "/dev/disk/by-label/nixos"; # or "nodev" for efi only
+
 
   networking = {
     hostName = "nixos";
