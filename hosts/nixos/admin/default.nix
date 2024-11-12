@@ -104,21 +104,6 @@
   # Setup for docker
   virtualisation.docker.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.bcotton = {
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    extraGroups = ["wheel" "docker" "audio"]; # Enable ‘sudo’ for the user.
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
-    ];
-    packages = with pkgs; [
-      tree
-      tmux
-      git
-    ];
-  };
-
   age.secrets."pushover-key" = {
     file = ../../../secrets/pushover-key.age;
     owner = "alertmanager";

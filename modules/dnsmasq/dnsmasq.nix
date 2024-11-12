@@ -10,7 +10,6 @@
   };
 in {
   config = {
-
     services.prometheus.exporters.dnsmasq.enable = true;
     services.dnsmasq = {
       enable = true;

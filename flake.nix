@@ -44,7 +44,7 @@
       };
 
     # creates a nixos system config
-    nixosSystem = system: hostName: username: let
+    nixosSystem = system: hostName: usernames: let
       pkgs = genPkgs system;
       nixinateConfig = {
         host = hostName;
@@ -57,44 +57,50 @@
       {
         inherit system;
         specialArgs = {inherit self system inputs;};
-        modules = [
-          # adds unstable to be available in top-level evals (like in common-packages)
-          {
-            _module.args = {
-              unstablePkgs = unstablePkgs;
-              system = system;
-              inputs = inputs;
-              nixinate = nixinateConfig;
-            };
-          }
+        modules =
+          [
+            # adds unstable to be available in top-level evals (like in common-packages)
+            {
+              _module.args = {
+                unstablePkgs = unstablePkgs;
+                system = system;
+                inputs = inputs;
+                nixinate = nixinateConfig;
+              };
+            }
 
-          # To repl the flake
-          # > nix repl
-          # > :lf .
-          # > e.g. admin.[tab]
-          # add the following inline module definition
-          #   here, all parameters of modules are passed to overlays
-          # (args: { nixpkgs.overlays = import ./overlays args; })
-          ## or
-          ./overlays.nix
+            # To repl the flake
+            # > nix repl
+            # > :lf .
+            # > e.g. admin.[tab]
+            # add the following inline module definition
+            #   here, all parameters of modules are passed to overlays
+            # (args: { nixpkgs.overlays = import ./overlays args; })
+            ## or
+            ./overlays.nix
 
-          disko.nixosModules.disko
-          ./hosts/nixos/${hostName} # ip address, host specific stuff
-          vscode-server.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            networking.hostName = hostName;
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.${username} = {
-              imports = [./home/${username}.nix];
-            };
-            home-manager.extraSpecialArgs = {inherit unstablePkgs; };
-          }
-          ./hosts/common/common-packages.nix
-          ./hosts/common/nixos-common.nix
-          agenix.nixosModules.default
-        ];
+            disko.nixosModules.disko
+            ./hosts/nixos/${hostName} # ip address, host specific stuff
+            vscode-server.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              networking.hostName = hostName;
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users = builtins.listToAttrs (map (username: {
+                  name = username;
+                  value = {
+                    imports = [./home/${username}.nix];
+                  };
+                })
+                usernames);
+              home-manager.extraSpecialArgs = {inherit unstablePkgs;};
+            }
+            ./hosts/common/common-packages.nix
+            ./hosts/common/nixos-common.nix
+            agenix.nixosModules.default
+          ]
+          ++ (map (username: ./users/${username}.nix) usernames);
       };
 
     # creates a macos system config
@@ -125,7 +131,7 @@
             home-manager.users.${username} = {
               imports = [./home/${username}.nix];
             };
-            home-manager.extraSpecialArgs = {inherit unstablePkgs; };
+            home-manager.extraSpecialArgs = {inherit unstablePkgs;};
           }
           ./hosts/common/common-packages.nix
           ./hosts/common/darwin-common.nix
@@ -142,14 +148,14 @@
     };
 
     nixosConfigurations = {
-      admin = nixosSystem "x86_64-linux" "admin" "bcotton";
-      nix-01 = nixosSystem "x86_64-linux" "nix-01" "bcotton";
-      nix-02 = nixosSystem "x86_64-linux" "nix-02" "bcotton";
-      nix-03 = nixosSystem "x86_64-linux" "nix-03" "bcotton";
-      dns-01 = nixosSystem "x86_64-linux" "dns-01" "bcotton";
-      octoprint = nixosSystem "x86_64-linux" "octoprint" "bcotton";
-      frigate-host = nixosSystem "x86_64-linux" "frigate-host" "bcotton";
-      nixos = nixosSystem "x86_64-linux" "nixos" "tomcotton";
+      admin = nixosSystem "x86_64-linux" "admin" ["bcotton"];
+      nix-01 = nixosSystem "x86_64-linux" "nix-01" ["bcotton" "tomcotton"];
+      nix-02 = nixosSystem "x86_64-linux" "nix-02" ["bcotton" "tomcotton"];
+      nix-03 = nixosSystem "x86_64-linux" "nix-03" ["bcotton" "tomcotton"];
+      dns-01 = nixosSystem "x86_64-linux" "dns-01" ["bcotton"];
+      octoprint = nixosSystem "x86_64-linux" "octoprint" ["bcotton" "tomcotton"];
+      frigate-host = nixosSystem "x86_64-linux" "frigate-host" ["bcotton"];
+      nixos = nixosSystem "x86_64-linux" "nixos" ["tomcotton"];
     };
   };
 }

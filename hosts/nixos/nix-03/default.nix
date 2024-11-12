@@ -80,27 +80,10 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
   programs.zsh.enable = true;
-
-  users.users.bcotton = {
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    extraGroups = ["wheel" "docker"]; # Enable ‘sudo’ for the user.
-    hashedPassword = "$6$G9latKdzvUGuwcba$/8qQObrrQdMYIpQMXV4.04Zn1zhvZmtATFM5iSrmWgL9jybIkh7B1sHMhr2l/6jDhXz80OjAWQuFFsdQUTQyp.";
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
-    ];
-    packages = with pkgs; [
-      tree
-      tmux
-      git
-    ];
-  };
 
   users.users.root = {
     openssh.authorizedKeys.keys = [
@@ -109,7 +92,7 @@
   };
 
   # An attemp at a headless x server
-  services.x2goserver.enable  = true;
+  services.x2goserver.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # users.users.alice = {
