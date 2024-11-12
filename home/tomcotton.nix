@@ -136,7 +136,7 @@ in {
     keyMode = "vi";
     clock24 = true;
     mouse = true;
-    prefix = "C-Space";
+    prefix = "C-b";
     historyLimit = 20000;
     baseIndex = 1;
     aggressiveResize = true;
@@ -264,21 +264,18 @@ in {
       dl = "$HOME/Downloads";
     };
 
-    envExtra = ''
+    # Environment variables 
+    envExtra = '' 
       export DFT_DISPLAY=side-by-side
       export XDG_CONFIG_HOME="$HOME/.config"
       export LESS="-iMSx4 -FXR"
       export PAGER=less
-      export EDITOR=vim
-      export FULLNAME='Bob Cotton'
-      export EMAIL=bob.cotton@gmail.com
+      export EDITOR=nano
+      export FULLNAME='Tom Cotton'
+      export EMAIL=thomaswileycotton@gmail.com
       export GOPATH=$HOME/go
-      export PATH=$GOPATH/bin:/opt/homebrew/share/google-cloud-sdk/bin:~/projects/deployment_tools/scripts/gcom:~/projects/grafana-app-sdk/target:$PATH
-      export OKTA_MFA_OPTION=1
+      export PATH=$GOPATH/bin:$PATH
 
-      export GOPRIVATE="github.com/grafana/*"
-      export QMK_HOME=~/projects/qmk_firmware
-      #export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
       export EXA_COLORS="da=1;35"
       export BAT_THEME="Visual Studio Dark+"
       export TMPDIR=/tmp/
@@ -288,16 +285,7 @@ in {
 
       export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-      if [ -e "/var/run/user/1000/podman/podman.sock" ]; then
-         export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
-         export DOCKER_BUILDKIT=0
-      fi
-
-      [ -e ~/.config/sensitive/.zshenv ] && \. ~/.config/sensitive/.zshenv
+      [ -e ~/.config/sensitive/.zshenv ] && \. ~/.config/sensitive/.zshenv   # Manual env variables not to be checked in
     '';
 
     oh-my-zsh = {
@@ -335,16 +323,12 @@ in {
       batly = "bat -l yaml";
       batmd = "bat -l md";
       dir = "exa -l --icons --no-user --group-directories-first  --time-style long-iso --color=always";
-      k = "kubectl";
-      kctx = "kubectx";
-      kns = "kubens";
       ltr = "ll -snew";
-      tf = "terraform";
       tree = "exa -Tl --color=always";
       # watch = "watch --color "; # Note the trailing space for alias expansion https://unix.stackexchange.com/questions/25327/watch-command-alias-expansion
       watch = "viddy ";
       # Automatically run `go test` for a package when files change.
-      autotest = "watchexec -c clear -o do-nothing --delay-run 100ms --exts go 'pkg=\".\${WATCHEXEC_COMMON_PATH/\$PWD/}/...\"; echo \"running tests for \$pkg\"; go test \"\$pkg\"'";
+      py3 = "python3";
     };
 
     initExtra = ''
@@ -354,7 +338,6 @@ in {
       if [[ `uname` == "Darwin" ]]; then
         add-zsh-hook chpwd tmux-window-name
       fi
-      source <(kubectl completion zsh)
 
       bindkey -e
       bindkey '^[[A' up-history
@@ -395,6 +378,10 @@ in {
   };
 
   home.packages = with pkgs; [
+    ffmpeg
+    kubernetes-helm
+    kubectx
+    kubectl
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform

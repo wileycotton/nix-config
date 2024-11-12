@@ -73,9 +73,6 @@
       just
       jq
       killall
-      kubernetes-helm
-      kubectx
-      kubectl
       lazydocker
       lazygit
       lsof

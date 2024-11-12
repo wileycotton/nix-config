@@ -395,6 +395,9 @@ in {
   };
 
   home.packages = with pkgs; [
+    kubernetes-helm
+    kubectx
+    kubectl
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform
