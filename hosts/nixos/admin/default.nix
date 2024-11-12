@@ -20,6 +20,7 @@
     ../../../modules/prometheus
     ../../../modules/unpoller
     ../../../modules/grafana
+    ../../../modules/grafana-alloy
   ];
 
   boot.loader.systemd-boot.enable = true;
