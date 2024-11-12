@@ -16,7 +16,6 @@
 
       unstablePkgs.diffnav
 
-
       ## stable
       #  asciinema
       bat
@@ -32,7 +31,6 @@
       ctlptl
       tilt
       kind
-
 
       coreutils
       coreutils-prefixed

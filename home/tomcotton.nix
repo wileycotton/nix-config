@@ -264,8 +264,8 @@ in {
       dl = "$HOME/Downloads";
     };
 
-    # Environment variables 
-    envExtra = '' 
+    # Environment variables
+    envExtra = ''
       export DFT_DISPLAY=side-by-side
       export XDG_CONFIG_HOME="$HOME/.config"
       export LESS="-iMSx4 -FXR"
