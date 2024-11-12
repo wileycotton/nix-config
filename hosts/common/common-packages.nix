@@ -14,6 +14,9 @@
       unstablePkgs.get_iplayer
       unstablePkgs.monaspace
 
+      unstablePkgs.diffnav
+
+
       ## stable
       #  asciinema
       bat

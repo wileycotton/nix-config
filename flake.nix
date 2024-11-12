@@ -2,7 +2,7 @@
   inputs = {
     agenix.url = "github:ryantm/agenix";
     nixinate.url = "github:matthewcroughan/nixinate";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
 
@@ -51,6 +51,7 @@
         sshUser = "root";
         buildOn = "remote";
       };
+      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     in
       nixpkgs.lib.nixosSystem
       {
@@ -60,7 +61,7 @@
           # adds unstable to be available in top-level evals (like in common-packages)
           {
             _module.args = {
-              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+              unstablePkgs = unstablePkgs;
               system = system;
               inputs = inputs;
               nixinate = nixinateConfig;
@@ -85,7 +86,10 @@
             networking.hostName = hostName;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${username} = {imports = [./home/${username}.nix];};
+            home-manager.users.${username} = {
+              imports = [./home/${username}.nix];
+            };
+            home-manager.extraSpecialArgs = {inherit unstablePkgs; };
           }
           ./hosts/common/common-packages.nix
           ./hosts/common/nixos-common.nix
@@ -96,6 +100,7 @@
     # creates a macos system config
     darwinSystem = system: hostName: username: let
       pkgs = genDarwinPkgs system;
+      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     in
       nix-darwin.lib.darwinSystem
       {
@@ -117,7 +122,10 @@
             networking.hostName = hostName;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${username} = {imports = [./home/${username}.nix];};
+            home-manager.users.${username} = {
+              imports = [./home/${username}.nix];
+            };
+            home-manager.extraSpecialArgs = {inherit unstablePkgs; };
           }
           ./hosts/common/common-packages.nix
           ./hosts/common/darwin-common.nix
@@ -141,6 +149,7 @@
       dns-01 = nixosSystem "x86_64-linux" "dns-01" "bcotton";
       octoprint = nixosSystem "x86_64-linux" "octoprint" "bcotton";
       frigate-host = nixosSystem "x86_64-linux" "frigate-host" "bcotton";
+      nixos = nixosSystem "x86_64-linux" "nixos" "tomcotton";
     };
   };
 }

@@ -10,46 +10,24 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../../modules/node-exporter
-    ../../../modules/nfs
-    # ../../../modules/frigate
   ];
+
+  # Use the systemd-boot EFI boot loader.
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.device = "nodev"; # or "nodev" for efi only
+  #boot.loader.grub.device = "/dev/disk/by-label/nixos"; # or "nodev" for efi only
+
+
+  networking = {
+    hostName = "nixos";
+  };
 
   services.tailscale.enable = true;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking = {
-    hostName = "nix-03";
-    defaultGateway = "192.168.5.1";
-    nameservers = ["192.168.5.220"];
-    interfaces.enp3s0.ipv4.addresses = [
-      {
-        address = "192.168.5.214";
-        prefixLength = 24;
-      }
-    ];
-    interfaces.enp2s0.ipv4.addresses = [
-      {
-        address = "192.168.5.215";
-        prefixLength = 24;
-      }
-    ];
-  };
-
-  age.secrets."tailscale-keys.env" = {
-    file = ../../../secrets/tailscale-keys.env;
-  };
-
-  age.secrets."mqtt" = {
-    file = ../../../secrets/mqtt.age;
-  };
-
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this bzy default.
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -69,47 +47,40 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
   programs.zsh.enable = true;
 
-  users.users.bcotton = {
+  users.users.tomcotton = {
     shell = pkgs.zsh;
     isNormalUser = true;
     extraGroups = ["wheel" "docker"]; # Enable ‘sudo’ for the user.
-    hashedPassword = "$6$G9latKdzvUGuwcba$/8qQObrrQdMYIpQMXV4.04Zn1zhvZmtATFM5iSrmWgL9jybIkh7B1sHMhr2l/6jDhXz80OjAWQuFFsdQUTQyp.";
+    hashedPassword = "$6$icZo8IyqPlu1YOgc$aRlFcb7dxOOmOebE/hYdLXWPEboyEm5sfBBJZopuRfD1Hu7MQYw0eQokQecb0n5HUgaGXRWMrs2TUqcZMIzC71";
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbIFTdml6HkOUMHN7krdP3eIYSPQN6oOGKVu8aA8IVW tomcotton@Toms-MBP.lan"
     ];
     packages = with pkgs; [
       tree
       tmux
       git
+      firefox
     ];
   };
 
   users.users.root = {
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbIFTdml6HkOUMHN7krdP3eIYSPQN6oOGKVu8aA8IVW tomcotton@Toms-MBP.lan"
     ];
   };
-
-  # An attemp at a headless x server
-  services.x2goserver.enable  = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # users.users.alice = {
@@ -168,5 +139,5 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
