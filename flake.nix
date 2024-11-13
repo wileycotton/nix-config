@@ -15,6 +15,8 @@
 
     nix-darwin.url = "github:lnl7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-shell.url = "github:Mic92/nixos-shell";
   };
 
   outputs = inputs @ {
@@ -24,13 +26,14 @@
     nixpkgs,
     nixpkgs-unstable,
     nixpkgs-darwin,
+    nixos-shell,
     home-manager,
     nix-darwin,
     vscode-server,
     disko,
     ...
   }: let
-    inputs = {inherit agenix nixinate nix-darwin home-manager nixpkgs nixpkgs-unstable;};
+    inputs = {inherit agenix nixinate nixos-shell nix-darwin home-manager nixpkgs nixpkgs-unstable;};
 
     # creates correct package sets for specified arch
     genPkgs = system:
@@ -156,7 +159,7 @@
       dns-01 = nixosSystem "x86_64-linux" "dns-01" ["bcotton"];
       octoprint = nixosSystem "x86_64-linux" "octoprint" ["bcotton" "tomcotton"];
       frigate-host = nixosSystem "x86_64-linux" "frigate-host" ["bcotton"];
-      nixos = nixosSystem "x86_64-linux" "nixos" ["tomcotton"];
+      nixos = nixosSystem "x86_64-linux" "nixos" ["bcotton" "tomcotton"];
     };
   };
 }
