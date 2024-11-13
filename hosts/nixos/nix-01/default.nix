@@ -123,6 +123,8 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
+  virtualisation.libvirtd.enable = true;
+
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.

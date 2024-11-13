@@ -31,7 +31,9 @@ in {
     intel-media-driver
     jellyfin-ffmpeg
     hddtemp
+    unstablePkgs.nixos-shell
     synergy
+    qemu
     quickemu
   ];
 
