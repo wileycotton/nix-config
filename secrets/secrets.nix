@@ -21,4 +21,5 @@ in {
   "wireless-config.age".publicKeys = users ++ systems;
   "mqtt.age".publicKeys = users ++ systems;
   "unpoller.age".publicKeys = users ++ systems;
+  "grafana-cloud.age".publicKeys = users ++ systems;
 }

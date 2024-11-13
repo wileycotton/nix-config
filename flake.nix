@@ -31,6 +31,7 @@
     ...
   }: let
     inputs = {inherit agenix nixinate nix-darwin home-manager nixpkgs nixpkgs-unstable;};
+
     # creates correct package sets for specified arch
     genPkgs = system:
       import nixpkgs {

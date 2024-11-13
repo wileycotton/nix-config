@@ -20,6 +20,7 @@
     ../../../modules/prometheus
     ../../../modules/unpoller
     ../../../modules/grafana
+    ../../../modules/grafana-alloy
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -128,6 +129,9 @@
     file = ../../../secrets/unpoller.age;
     owner = "unifi-poller";
     group = "unifi-poller";
+  };
+  age.secrets."grafana-cloud" = {
+    file = ../../../secrets/grafana-cloud.age;
   };
 
   programs.zsh.enable = true;
