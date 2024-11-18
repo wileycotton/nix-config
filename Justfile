@@ -47,6 +47,9 @@ nix-all:
 fmt:
   nix fmt
 
+vm:
+  nix run '.#nixosConfigurations.nixos.config.system.build.nixos-shell'
+
 
 
 # Garbage collect old OS generations and remove stale packages from the nix store

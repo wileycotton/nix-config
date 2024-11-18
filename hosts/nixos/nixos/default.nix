@@ -5,11 +5,14 @@
   config,
   pkgs,
   unstablePkgs,
+  inputs,
+  lib,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    inputs.nixos-shell.nixosModules.nixos-shell
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -23,6 +26,24 @@
   };
 
   services.tailscale.enable = true;
+
+  virtualisation = {
+    forwardPorts = [
+      {
+        from = "host";
+        host.port = 2222;
+        guest.port = 22;
+      }
+    ];
+    # libvirtd.enable = true;
+  };
+  services.getty.autologinUser = lib.mkDefault null;
+
+   nixos-shell.mounts = {
+    mountHome = false;
+    mountNixProfile = false;
+    cache = "none"; # default is "loose"
+  };
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
