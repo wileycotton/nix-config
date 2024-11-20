@@ -36,7 +36,7 @@
       }
     ];
     # libvirtd.enable = true;
-    memorySize = 1024;
+    memorySize = 8196;
   };
   services.getty.autologinUser = lib.mkDefault null;
 
