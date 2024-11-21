@@ -160,6 +160,7 @@
       octoprint = nixosSystem "x86_64-linux" "octoprint" ["bcotton" "tomcotton"];
       frigate-host = nixosSystem "x86_64-linux" "frigate-host" ["bcotton"];
       nixos = nixosSystem "x86_64-linux" "nixos" ["bcotton" "tomcotton"];
+      nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
     };
   };
 }
