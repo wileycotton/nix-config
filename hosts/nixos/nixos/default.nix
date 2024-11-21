@@ -19,7 +19,7 @@
   #boot.loader.grub.device = "/dev/disk/by-label/nixos"; # or "nodev" for efi only
 
   networking = {
-    hostName = "nixos";
+    hostName = "nixbox";
   };
 
   services.tailscale.enable = true;
