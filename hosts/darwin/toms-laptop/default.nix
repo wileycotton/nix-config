@@ -178,7 +178,7 @@ in {
         _FXSortFoldersFirst = true;
         # When performing a search, search the current folder by default
         FXDefaultSearchScope = "SCcf";
-        DisableAllAnimations = true;
+        DisableAllAnimations = false;
         NewWindowTarget = "PfDe";
         NewWindowTargetPath = "file://$\{HOME\}/Desktop/";
         AppleShowAllExtensions = true;
@@ -198,7 +198,7 @@ in {
         static-only = false;
         show-recents = false;
         show-process-indicators = true;
-        orientation = "right";
+        orientation = "bottom";
         tilesize = 36;
         minimize-to-application = true;
         mineffect = "scale";
