@@ -149,6 +149,7 @@
 
     darwinConfigurations = {
       bobs-laptop = darwinSystem "aarch64-darwin" "bobs-laptop" "bcotton";
+      toms-laptop = darwinSystem "x86_64-darwin" "toms-laptop" "tomcotton";
     };
 
     nixosConfigurations = {
