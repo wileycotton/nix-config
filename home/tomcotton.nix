@@ -31,18 +31,18 @@
         sha256 = "sha256-RXoJ5jR3PLiu+iymsAI42PrdvZ8k83lDJGA7MQMpvPY=";
       };
     };
-  tmux-nested =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-nested";
-      version = "target-style-config";
-      src = pkgs.fetchFromGitHub {
-        owner = "bcotton";
-        repo = "tmux-nested";
-        rev = "2878b1d05569a8e41c506e74756ddfac7b0ffebe";
-        sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
-      };
-    };
+  # tmux-nested =
+  #   pkgs.tmuxPlugins.mkTmuxPlugin
+  #   {
+  #     pluginName = "tmux-nested";
+  #     version = "target-style-config";
+  #     src = pkgs.fetchFromGitHub {
+  #       owner = "bcotton";
+  #       repo = "tmux-nested";
+  #       rev = "2878b1d05569a8e41c506e74756ddfac7b0ffebe";
+  #       sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
+  #     };
+  #   };
   nixVsCodeServer = fetchTarball {
     url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
     sha256 = "sha256:09j4kvsxw1d5dvnhbsgih0icbrxqv90nzf0b589rb5z6gnzwjnqf";
@@ -66,25 +66,25 @@ in {
 
   programs.git = {
     enable = true;
-    userEmail = "bob.cotton@gmail.com";
-    userName = "Bob Cotton";
+    userEmail = "thomaswileycotton@gmail.com";
+    userName = "wileycotton";
     extraConfig = {
       alias = {
-        br = "branch";
-        co = "checkout";
-        ci = "commit";
-        d = "diff";
-        dc = "diff --cached";
-        st = "status";
-        la = "config --get-regexp alias";
+        # br = "branch";
+        # co = "checkout";
+        # ci = "commit";
+        # d = "diff";
+        # dc = "diff --cached";
+        gs = "status";
+        # la = "config --get-regexp alias";
         lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit";
         lga = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all";
       };
-      url = {
-        "ssh://git@github.com/" = {
-          insteadOf = "https://github.com/";
-        };
-      };
+      # url = {
+      #  "ssh://git@github.com/" = {
+      #    insteadOf = "https://github.com/";
+      #  };
+      # };
       init.defaultBranch = "main";
       pager.difftool = true;
 
@@ -100,30 +100,30 @@ in {
       };
       # difftool."difftastic".cmd = "difft $LOCAL $REMOTE";
     };
-    difftastic = {
-      enable = false;
-      background = "dark";
-      display = "side-by-side";
-    };
+    # difftastic = {
+    #   enable = false;
+    #   background = "dark";
+    #   display = "side-by-side";
+    # };
     includes = [
       {path = "${pkgs.delta}/share/themes.gitconfig";}
     ];
-    delta = {
-      enable = true;
-      options = {
-        # decorations = {
-        #   commit-decoration-style = "bold yellow box ul";
-        #   file-decoration-style = "none";
-        #   file-style = "bold yellow ul";
-        # };
-        # features = "mellow-barbet";
-        features = "collared-trogon";
-        # whitespace-error-style = "22 reverse";
-        navigate = true;
-        light = false;
-        side-by-side = true;
-      };
-    };
+    # delta = {
+    #   enable = true;
+    #   options = {
+    #     # decorations = {
+    #     #   commit-decoration-style = "bold yellow box ul";
+    #     #   file-decoration-style = "none";
+    #     #   file-style = "bold yellow ul";
+    #     # };
+    #     # features = "mellow-barbet";
+    #     features = "collared-trogon";
+    #     # whitespace-error-style = "22 reverse";
+    #     navigate = true;
+    #     light = false;
+    #     side-by-side = true;
+    #   };
+    # };
   };
 
   programs.htop = {
@@ -133,7 +133,7 @@ in {
 
   programs.tmux = {
     enable = true;
-    keyMode = "vi";
+    keyMode = "vi"; # Seems fine? May mess with keybindings
     clock24 = true;
     mouse = true;
     prefix = "C-b";
@@ -379,6 +379,9 @@ in {
 
   home.packages = with pkgs; [
     ffmpeg
+    rsync
+    rhash
+    restic
     kubernetes-helm
     kubectx
     kubectl
