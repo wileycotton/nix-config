@@ -9,19 +9,19 @@
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in {
   config = {
-    users.users.bcotton.home = "/Users/bcotton";
+    users.users.tomcotton.home = "/Users/tomcotton";
 
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.overlays = [
-      (final: prev:
-        lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
-          # Add access to x86 packages system is running Apple Silicon
-          pkgs-x86 = import nixpkgs {
-            system = "x86_64-darwin";
-            config.allowUnfree = true;
-          };
-        })
-    ];
+    #nixpkgs.config.overlays = [
+    #  (final: prev:
+    #    lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+    #      # Add access to x86 packages system is running Apple Silicon
+    #      pkgs-x86 = import nixpkgs {
+    #        system = "x86_64-darwin";
+    #        config.allowUnfree = true;
+    #      };
+    #    })
+    #];
 
     # Keyboard
     system.keyboard.enableKeyMapping = true;
@@ -54,58 +54,58 @@ in {
         # "helm"
         # "flyctl"
         #"azure-cli"
-        "npm"
-        "node"
+        # "npm"
+        # "node"
         "tailscale"
       ];
       casks = [
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
-        "1password-cli"
-        "1password"
+        # "1password-cli"
+        # "1password"
         "alfred"
-        "amethyst"
-        "balenaetcher"
-        "bartender"
+        # "amethyst"
+        # "balenaetcher"
+        # "bartender"
         #      "bambu-studio"
         #"canon-eos-utility" #old version and v3 not in repo
         "discord"
         "docker"
-        "dropbox"
-        "element"
+        # "dropbox"
+        # "element"
         #      "firefox"
-        "google-chrome"
-        "google-cloud-sdk"
+        # "google-chrome"
+        # "google-cloud-sdk"
         "istat-menus"
         "iterm2"
         #"lingon-x"
-        "little-snitch"
+        # "little-snitch"
         #      "logitech-options"
-        "macwhisper"
-        "monitorcontrol"
-        "mqtt-explorer"
+        # "macwhisper"
+        # "monitorcontrol"
+        # "mqtt-explorer"
         #      "nextcloud"
         #      "notion"
         #      "obs"
         "obsidian"
-        "omnidisksweeper"
+        # "omnidisksweeper"
         "openscad"
-        "orbstack"
+        # "orbstack"
         #      "plexamp"
-        "prusaslicer"
-        "rectangle"
-        "signal"
-        "slack"
+        # "prusaslicer"
+        # "rectangle"
+        # "signal"
+        # "slack"
         "spotify"
-        "telegram"
-        "swinsian"
+        # "telegram"
+        # "swinsian"
         #      "steam"
         #      "thunderbird"
         #      "viscosity"
         "visual-studio-code"
         "vlc"
-        "wireshark"
+        # "wireshark"
         "zoom"
         #      "yubico-yubikey-manager"
 
