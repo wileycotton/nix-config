@@ -6,7 +6,7 @@
   ...
 }: {
   config = {
-        # These are packages are just for darwin systems
+    # These are packages are just for darwin systems
     environment.systemPackages = [
       pkgs.kind
       unstablePkgs.esphome
