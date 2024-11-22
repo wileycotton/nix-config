@@ -31,18 +31,18 @@
         sha256 = "sha256-RXoJ5jR3PLiu+iymsAI42PrdvZ8k83lDJGA7MQMpvPY=";
       };
     };
-  # tmux-nested =
-  #   pkgs.tmuxPlugins.mkTmuxPlugin
-  #   {
-  #     pluginName = "tmux-nested";
-  #     version = "target-style-config";
-  #     src = pkgs.fetchFromGitHub {
-  #       owner = "bcotton";
-  #       repo = "tmux-nested";
-  #       rev = "2878b1d05569a8e41c506e74756ddfac7b0ffebe";
-  #       sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
-  #     };
-  #   };
+  tmux-nested =
+    pkgs.tmuxPlugins.mkTmuxPlugin
+    {
+      pluginName = "tmux-nested";
+      version = "target-style-config";
+      src = pkgs.fetchFromGitHub {
+        owner = "bcotton";
+        repo = "tmux-nested";
+        rev = "2878b1d05569a8e41c506e74756ddfac7b0ffebe";
+        sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
+      };
+    };
   nixVsCodeServer = fetchTarball {
     url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
     sha256 = "sha256:09j4kvsxw1d5dvnhbsgih0icbrxqv90nzf0b589rb5z6gnzwjnqf";
