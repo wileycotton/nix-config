@@ -5,6 +5,7 @@
   inputs,
   ...
 }: {
+    config = {
       system.stateVersion = 5;
 
     nix = {

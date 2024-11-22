@@ -118,7 +118,7 @@
         python-pkgs.libtmux
         python-pkgs.requests
         python-pkgs.pytest
-        python-pkgs.pyserial 
+        python-pkgs.pyserial
       ]))
     ];
   };

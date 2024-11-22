@@ -11,7 +11,6 @@ in {
   config = {
     users.users.tomcotton.home = "/Users/tomcotton";
 
-  config = {
     # These are packages are just for darwin systems
     environment.systemPackages = [
       pkgs.kind
