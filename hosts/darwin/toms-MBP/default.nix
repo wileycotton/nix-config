@@ -15,7 +15,7 @@ in {
     environment.systemPackages = [
       pkgs.kind
       # unstablePkgs.esphome
-  ];
+    ];
 
     nixpkgs.config.allowUnfree = true;
     #nixpkgs.config.overlays = [

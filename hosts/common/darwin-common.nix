@@ -5,8 +5,8 @@
   inputs,
   ...
 }: {
-    config = {
-      system.stateVersion = 5;
+  config = {
+    system.stateVersion = 5;
 
     nix = {
       #package = lib.mkDefault pkgs.unstable.nix;
