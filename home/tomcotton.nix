@@ -80,11 +80,11 @@ in {
         lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit";
         lga = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all";
       };
-      # url = {
-      #  "ssh://git@github.com/" = {
-      #    insteadOf = "https://github.com/";
-      #  };
-      # };
+      url = {
+       "ssh://git@github.com/" = {
+         insteadOf = "https://github.com/";
+       };
+      };
       init.defaultBranch = "main";
       pager.difftool = true;
 
