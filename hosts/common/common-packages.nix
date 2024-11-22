@@ -49,7 +49,7 @@
       dua
       duf
       entr # Modern Unix `watch`
-      esptool
+      # esptool # may need moving to certain nix boxes
       eza
       #  ffmpeg
       #  fira-code
@@ -118,7 +118,7 @@
         python-pkgs.libtmux
         python-pkgs.requests
         python-pkgs.pytest
-        python-pkgs.pyserial
+        python-pkgs.pyserial 
       ]))
     ];
   };
