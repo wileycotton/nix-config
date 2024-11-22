@@ -260,7 +260,7 @@ in {
 
     dirHashes = {
       docs = "$HOME/Documents";
-      proj = "$HOME/projects";
+      vdocs = "/Volumes/Files_Tom/Documents";
       dl = "$HOME/Downloads";
     };
 
@@ -271,7 +271,7 @@ in {
       export LESS="-iMSx4 -FXR"
       export PAGER=less
       export EDITOR=nano
-      export FULLNAME='Tom Cotton'
+      export FULLNAME='Thomas Wiley Cotton'
       export EMAIL=thomaswileycotton@gmail.com
       export GOPATH=$HOME/go
       export PATH=$GOPATH/bin:$PATH
