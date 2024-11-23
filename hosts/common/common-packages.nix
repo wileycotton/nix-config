@@ -81,9 +81,9 @@
       neofetch
       nmap
 
-      # Node and friends
-      nodejs_22
-      yarn-berry
+      # Node and friends # may need moving
+      # nodejs_22
+      # yarn-berry
 
       # qmk
       unstablePkgs.qmk
