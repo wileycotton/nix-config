@@ -130,7 +130,7 @@
           home-manager.darwinModules.home-manager
           {
             networking.hostName = hostName;
-            home-manager.useGlobalPkgs = true;
+            # UNCOMMENT !! !! home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${username} = {
               imports = [./home/${username}.nix];
