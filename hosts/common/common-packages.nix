@@ -103,7 +103,7 @@
       viddy
       vim
       vscode
-      wezterm
+      # wezterm # may need moving
       yq
       zsh
       zsh-syntax-highlighting
