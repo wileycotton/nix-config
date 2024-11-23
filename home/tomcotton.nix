@@ -430,4 +430,6 @@ in {
     #   wget
     #   wireguard-tools
   ];
+
+  services.kanata.enable
 }
