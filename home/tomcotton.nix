@@ -382,9 +382,9 @@ in {
     rsync
     rhash
     restic
-    kubernetes-helm
-    kubectx
-    kubectl
+    # kubernetes-helm
+    # kubectx
+    # kubectl
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform
@@ -405,7 +405,7 @@ in {
     #   fd
     #   #fzf # programs.fzf
     #   #git # programs.git
-    #   gh
+    gh
     #   go
     #   gnused
     #   #htop # programs.htop

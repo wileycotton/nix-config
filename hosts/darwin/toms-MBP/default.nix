@@ -63,8 +63,15 @@ in {
         # "npm"
         # "node"
         "tailscale"
+        "pandoc"
+        "trash"
+        "youtube-dl"
       ];
       casks = [
+        "hiddenbar"
+        "plugdata"
+        "font-hack-nerd-font"
+        "libreoffice"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
@@ -97,6 +104,7 @@ in {
         "obsidian"
         # "omnidisksweeper"
         "openscad"
+        "nuage"
         # "orbstack"
         #      "plexamp"
         # "prusaslicer"
