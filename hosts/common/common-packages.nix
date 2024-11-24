@@ -49,7 +49,7 @@
       dua
       duf
       entr # Modern Unix `watch`
-      esptool
+      # esptool # remove from common-packages
       eza
       #  ffmpeg
       #  fira-code
@@ -81,9 +81,9 @@
       neofetch
       nmap
 
-      # Node and friends
-      nodejs_22
-      yarn-berry
+      # Node and friends # remove from common-packages
+      # nodejs_22
+      # yarn-berry
 
       # qmk
       unstablePkgs.qmk
@@ -103,7 +103,7 @@
       viddy
       vim
       vscode
-      wezterm
+      # wezterm # may need moving
       yq
       zsh
       zsh-syntax-highlighting

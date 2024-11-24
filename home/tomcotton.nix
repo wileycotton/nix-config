@@ -81,9 +81,9 @@ in {
         lga = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all";
       };
       url = {
-       "ssh://git@github.com/" = {
-         insteadOf = "https://github.com/";
-       };
+        "ssh://git@github.com/" = {
+          insteadOf = "https://github.com/";
+        };
       };
       init.defaultBranch = "main";
       pager.difftool = true;
@@ -236,6 +236,12 @@ in {
     target = ".oh-my-zsh-custom";
   };
 
+  home.file.".config/karabiner" = {
+    enable = true;
+    source = ./tomcotton-karabiner.json;
+    target = ".config/karabiner/karabiner.json";
+  };
+
   xdg = {
     enable = true;
     configFile."containers/registries.conf" = {
@@ -382,9 +388,9 @@ in {
     rsync
     rhash
     restic
-    kubernetes-helm
-    kubectx
-    kubectl
+    # kubernetes-helm
+    # kubectx
+    # kubectl
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform
@@ -405,7 +411,7 @@ in {
     #   fd
     #   #fzf # programs.fzf
     #   #git # programs.git
-    #   gh
+    gh
     #   go
     #   gnused
     #   #htop # programs.htop

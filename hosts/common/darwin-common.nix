@@ -6,12 +6,6 @@
   ...
 }: {
   config = {
-        # These are packages are just for darwin systems
-    environment.systemPackages = [
-      pkgs.kind
-      unstablePkgs.esphome
-    ];
-
     system.stateVersion = 5;
 
     nix = {

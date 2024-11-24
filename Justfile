@@ -8,7 +8,7 @@ hostname := `hostname | cut -d "." -f 1`
 [macos]
 build target_host=hostname flags="":
   @echo "Building nix-darwin config..."
-  nix fmt
+  #nix fmt
   nix --extra-experimental-features 'nix-command flakes'  build ".#darwinConfigurations.{{target_host}}.system" {{flags}}
 
 # Build the nix-darwin config with the --show-trace flag set
@@ -43,9 +43,6 @@ update:
 
 nix-all:
   for i in `(nix flake show --json | jq -r '.nixosConfigurations |keys[]' | grep -v admin ) 2>/dev/null `; do nix run ".#apps.nixinate.$i" ; done
-
-fmt:
-  nix fmt
 
 vm:
   nix run '.#nixosConfigurations.nixos.config.system.build.nixos-shell'
