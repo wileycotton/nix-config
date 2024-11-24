@@ -236,6 +236,12 @@ in {
     target = ".oh-my-zsh-custom";
   };
 
+  home.file.".config/karabiner" = {
+    enable = true;
+    source = ./tomcotton-karabiner.json;
+    target = ".config/karabiner/karabiner.json";
+  };
+
   xdg = {
     enable = true;
     configFile."containers/registries.conf" = {
@@ -382,7 +388,6 @@ in {
     rsync
     rhash
     restic
-    kanata
     # kubernetes-helm
     # kubectx
     # kubectl
@@ -431,19 +436,4 @@ in {
     #   wget
     #   wireguard-tools
   ];
-
-  services.keyd = {
-    enable = true;
-    keyboards = {
-      default = {
-        ids = ["*"];
-        settings = {
-          main = {
-            capslock = "overload(meta, esc)";
-            esc = "overload(esc, capslock)";
-          };
-        };
-      };
-    };
-  };
 }

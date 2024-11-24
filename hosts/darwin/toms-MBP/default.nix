@@ -72,6 +72,7 @@ in {
         "plugdata"
         "font-hack-nerd-font"
         "libreoffice"
+        "karabiner-elements"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
@@ -182,6 +183,7 @@ in {
       NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
       LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
       loginwindow.GuestEnabled = false;
+      hitoolbox.AppleFnUsageType = null;
     };
     system.defaults.CustomUserPreferences = {
       "com.apple.finder" = {
