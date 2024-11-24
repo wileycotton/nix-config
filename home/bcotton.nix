@@ -398,10 +398,6 @@ in {
     kubernetes-helm
     kubectx
     kubectl
-    esptool
-    # Node and friends # remove from common-packages
-    nodejs_22
-    yarn-berry
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform

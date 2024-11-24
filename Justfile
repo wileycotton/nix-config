@@ -40,6 +40,9 @@ switch target_host=hostname:
 update:
   nix flake update
 
+fmt:
+  nix fmt
+
 nix-all:
   for i in `(nix flake show --json | jq -r '.nixosConfigurations |keys[]' | grep -v admin ) 2>/dev/null `; do nix run ".#apps.nixinate.$i" ; done
 

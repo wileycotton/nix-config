@@ -15,6 +15,10 @@ in {
     environment.systemPackages = [
       pkgs.kind
       unstablePkgs.esphome
+      esptool
+      # Node and friends 
+      nodejs_22
+      yarn-berry
     ];
 
     nixpkgs.config.allowUnfree = true;
