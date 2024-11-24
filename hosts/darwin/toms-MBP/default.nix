@@ -30,8 +30,9 @@ in {
     #];
 
     # Keyboard
-    system.keyboard.enableKeyMapping = true;
+    system.keyboard.enableKeyMapping = false;
     system.keyboard.remapCapsLockToEscape = false;
+    system.keyboard.remapCapsLockToControl = false;
 
     # Add ability to used TouchID for sudo authentication
     security.pam.enableSudoTouchIdAuth = true;
