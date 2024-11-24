@@ -49,7 +49,7 @@
       dua
       duf
       entr # Modern Unix `watch`
-      esptool # may need moving to certain nix boxes
+      # esptool # remove from common-packages
       eza
       #  ffmpeg
       #  fira-code
@@ -81,7 +81,7 @@
       neofetch
       nmap
 
-      # Node and friends # may need moving
+      # Node and friends # remove from common-packages
       # nodejs_22
       # yarn-berry
 
