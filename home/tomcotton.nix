@@ -382,6 +382,7 @@ in {
     rsync
     rhash
     restic
+    kanata
     # kubernetes-helm
     # kubectx
     # kubectl
@@ -431,5 +432,18 @@ in {
     #   wireguard-tools
   ];
 
-  services.kanata.enable
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      default = {
+        ids = ["*"];
+        settings = {
+          main = {
+            capslock = "overload(meta, esc)";
+            esc = "overload(esc, capslock)";
+          };
+        };
+      };
+    };
+  };
 }
