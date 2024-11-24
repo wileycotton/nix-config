@@ -216,7 +216,7 @@ in {
         show-recents = false;
         show-process-indicators = true;
         orientation = "bottom";
-        tilesize = 36;
+        tilesize = 50;
         minimize-to-application = true;
         mineffect = "scale";
       };
