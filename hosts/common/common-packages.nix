@@ -49,7 +49,7 @@
       dua
       duf
       entr # Modern Unix `watch`
-      # esptool # may need moving to certain nix boxes
+      esptool # may need moving to certain nix boxes
       eza
       #  ffmpeg
       #  fira-code
