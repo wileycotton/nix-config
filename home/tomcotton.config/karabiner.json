@@ -105,6 +105,17 @@
                                 },
                                 "to": [{ "key_code": "delete_or_backspace" }],
                                 "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "semicolon",
+                                    "modifiers": {
+                                        "mandatory": ["left_control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "delete_forward"}],
+                                "type": "basic"
                             }
                         ]
                     },
