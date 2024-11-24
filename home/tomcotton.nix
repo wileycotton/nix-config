@@ -299,7 +299,8 @@ in {
       enable = true;
       custom = "$HOME/.oh-my-zsh-custom";
 
-      theme = "git-taculous";
+      theme = "wedisagree";
+      # theme = "git-taculous";
       # theme = "agnoster-nix";
 
       extraConfig = ''
