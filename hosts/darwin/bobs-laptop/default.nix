@@ -12,11 +12,11 @@ in {
     users.users.bcotton.home = "/Users/bcotton";
 
     # These are packages are just for darwin systems
-    environment.systemPackages = [
-      pkgs.kind
+    environment.systemPackages = with pkgs; [
+      kind
       unstablePkgs.esphome
       esptool
-      # Node and friends 
+      # Node and friends
       nodejs_22
       yarn-berry
     ];
