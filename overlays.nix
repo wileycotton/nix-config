@@ -56,17 +56,18 @@ in {
     #   };
     # })
 
-    # possible timeout fix for p11
-    (final: prev: {
-      p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-        mesonCheckFlags =
-          oldAttrs.mesonCheckFlags
-          or []
-          ++ [
-            "--timeout-multiplier"
-            "0"
-          ];
-      });
-    })
+    # This is a patch in case a meson test fails due to timeout
+    
+    #(final: prev: {
+    #  p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
+    #    mesonCheckFlags =
+    #      oldAttrs.mesonCheckFlags
+    #      or []
+    #      ++ [
+    #        "--timeout-multiplier"
+    #        "0"
+    #      ];
+    #  });
+    #})
   ];
 }
