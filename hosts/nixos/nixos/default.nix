@@ -40,7 +40,7 @@
   };
   services.getty.autologinUser = lib.mkDefault null;
 
-   nixos-shell.mounts = {
+  nixos-shell.mounts = {
     mountHome = false;
     mountNixProfile = false;
     cache = "none"; # default is "loose"

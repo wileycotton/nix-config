@@ -145,10 +145,12 @@
   in {
     apps = nixinate.nixinate.x86_64-linux self;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    formatter.x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.alejandra;
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
 
     darwinConfigurations = {
       bobs-laptop = darwinSystem "aarch64-darwin" "bobs-laptop" "bcotton";
+      toms-MBP = darwinSystem "x86_64-darwin" "toms-MBP" "tomcotton";
     };
 
     nixosConfigurations = {
