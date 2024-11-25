@@ -299,7 +299,7 @@ in {
       enable = true;
       custom = "$HOME/.oh-my-zsh-custom";
 
-      theme = "wedisagree";
+      theme = "headline";
       # theme = "git-taculous";
       # theme = "agnoster-nix";
 
