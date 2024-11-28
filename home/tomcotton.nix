@@ -238,6 +238,7 @@ in {
 
   home.file.".config/karabiner" = {
     enable = true;
+    force = true;
     source = tomcotton.config/karabiner.json;
     target = ".config/karabiner/karabiner.json";
   };
