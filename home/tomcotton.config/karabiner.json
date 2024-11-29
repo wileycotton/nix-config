@@ -17,7 +17,7 @@
                         ]
                     },
                     {
-                        "description": "Fn + I/J/K/L to Arrow Keys, Fn + U/O option right left",
+                        "description": "Fn + I/J/K/L to Arrow Keys, Fn + U/O option right left, m to mdash, spacebar to underscore",
                         "manipulators": [
                             {
                                 "from": {
@@ -83,6 +83,28 @@
                                     }
                                 },
                                 "to": [{ "key_code": "right_arrow" , "modifiers": "left_option" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "m",
+                                    "modifiers": {
+                                        "mandatory": ["fn"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "hyphen" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": ["fn"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "hyphen" , "modifiers": "left_shift" }],
                                 "type": "basic"
                             }
                         ]
@@ -156,27 +178,6 @@
                             {
                                 "from": { "key_code": "delete_or_backspace" },
                                 "to": [{ "key_code": "vk_none" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Shift+spacebar to underscore",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "spacebar",
-                                    "modifiers": {
-                                        "mandatory": ["right_shift"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "hyphen",
-                                        "modifiers": ["right_shift"]
-                                    }
-                                ],
                                 "type": "basic"
                             }
                         ]
