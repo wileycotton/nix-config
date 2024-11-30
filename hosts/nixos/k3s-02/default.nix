@@ -4,79 +4,36 @@
 {
   config,
   pkgs,
-  lib,
   unstablePkgs,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./disk-config.nix
     ../../../modules/node-exporter
-    ../../../modules/nfs
-    ../../../modules/k3s-agent
-    ../../../modules/roon-server
-    ../../../modules/docker/immich
+    ../../../modules/k3s
   ];
-
-  services.k3s.role = lib.mkForce "agent";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "nix-02";
+    hostName = "k3s-02";
     defaultGateway = "192.168.5.1";
     nameservers = ["192.168.5.220"];
-    interfaces.enp3s0.ipv4.addresses = [
+    interfaces.enp0s31f6.ipv4.addresses = [
       {
-        address = "192.168.5.212";
-        prefixLength = 24;
-      }
-    ];
-    interfaces.enp2s0.ipv4.addresses = [
-      {
-        address = "192.168.5.213";
-        prefixLength = 24;
-      }
-    ];
-
-    vlans = {
-      vlan20 = {
-        id = 20;
-        interface = "enp2s0";
-      };
-      vlan30 = {
-        id = 30;
-        interface = "enp2s0";
-      };
-    };
-
-    interfaces.vlan20.ipv4.addresses = [
-      {
-        address = "192.168.20.213";
-        prefixLength = 24;
-      }
-    ];
-
-    interfaces.vlan30.ipv4.addresses = [
-      {
-        address = "192.168.30.213";
+        address = "192.168.5.201";
         prefixLength = 24;
       }
     ];
   };
-  services.tailscale.enable = true;
-
-  age.secrets."tailscale-keys.env" = {
-    file = ../../../secrets/tailscale-keys.env;
-  };
-
-  virtualisation.libvirtd.enable = true;
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this bzy default.
 
   # Set your time zone.
   time.timeZone = "America/Denver";

@@ -162,6 +162,9 @@
       octoprint = nixosSystem "x86_64-linux" "octoprint" ["bcotton" "tomcotton"];
       frigate-host = nixosSystem "x86_64-linux" "frigate-host" ["bcotton"];
       nixos = nixosSystem "x86_64-linux" "nixos" ["bcotton" "tomcotton"];
+      k3s-01 = nixosSystem "x86_64-linux" "k3s-01" ["bcotton"];
+      k3s-02 = nixosSystem "x86_64-linux" "k3s-02" ["bcotton"];
+      k3s-03 = nixosSystem "x86_64-linux" "k3s-03" ["bcotton"];
       nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
     };
   };
