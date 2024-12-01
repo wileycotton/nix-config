@@ -25,7 +25,6 @@
       bat-extras.batwatch
       bat-extras.prettybat
       btop
-      bitwarden-cli
 
       # K8s development tools
       ctlptl
