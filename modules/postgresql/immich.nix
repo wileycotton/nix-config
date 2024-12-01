@@ -39,8 +39,7 @@ in {
         shared_preload_libraries = ["vectors.so"];
         search_path = "\"$user\", public, vectors";
       };
-      # This will be 'extensions' in NixOS 24.11
-      extraPlugins = ps: with ps; [pgvecto-rs];
+      extensions = ps: with ps; [pgvecto-rs];
     };
 
     systemd.services.postgresql.serviceConfig.ExecStartPost = let

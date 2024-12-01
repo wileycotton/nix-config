@@ -49,8 +49,9 @@ in {
       default = ''
         # Generated file; do not edit!
         local all all              trust
-        host  all all 127.0.0.1/32 md5
-        host  all all ::1/128      md5
+        host  all all 192.168.5.0/24 trust
+        host  all all 127.0.0.1/32 trust
+        host  all all ::1/128      trust
       '';
       description = ''
         Defines how users authenticate themselves to the server.
@@ -66,7 +67,7 @@ in {
       package = cfg.package;
       dataDir = cfg.dataDir;
       enableTCPIP = cfg.enableTCPIP;
-      # authentication = mkDefault cfg.authentication;
+      authentication = cfg.authentication;
       settings = {
         port = cfg.port;
         listen_addresses =

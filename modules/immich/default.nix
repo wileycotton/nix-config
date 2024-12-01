@@ -19,10 +19,31 @@ in {
       description = "Whether to open ports in the firewall for Immich.";
     };
 
+    secretsFile = mkOption {
+      type = types.nullOr (
+        types.str
+        // {
+          # We don't want users to be able to pass a path literal here but
+          # it should look like a path.
+          check = it: lib.isString it && lib.types.path.check it;
+        }
+      );
+      default = null;
+      example = "/run/secrets/immich";
+      description = ''
+        Path of a file with extra environment variables to be loaded from disk. This file is not added to the nix store, so it can be used to pass secrets to immich. Refer to the [documentation](https://immich.app/docs/install/environment-variables) for options.
+
+        To set a database password set this to a file containing:
+        ```
+        DB_PASSWORD=<pass>
+        ```
+      '';
+    };
+
     serverConfig = {
       host = mkOption {
         type = types.str;
-        default = "127.0.0.1";
+        default = "0.0.0.0";
         description = "The address Immich server will listen on.";
       };
 
@@ -39,8 +60,8 @@ in {
       };
 
       logLevel = mkOption {
-        type = types.enum ["debug" "info" "warn" "error"];
-        default = "info";
+        type = types.enum ["verbose" "debug" "log" "warn" "error"];
+        default = "log";
         description = "Log level for Immich server.";
       };
 
@@ -54,13 +75,13 @@ in {
     database = {
       enable = mkOption {
         type = types.bool;
-        default = true;
+        default = false;
         description = "Whether to enable and configure the PostgreSQL database.";
       };
 
       createDB = mkOption {
         type = types.bool;
-        default = true;
+        default = false;
         description = "Whether to automatically create the database.";
       };
 
@@ -122,6 +143,7 @@ in {
     services.immich = {
       enable = true;
       openFirewall = cfg.openFirewall;
+      secretsFile = cfg.secretsFile;
 
       # Server configuration
       host = cfg.serverConfig.host;

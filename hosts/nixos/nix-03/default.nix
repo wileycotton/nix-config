@@ -49,6 +49,10 @@
     file = ../../../secrets/tailscale-keys.env;
   };
 
+  age.secrets."immich-database" = {
+    file = ../../../secrets/immich-database.age;
+  };
+
   age.secrets."mqtt" = {
     file = ../../../secrets/mqtt.age;
   };
@@ -79,7 +83,12 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-    ## Postressql configuration
+  services.immich = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  #   ## Postressql configuration
   services.clubcotton.postgresql = {
     enable = true;
     immich.enable = true;
@@ -87,6 +96,14 @@
 
   services.clubcotton.immich = {
     enable = true;
+    serverConfig.logLevel = "debug";
+    secretsFile = config.age.secrets.immich-database.path;
+    database = {
+      enable = false;
+      createDB = false;
+      name = "immich";
+      host = "nix-03";
+    };
   };
 
   # Open ports in the firewall.
