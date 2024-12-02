@@ -9,43 +9,35 @@
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in {
   config = {
-    users.users.tomcotton.home = "/Users/tomcotton";
+    ids.uids.nixbld = 300;
 
-    nixpkgs.overlays = [
-        (final: prev: {
-      p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-        mesonCheckFlags =
-          oldAttrs.mesonCheckFlags
-          or []
-          ++ [
-            "--timeout-multiplier"
-            "0"
-          ];
-      });
-      })
-    ];
+    users.users.bcotton.home = "/Users/bcotton";
 
     # These are packages are just for darwin systems
-    environment.systemPackages = [
-      pkgs.kind
+    environment.systemPackages = with pkgs; [
+      kind
+      esphome
+      esptool
+      # Node and friends
+      nodejs_22
+      yarn-berry
     ];
 
     nixpkgs.config.allowUnfree = true;
-    #nixpkgs.config.overlays = [
-    #  (final: prev:
-    #    lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
-    #      # Add access to x86 packages system is running Apple Silicon
-    #      pkgs-x86 = import nixpkgs {
-    #        system = "x86_64-darwin";
-    #        config.allowUnfree = true;
-    #      };
-    #    })
-    #];
+    nixpkgs.config.overlays = [
+      (final: prev:
+        lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+          # Add access to x86 packages system is running Apple Silicon
+          pkgs-x86 = import nixpkgs {
+            system = "x86_64-darwin";
+            config.allowUnfree = true;
+          };
+        })
+    ];
 
     # Keyboard
-    system.keyboard.enableKeyMapping = false;
+    system.keyboard.enableKeyMapping = true;
     system.keyboard.remapCapsLockToEscape = false;
-    system.keyboard.remapCapsLockToControl = false;
 
     # Add ability to used TouchID for sudo authentication
     security.pam.enableSudoTouchIdAuth = true;
@@ -74,67 +66,58 @@ in {
         # "helm"
         # "flyctl"
         #"azure-cli"
-        # "npm"
-        # "node"
+        "npm"
+        "node"
         "tailscale"
-        "pandoc"
-        "trash"
-        "youtube-dl"
       ];
       casks = [
-        "hiddenbar"
-        "plugdata"
-        "font-hack-nerd-font"
-        "libreoffice"
-        "karabiner-elements"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
-        # "1password-cli"
-        # "1password"
+        "1password-cli"
+        "1password"
         "alfred"
-        # "amethyst"
-        # "balenaetcher"
-        # "bartender"
+        "amethyst"
+        "balenaetcher"
+        "bartender"
         #      "bambu-studio"
         #"canon-eos-utility" #old version and v3 not in repo
         "discord"
         "docker"
-        # "dropbox"
-        # "element"
+        "dropbox"
+        "element"
         #      "firefox"
-        # "google-chrome"
-        # "google-cloud-sdk"
+        "google-chrome"
+        "google-cloud-sdk"
         "istat-menus"
         "iterm2"
         #"lingon-x"
-        # "little-snitch"
+        "little-snitch"
         #      "logitech-options"
-        # "macwhisper"
-        # "monitorcontrol"
-        # "mqtt-explorer"
+        "macwhisper"
+        "monitorcontrol"
+        "mqtt-explorer"
         #      "nextcloud"
         #      "notion"
         #      "obs"
         "obsidian"
-        # "omnidisksweeper"
+        "omnidisksweeper"
         "openscad"
-        "nuage"
-        # "orbstack"
+        "orbstack"
         #      "plexamp"
-        # "prusaslicer"
-        # "rectangle"
-        # "signal"
-        # "slack"
+        "prusaslicer"
+        "rectangle"
+        "signal"
+        "slack"
         "spotify"
-        # "telegram"
-        # "swinsian"
+        "telegram"
+        "swinsian"
         #      "steam"
         #      "thunderbird"
         #      "viscosity"
         "visual-studio-code"
         "vlc"
-        # "wireshark"
+        "wireshark"
         "zoom"
         #      "yubico-yubikey-manager"
 
@@ -197,7 +180,6 @@ in {
       NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
       LaunchServices.LSQuarantine = false; # disables "Are you sure?" for new apps
       loginwindow.GuestEnabled = false;
-      hitoolbox.AppleFnUsageType = null;
     };
     system.defaults.CustomUserPreferences = {
       "com.apple.finder" = {
@@ -208,7 +190,7 @@ in {
         _FXSortFoldersFirst = true;
         # When performing a search, search the current folder by default
         FXDefaultSearchScope = "SCcf";
-        DisableAllAnimations = false;
+        DisableAllAnimations = true;
         NewWindowTarget = "PfDe";
         NewWindowTargetPath = "file://$\{HOME\}/Desktop/";
         AppleShowAllExtensions = true;
@@ -228,8 +210,8 @@ in {
         static-only = false;
         show-recents = false;
         show-process-indicators = true;
-        orientation = "bottom";
-        tilesize = 50;
+        orientation = "right";
+        tilesize = 36;
         minimize-to-application = true;
         mineffect = "scale";
       };

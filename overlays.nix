@@ -22,13 +22,6 @@ in {
 
     (self: super: {
       delta = super.delta.overrideAttrs (previousAttrs: {
-        # src = pkgs.fetchFromGitHub {
-        #   owner = "dandavison";
-        #   repo = "delta";
-        #   rev = "main";
-        #   sha256 = "sha256-3sMkxmchgC4mvhjagiZLfvZHR5PwRwNYGCi0fyUCkiE=";
-        # };
-        # cargoHash = "";
         postInstall =
           (previousAttrs.postInstall or "")
           + ''
@@ -38,9 +31,9 @@ in {
     })
 
     # # https://discourse.nixos.org/t/override-the-package-used-by-a-service/32529/2?u=bcotton
-    (self: super: {
-      frigate = unstablePkgs.frigate;
-    })
+    # (self: super: {
+    #   frigate = unstablePkgs.frigate;
+    # })
 
     # (final: prev: {
     #   python3 = prev.python3.override {
@@ -55,18 +48,5 @@ in {
     #     };
     #   };
     # })
-
-    # possible timeout fix for p11
-#     (final: prev: {
-#      p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-#        mesonCheckFlags =
-#          oldAttrs.mesonCheckFlags
-#          or []
-#          ++ [
-#            "--timeout-multiplier"
-#            "0"
-#          ];
-#      });
-#     })
   ];
 }
