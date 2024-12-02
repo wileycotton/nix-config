@@ -87,7 +87,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "m",
+                                    "key_code": "m", 
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
@@ -98,7 +98,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "spacebar",
+                                    "key_code": "n",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
@@ -181,11 +181,70 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "Scroll down when fn + spacebar is pressed. shift space is up",
+                        "manipulators": [
+                            { 
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": ["fn"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "mouse_key": {
+                                            "vertical_wheel": 65
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": ["fn", "shift"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "mouse_key": {
+                                            "vertical_wheel": -65
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             },
-            "name": "Default profile",
+            "name": "Caps to Fn, Fn is layer key",
             "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        },
+        {
+            "complex_modifications": {
+                "rules": [
+                    {
+                        "description": "Caps Lock to Fn",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "left_control" }],
+                                "type": "basic"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "name": "Caps to ctrl, no changes",
+            "selected": false,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
