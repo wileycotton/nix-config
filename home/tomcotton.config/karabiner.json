@@ -17,7 +17,7 @@
                         ]
                     },
                     {
-                        "description": "Fn + I/J/K/L to Arrow Keys, Fn + U/O option right left, m to mdash, spacebar to underscore",
+                        "description": "Fn + I/J/K/L to Arrow Keys, Fn + U/O option right left, m to mdash, n to uNderscore",
                         "manipulators": [
                             {
                                 "from": {
