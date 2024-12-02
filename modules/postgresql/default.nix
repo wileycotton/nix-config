@@ -48,10 +48,10 @@ in {
       type = types.lines;
       default = ''
         # Generated file; do not edit!
-        local all all              trust
-        host  all all 192.168.5.0/24 trust
-        host  all all 127.0.0.1/32 trust
-        host  all all ::1/128      trust
+        local all all                trust
+        host  all all 192.168.5.0/24 scram-sha-256
+        host  all all 127.0.0.1/32   scram-sha-256
+        host  all all ::1/128        scram-sha-256
       '';
       description = ''
         Defines how users authenticate themselves to the server.
@@ -74,6 +74,7 @@ in {
           if cfg.enableTCPIP
           then "*"
           else "localhost";
+       password_encryption = "scram-sha-256";
       };
     };
   };
