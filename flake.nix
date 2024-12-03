@@ -17,6 +17,11 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-shell.url = "github:Mic92/nixos-shell";
+
+    tsnsrv = {
+      url = "github:boinkor-net/tsnsrv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -29,11 +34,12 @@
     nixos-shell,
     home-manager,
     nix-darwin,
+    tsnsrv,
     vscode-server,
     disko,
     ...
   }: let
-    inputs = {inherit agenix nixinate nixos-shell nix-darwin home-manager nixpkgs nixpkgs-unstable;};
+    inputs = {inherit agenix nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable;};
 
     # creates correct package sets for specified arch
     genPkgs = system:
@@ -54,6 +60,7 @@
         host = hostName;
         sshUser = "root";
         buildOn = "remote";
+        hermetic = false;
       };
       unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     in

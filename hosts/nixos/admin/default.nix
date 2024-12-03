@@ -6,6 +6,7 @@
   config,
   pkgs,
   unstablePkgs,
+  inputs,
   ...
 }: {
   # How to write modules to be imported here
@@ -22,6 +23,8 @@
     ../../../modules/grafana
     ../../../modules/grafana-alloy
     ../../../modules/tmate-ssh-server
+    ../../../modules/code-server
+    inputs.tsnsrv.nixosModules.default
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -39,6 +42,25 @@
 
   networking.hostName = "admin"; # Define your hostname.
   services.tailscale.enable = true;
+
+
+  services.tsnsrv = {
+    enable = true;
+    defaults.authKeyPath = config.age.secrets.tailscale-keys.path;
+  
+    services.admin-vscode = {
+      ephemeral = true;
+      toURL = "http://${config.services.code-server.host}:${toString config.services.code-server.port}/";
+    };
+  };
+
+  age.secrets."tailscale-keys.env" = {
+    file = ../../../secrets/tailscale-keys.env;
+  };
+
+  age.secrets."tailscale-keys" = {
+    file = ../../../secrets/tailscale-keys.raw;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Denver";

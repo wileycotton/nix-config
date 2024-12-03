@@ -16,6 +16,7 @@
     ../../../modules/k3s-agent
     ../../../modules/roon-server
     ../../../modules/docker/immich
+    # ../../../modules/incus
   ];
 
   services.k3s.role = lib.mkForce "agent";
