@@ -74,7 +74,7 @@ in {
           if cfg.enableTCPIP
           then "*"
           else "localhost";
-       password_encryption = "scram-sha-256";
+        password_encryption = "scram-sha-256";
       };
     };
   };

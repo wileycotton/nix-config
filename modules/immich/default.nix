@@ -9,7 +9,6 @@
 with lib; let
   cfg = config.services.clubcotton.immich;
 in {
-
   options.services.clubcotton.immich = {
     enable = mkEnableOption "Immich media server";
 

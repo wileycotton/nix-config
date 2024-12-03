@@ -21,6 +21,7 @@
     ../../../modules/unpoller
     ../../../modules/grafana
     ../../../modules/grafana-alloy
+    ../../../modules/tmate-ssh-server
   ];
 
   boot.loader.systemd-boot.enable = true;
