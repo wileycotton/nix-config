@@ -18,7 +18,6 @@
     ../../../modules/docker/minecraft
     ../../../modules/docker/audiobookshelf
     ../../../modules/code-server
-    inputs.tsnsrv.nixosModules.default
   ];
 
   services.k3s.role = lib.mkForce "agent";
@@ -46,17 +45,14 @@
   };
   services.tailscale.enable = true;
 
-  services.tsnsrv = {
+  services.clubcotton.code-server = {
     enable = true;
-    defaults.authKeyPath = config.age.secrets.tailscale-keys.path;
-  
-    services.vscode = {
-      ephemeral = true;
-      toURL = "http://${config.services.code-server.host}:${toString config.services.code-server.port}/";
-    };
+    enableTsnsrv = true;
+    tailnetHostname = "nix-01-vscode";
+    # TODO: how to handle mutliples? Ports for sure.
+    user = "bcotton";
+    tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
   };
-  # systemd.services.tsnsrv-vscode.serviceConfig.LoadCredential = "credentials:${config.age.secrets.tailscale-keys.path}";
-
 
   age.secrets."tailscale-keys.env" = {
     file = ../../../secrets/tailscale-keys.env;

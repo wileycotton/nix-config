@@ -24,7 +24,6 @@
     ../../../modules/grafana-alloy
     ../../../modules/tmate-ssh-server
     ../../../modules/code-server
-    inputs.tsnsrv.nixosModules.default
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -43,15 +42,12 @@
   networking.hostName = "admin"; # Define your hostname.
   services.tailscale.enable = true;
 
-
-  services.tsnsrv = {
+  services.clubcotton.code-server = {
     enable = true;
-    defaults.authKeyPath = config.age.secrets.tailscale-keys.path;
-  
-    services.admin-vscode = {
-      ephemeral = true;
-      toURL = "http://${config.services.code-server.host}:${toString config.services.code-server.port}/";
-    };
+    enableTsnsrv = true;
+    tailnetHostname = "admin-vscode";
+    user = "bcotton";
+    tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
   };
 
   age.secrets."tailscale-keys.env" = {
