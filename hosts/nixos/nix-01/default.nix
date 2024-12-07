@@ -6,6 +6,7 @@
   pkgs,
   lib,
   unstablePkgs,
+  inputs,
   ...
 }: {
   imports = [
@@ -44,8 +45,21 @@
   };
   services.tailscale.enable = true;
 
+  services.clubcotton.code-server = {
+    enable = true;
+    enableTsnsrv = true;
+    tailnetHostname = "nix-01-vscode";
+    # TODO: how to handle mutliples? Ports for sure.
+    user = "bcotton";
+    tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
+  };
+
   age.secrets."tailscale-keys.env" = {
     file = ../../../secrets/tailscale-keys.env;
+  };
+
+  age.secrets."tailscale-keys" = {
+    file = ../../../secrets/tailscale-keys.raw;
   };
 
   # Pick only one of the below networking options.

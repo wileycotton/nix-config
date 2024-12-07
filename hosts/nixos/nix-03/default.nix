@@ -14,6 +14,8 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/k3s-agent
+    ../../../modules/postgresql
+    ../../../modules/immich
     # ../../../modules/frigate
   ];
   services.k3s.role = lib.mkForce "agent";
@@ -46,6 +48,10 @@
     file = ../../../secrets/tailscale-keys.env;
   };
 
+  age.secrets."immich-database" = {
+    file = ../../../secrets/immich-database.age;
+  };
+
   age.secrets."mqtt" = {
     file = ../../../secrets/mqtt.age;
   };
@@ -59,27 +65,8 @@
   # Set your time zone.
   time.timeZone = "America/Denver";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
 
   programs.zsh.enable = true;
 
@@ -92,35 +79,31 @@
   # An attemp at a headless x server
   services.x2goserver.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.alice = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  #   packages = with pkgs; [
-  #     firefox
-  #     tree
-  #   ];
-  # };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  services.immich = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  #   ## Postressql configuration
+  services.clubcotton.postgresql = {
+    enable = true;
+    immich.enable = true;
+  };
+
+  services.clubcotton.immich = {
+    enable = true;
+    serverConfig.logLevel = "debug";
+    secretsFile = config.age.secrets.immich-database.path;
+    database = {
+      enable = false;
+      createDB = false;
+      name = "immich";
+      host = "nix-03";
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

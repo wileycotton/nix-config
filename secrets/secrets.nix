@@ -14,6 +14,7 @@ in {
   "librespot.age".publicKeys = users ++ systems;
   "mopidy.age".publicKeys = users ++ systems;
   "tailscale-keys.env".publicKeys = users ++ systems;
+  "tailscale-keys.raw".publicKeys = users ++ systems;
   "pushover-token.age".publicKeys = users ++ systems;
   "pushover-key.age".publicKeys = users ++ systems;
   "condo-ha-token.age".publicKeys = users ++ systems;
@@ -22,4 +23,5 @@ in {
   "mqtt.age".publicKeys = users ++ systems;
   "unpoller.age".publicKeys = users ++ systems;
   "grafana-cloud.age".publicKeys = users ++ systems;
+  "immich-database.age".publicKeys = users ++ systems;
 }

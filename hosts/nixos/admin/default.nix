@@ -6,6 +6,7 @@
   config,
   pkgs,
   unstablePkgs,
+  inputs,
   ...
 }: {
   # How to write modules to be imported here
@@ -21,6 +22,8 @@
     ../../../modules/unpoller
     ../../../modules/grafana
     ../../../modules/grafana-alloy
+    ../../../modules/tmate-ssh-server
+    ../../../modules/code-server
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -38,6 +41,22 @@
 
   networking.hostName = "admin"; # Define your hostname.
   services.tailscale.enable = true;
+
+  services.clubcotton.code-server = {
+    enable = true;
+    enableTsnsrv = true;
+    tailnetHostname = "admin-vscode";
+    user = "bcotton";
+    tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
+  };
+
+  age.secrets."tailscale-keys.env" = {
+    file = ../../../secrets/tailscale-keys.env;
+  };
+
+  age.secrets."tailscale-keys" = {
+    file = ../../../secrets/tailscale-keys.raw;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Denver";

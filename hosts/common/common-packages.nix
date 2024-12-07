@@ -77,6 +77,7 @@
       mkdocs
       mosh
       neofetch
+      nil # nix lsp
       nmap
 
       # qmk
