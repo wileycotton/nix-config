@@ -386,6 +386,9 @@ in {
   };
 
   home.packages = with pkgs; [
+    (pkgs.python311.withPackages (ppkgs: [
+      ppkgs.numpy
+    ]))
     ffmpeg
     rsync
     rhash

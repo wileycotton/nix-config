@@ -87,6 +87,8 @@ in {
         "font-hack-nerd-font"
         "libreoffice"
         "karabiner-elements"
+        "mactex"
+        "obs"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
