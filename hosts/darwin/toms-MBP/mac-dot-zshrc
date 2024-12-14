@@ -34,3 +34,6 @@ alias kcg='kubectl get'
 alias kcgpo='kubectl get pod'
 
 #/Users/alex/go/bin/figurine -f "Doom.flf" magrathea
+
+# allow mactex cask command to be found
+eval "$(/usr/libexec/path_helper)"
