@@ -22,6 +22,11 @@
       url = "github:boinkor-net/tsnsrv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -31,6 +36,7 @@
     nixpkgs,
     nixpkgs-unstable,
     nixpkgs-darwin,
+    nixos-generators,
     nixos-shell,
     home-manager,
     nix-darwin,
@@ -51,6 +57,50 @@
       import nixpkgs-darwin {
         inherit system;
         config.allowUnfree = true;
+      };
+
+    # creates a nixos system config
+    nixosVM = system: hostName: usernames: let
+      pkgs = genPkgs system;
+      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+    in
+      nixos-generators.nixosGenerate
+      {
+        format = "lxc";
+        specialArgs = {inherit self system inputs;};
+        modules =
+          [
+            # adds unstable to be available in top-level evals (like in common-packages)
+            {
+              _module.args = {
+                unstablePkgs = unstablePkgs;
+                system = system;
+                inputs = inputs;
+              };
+            }
+            ./overlays.nix
+
+            ./hosts/nixos/${hostName} # ip address, host specific stuff
+            vscode-server.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              networking.hostName = hostName;
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users = builtins.listToAttrs (map (username: {
+                  name = username;
+                  value = {
+                    imports = [./home/${username}.nix];
+                  };
+                })
+                usernames);
+              home-manager.extraSpecialArgs = {inherit unstablePkgs;};
+            }
+            ./hosts/common/common-packages.nix
+            ./hosts/common/nixos-common.nix
+            agenix.nixosModules.default
+          ]
+          ++ (map (username: ./users/${username}.nix) usernames);
       };
 
     # creates a nixos system config
@@ -89,6 +139,7 @@
             # (args: { nixpkgs.overlays = import ./overlays args; })
             ## or
             ./overlays.nix
+            nixos-generators.nixosModules.all-formats
 
             disko.nixosModules.disko
             ./hosts/nixos/${hostName} # ip address, host specific stuff
@@ -174,6 +225,7 @@
       k3s-02 = nixosSystem "x86_64-linux" "k3s-02" ["bcotton"];
       k3s-03 = nixosSystem "x86_64-linux" "k3s-03" ["bcotton"];
       nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
+      incus = nixosSystem "x86_64-linux" "incus" ["bcotton"];
     };
   };
 }

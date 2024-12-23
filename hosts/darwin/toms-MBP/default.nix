@@ -12,16 +12,16 @@ in {
     users.users.tomcotton.home = "/Users/tomcotton";
 
     nixpkgs.overlays = [
-        (final: prev: {
-      p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-        mesonCheckFlags =
-          oldAttrs.mesonCheckFlags
-          or []
-          ++ [
-            "--timeout-multiplier"
-            "0"
-          ];
-      });
+      (final: prev: {
+        p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
+          mesonCheckFlags =
+            oldAttrs.mesonCheckFlags
+            or []
+            ++ [
+              "--timeout-multiplier"
+              "0"
+            ];
+        });
       })
     ];
 
