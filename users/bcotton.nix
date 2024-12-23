@@ -5,6 +5,7 @@
   ...
 }: {
   users.users.bcotton = {
+    ignoreShellProgramCheck = true;
     shell = pkgs.zsh;
     isNormalUser = true;
     extraGroups = ["wheel" "docker" "incus-admin"]; # Enable ‘sudo’ for the user.
