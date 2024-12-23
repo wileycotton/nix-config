@@ -24,4 +24,5 @@ in {
   "unpoller.age".publicKeys = users ++ systems;
   "grafana-cloud.age".publicKeys = users ++ systems;
   "immich-database.age".publicKeys = users ++ systems;
+  "open-webui.age".publicKeys = users ++ systems;
 }
