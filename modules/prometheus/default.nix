@@ -155,8 +155,9 @@ in {
           static_configs = [
             {
               targets = [
-                "books"
-                "photos"
+                "http://books"
+                "http://photos"
+                "https://llm.tailfeb2e.ts.net"
               ];
             }
           ];
@@ -164,11 +165,9 @@ in {
             {
               source_labels = ["__address__"];
               target_label = "__param_target";
-              replacement = "http://$1";
             }
             {
-              source_labels = ["__address__"];
-              regex = "^([^/]+)(/.*)?";
+              source_labels = ["__param_target"];
               target_label = "instance";
             }
             {

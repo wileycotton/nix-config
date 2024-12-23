@@ -18,6 +18,7 @@
     ../../../modules/docker/minecraft
     ../../../modules/docker/audiobookshelf
     ../../../modules/code-server
+    ../../../modules/open-webui
   ];
 
   services.k3s.role = lib.mkForce "agent";
