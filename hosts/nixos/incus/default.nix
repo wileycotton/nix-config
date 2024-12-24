@@ -27,9 +27,8 @@
   boot.supportedFilesystems = ["zfs"];
   boot.zfs.forceImportRoot = false;
 
-
-# This is from https://github.com/KornelJahn/nixos-disko-zfs-test
-# understand all that is happening.
+  # This is from https://github.com/KornelJahn/nixos-disko-zfs-test
+  # understand all that is happening.
   boot = {
     kernelParams = [
       "nohibernate"
