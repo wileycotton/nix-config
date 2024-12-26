@@ -11,8 +11,8 @@
     # "${modulesPath}/virtualisation/incus-virtual-machine.nix"
     ./hardware-configuration.nix
     # ./disk-config.nix
-    ./disk-root.nix
-    ./disk-ssd.nix
+    ./zfs-mirrored-root.nix
+    ./zfs-raidz1.nix
   ];
 
   time.timeZone = "America/Denver";
@@ -30,7 +30,7 @@
   networking.hostId = "420cbfd4";
   # boot.loader.systemd-boot.enable = true;
 
-  nas-layouts.root = {
+  clubcotton.zfs_mirrored_root = {
     enable = true;
     poolname = "rpool";
     disks = [
@@ -39,9 +39,9 @@
     ];
   };
 
-  nas-layouts.ssd = {
+  clubcotton.zfs_raidz1 = {
     enable = true;
-    name = "ssdpool";
+    poolname = "ssdpool";
     disks = [
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme1"
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme2"

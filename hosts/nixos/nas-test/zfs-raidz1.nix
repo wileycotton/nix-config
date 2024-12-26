@@ -5,14 +5,14 @@
   ...
 }:
 with lib; let
-  cfg = config.nas-layouts.ssd;
+  cfg = config.clubcotton.zfs_raidz1;
 in {
-  options.nas-layouts.ssd = {
-    enable = mkEnableOption "disk layouts for SSDs";
+  options.clubcotton.zfs_raidz1 = {
+    enable = mkEnableOption "ZFS RAIDZ1 disk layout";
 
-    name = mkOption {
+    poolname = mkOption {
       type = types.str;
-      description = "Name of the SSD disk layout";
+      description = "The name of the zpool to create";
     };
 
     disks = mkOption {
@@ -36,7 +36,7 @@ in {
                   size = "100%";
                   content = {
                     type = "zfs";
-                    pool = cfg.name;
+                    pool = cfg.poolname;
                   };
                 };
               };
@@ -47,7 +47,7 @@ in {
         cfg.disks);
       # Setup the zpool
       zpool = {
-        "${cfg.name}" = {
+        "${cfg.poolname}" = {
           type = "zpool";
           mode = "raidz1";
           rootFsOptions = {

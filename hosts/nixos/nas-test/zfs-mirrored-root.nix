@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.nas-layouts.root;
+  cfg = config.clubcotton.zfs_mirrored_root;
 
-  # Generic function to convert a list to an attrset with index information
+  # The equivalent of the ruby's each_with_index
   listToAttrsWithIndex = list:
     listToAttrs (
       genList (
@@ -21,7 +21,8 @@ with lib; let
       ) (builtins.length list)
     );
 
-  # Function to create root disk configuration
+  # Function to create root disk configuration as
+  # part of a mirrored set.
   makeRootDiskConfig = name: _index: {
     type = "disk";
     device = name;
@@ -49,12 +50,12 @@ with lib; let
     };
   };
 in {
-  options.nas-layouts.root = {
-    enable = mkEnableOption "disk layouts for SSDs";
+  options.clubcotton.zfs_mirrored_root = {
+    enable = mkEnableOption "ZFS mirrored root disk layout";
 
     poolname = mkOption {
       type = types.str;
-      description = "Name of the SSD disk layout";
+      description = "The name of the zpool to create";
     };
 
     disks = mkOption {
