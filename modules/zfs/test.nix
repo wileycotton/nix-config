@@ -1,5 +1,6 @@
 { system ? builtins.currentSystem
 , pkgs ? import <nixpkgs> { inherit system; }
+, disko ? (builtins.getFlake "github:nix-community/disko").nixosModules.disko
 , ...
 }:
 
@@ -10,12 +11,10 @@ pkgs.nixosTest {
     imports = [
       ./zfs-mirrored-root.nix
       ./zfs-raidz1.nix
+      disko
       (modulesPath + "/profiles/minimal.nix")
       (modulesPath + "/testing/test-instrumentation.nix")
     ];
-
-    # Enable disko
-    disko.enable = true;
 
     # Required for ZFS
     networking.hostId = "deadbeef";
