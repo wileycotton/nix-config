@@ -6,11 +6,16 @@
 pkgs.nixosTest {
   name = "zfs-test";
 
-  nodes.machine = { pkgs, ... }: {
+  nodes.machine = { pkgs, modulesPath, ... }: {
     imports = [
       ./zfs-mirrored-root.nix
       ./zfs-raidz1.nix
+      (modulesPath + "/profiles/minimal.nix")
+      (modulesPath + "/testing/test-instrumentation.nix")
     ];
+
+    # Enable disko
+    disko.enable = true;
 
     # Required for ZFS
     networking.hostId = "deadbeef";
