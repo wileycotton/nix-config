@@ -31,7 +31,7 @@ in {
       ensureUsers = [
         {
           name = cfg.immich.user;
-          ensureDBOwnership = false;
+          ensureDBOwnership = true;
           ensureClauses.login = true;
         }
       ];

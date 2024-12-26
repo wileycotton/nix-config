@@ -25,7 +25,7 @@
       services.clubcotton.postgresql.immich = {
         enable = true;
         database = "test-immich"; # Match the database name with the user for ensureDBOwnership
-        user = "test-immich-user";
+        user = "test-immich";
       };
     };
   };
@@ -44,7 +44,7 @@
               "sudo -u postgres psql -p 5433 -c '\\l' | grep test-immich"
           )
           machine.succeed(
-              "sudo -u postgres psql -p 5433 -c '\\du' | grep test-immich-user"
+              "sudo -u postgres psql -p 5433 -c '\\du' | grep test-immich"
           )
       with subtest("Required extensions are installed"):
           machine.succeed(
@@ -67,10 +67,10 @@
           )
       with subtest("Schema ownership is correct"):
           machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'public';\" | grep test-immich-user"
+              "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'public';\" | grep test-immich"
           )
           machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'vectors';\" | grep test-immich-user"
+              "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'vectors';\" | grep test-immich"
           )
   '';
 }
