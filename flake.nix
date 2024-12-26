@@ -201,6 +201,10 @@
         ];
       };
   in {
+    checks.x86_64-linux = {
+      postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest ./modules/postgresql/test.nix;
+    };
+
     apps = nixinate.nixinate.x86_64-linux self;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;

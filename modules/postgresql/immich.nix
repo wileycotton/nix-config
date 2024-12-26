@@ -31,7 +31,7 @@ in {
       ensureUsers = [
         {
           name = cfg.immich.user;
-          ensureDBOwnership = true;
+          ensureDBOwnership = false;
           ensureClauses.login = true;
         }
       ];
@@ -51,15 +51,15 @@ in {
         CREATE EXTENSION IF NOT EXISTS earthdistance;
         CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
-        ALTER SCHEMA public OWNER TO ${cfg.immich.user};
-        ALTER SCHEMA vectors OWNER TO ${cfg.immich.user};
-        GRANT SELECT ON TABLE pg_vector_index_stat TO ${cfg.immich.user};
+        ALTER SCHEMA public OWNER TO "${cfg.immich.user}";
+        ALTER SCHEMA vectors OWNER TO "${cfg.immich.user}";
+        GRANT SELECT ON TABLE pg_vector_index_stat TO "${cfg.immich.user}";
 
         ALTER EXTENSION vectors UPDATE;
       '';
     in [
       ''
-        ${lib.getExe' config.services.postgresql.package "psql"} -d "${cfg.immich.database}" -f "${sqlFile}"
+        ${lib.getExe' config.services.postgresql.package "psql"} -p ${toString cfg.port} -d "${cfg.immich.database}" -f "${sqlFile}"
       ''
     ];
   };
