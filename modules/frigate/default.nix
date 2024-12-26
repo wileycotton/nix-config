@@ -153,7 +153,7 @@ in {
 
   systemd.services.frigate.environment.LD_LIBRARY_PATH = lib.makeLibraryPath [
     "${libedgetpu}"
-    pkgs.libusb # libusb
+    pkgs.libusb1 # libusb
   ];
 
   systemd.services.set-apex-permissions = {
