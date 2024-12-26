@@ -229,7 +229,7 @@
       k3s-02 = nixosSystem "x86_64-linux" "k3s-02" ["bcotton"];
       k3s-03 = nixosSystem "x86_64-linux" "k3s-03" ["bcotton"];
       nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
-      incus = nixosSystem "x86_64-linux" "incus" ["bcotton"];
+      # incus = nixosSystem "x86_64-linux" "incus" ["bcotton"];
     };
   };
 }
