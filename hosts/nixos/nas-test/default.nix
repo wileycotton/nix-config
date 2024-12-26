@@ -11,8 +11,8 @@
     # "${modulesPath}/virtualisation/incus-virtual-machine.nix"
     ./hardware-configuration.nix
     # ./disk-config.nix
-    ./zfs-mirrored-root.nix
-    ./zfs-raidz1.nix
+    ../../../modules/zfs/zfs-mirrored-root.nix
+    ../../../modules/zfs/zfs-raidz1.nix
   ];
 
   time.timeZone = "America/Denver";

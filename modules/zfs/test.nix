@@ -1,8 +1,9 @@
-import {
-  lib,
-  pkgs,
-  ...
-}: {
+{ system ? builtins.currentSystem
+, pkgs ? import <nixpkgs> { inherit system; }
+, ...
+}:
+
+pkgs.nixosTest {
   name = "zfs-test";
 
   nodes.machine = { pkgs, ... }: {
