@@ -205,9 +205,8 @@
       postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest ./modules/postgresql/test.nix;
     };
 
-    apps.x86_64-linux = {
-      nixinate = (nixinate.nixinate.x86_64-linux self) // { type = "app"; program = "${pkgs.nixinate}/bin/nixinate";};
-    };
+    apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
+
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
     formatter.x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.alejandra;
@@ -233,7 +232,5 @@
       nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
       # incus = nixosSystem "x86_64-linux" "incus" ["bcotton"];
     };
-  };
-}
   };
 }

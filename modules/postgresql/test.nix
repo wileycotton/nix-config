@@ -3,7 +3,11 @@
   name = "postgresql";
 
   nodes = {
-    machine = { config, pkgs, ... }: {
+    machine = {
+      config,
+      pkgs,
+      ...
+    }: {
       imports = [
         ./default.nix
       ];
@@ -31,46 +35,46 @@
   };
 
   testScript = ''
-      start_all()
-      with subtest("PostgreSQL service starts"):
-          machine.wait_for_unit("postgresql.service")
-          machine.succeed("systemctl is-active postgresql.service")
-      with subtest("PostgreSQL is listening on custom port"):
-          machine.wait_until_succeeds("nc -z localhost 5433")
-      with subtest("Data directory is created"):
-          machine.succeed("test -d /var/lib/postgresql")
-      with subtest("Immich database and user are created"):
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -c '\\l' | grep test-immich"
-          )
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -c '\\du' | grep test-immich"
-          )
-      with subtest("Required extensions are installed"):
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep vectors"
-          )
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep unaccent"
-          )
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep uuid-ossp"
-          )
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep cube"
-          )
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep earthdistance"
-          )
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep pg_trgm"
-          )
-      with subtest("Schema ownership is correct"):
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'public';\" | grep test-immich"
-          )
-          machine.succeed(
-              "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'vectors';\" | grep test-immich"
-          )
+    start_all()
+    with subtest("PostgreSQL service starts"):
+        machine.wait_for_unit("postgresql.service")
+        machine.succeed("systemctl is-active postgresql.service")
+    with subtest("PostgreSQL is listening on custom port"):
+        machine.wait_until_succeeds("nc -z localhost 5433")
+    with subtest("Data directory is created"):
+        machine.succeed("test -d /var/lib/postgresql")
+    with subtest("Immich database and user are created"):
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -c '\\l' | grep test-immich"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -c '\\du' | grep test-immich"
+        )
+    with subtest("Required extensions are installed"):
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep vectors"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep unaccent"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep uuid-ossp"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep cube"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep earthdistance"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c '\\dx' | grep pg_trgm"
+        )
+    with subtest("Schema ownership is correct"):
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'public';\" | grep test-immich"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'vectors';\" | grep test-immich"
+        )
   '';
 }

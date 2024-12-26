@@ -25,7 +25,6 @@
     };
   };
 
-
   age.secrets."open-webui" = {
     file = ../../secrets/open-webui.age;
   };

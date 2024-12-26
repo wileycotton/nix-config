@@ -4,11 +4,12 @@
   pkgs,
   inputs,
   ...
-}: with lib; let 
+}:
+with lib; let
   cfg = config.services.clubcotton.code-server;
 in {
   imports = [
-      inputs.tsnsrv.nixosModules.default
+    inputs.tsnsrv.nixosModules.default
   ];
 
   options.services.clubcotton.code-server = {
@@ -17,10 +18,10 @@ in {
     enableTsnsrv = mkOption {
       type = types.bool;
       default = false;
-      description = "Expose this code-server on the tailnet"; 
+      description = "Expose this code-server on the tailnet";
     };
 
-    tailnetHostname = mkOption { 
+    tailnetHostname = mkOption {
       type = lib.types.str;
       default = "";
       description = "The tailnet hostname to expose the code-server as.";
