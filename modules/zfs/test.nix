@@ -1,23 +1,22 @@
-{ system ? builtins.currentSystem
-, pkgs ? import <nixpkgs> { inherit system; }
-, disko ? (builtins.getFlake "github:nix-community/disko").nixosModules.disko
-, ...
-}:
-
-pkgs.nixosTest {
+import ./make-test-python.nix {
+  imports = [ ./zfs-mirrored-root.nix ./zfs-raidz1.nix ];
+  
   name = "zfs-test";
 
-  nodes.machine = { pkgs, modulesPath, ... }: {
+  nodes.machine = { pkgs, lib, modulesPath, ... }: {
     imports = [
-      ./zfs-mirrored-root.nix
-      ./zfs-raidz1.nix
-      disko
       (modulesPath + "/profiles/minimal.nix")
       (modulesPath + "/testing/test-instrumentation.nix")
     ];
 
+    # Enable disko
+    boot.initrd.systemd.enable = true;
+    disko.devices = {};
+
     # Required for ZFS
     networking.hostId = "deadbeef";
+    boot.supportedFilesystems = [ "zfs" ];
+    boot.zfs.enabled = true;
     
     # Create virtual disks for testing
     virtualisation = {
@@ -85,4 +84,4 @@ pkgs.nixosTest {
     machine.succeed("zfs get com.sun:auto-snapshot rpool/safe/home | grep -q 'true'")
     machine.succeed("zfs get com.sun:auto-snapshot datapool/database | grep -q 'true'")
   '';
-}
+})

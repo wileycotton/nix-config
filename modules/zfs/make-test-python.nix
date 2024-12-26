@@ -1,5 +1,11 @@
 let
   pkgs = import <nixpkgs> { };
-  disko = (builtins.getFlake "github:nix-community/disko").nixosModules.disko;
+  disko = builtins.fetchGit {
+    url = "https://github.com/nix-community/disko";
+    ref = "master";
+  };
 in
-  import (pkgs.path + "/nixos/tests/make-test-python.nix")
+args@{ ... }:
+import (pkgs.path + "/nixos/tests/make-test-python.nix") (args // {
+  imports = [ (disko + "/module.nix") ] ++ (args.imports or []);
+})
