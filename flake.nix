@@ -236,6 +236,7 @@
   in {
     checks.x86_64-linux = {
       postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest ./modules/postgresql/test.nix;
+      zfs = nixpkgs.legacyPackages.x86_64-linux.nixosTest ./modules/zfs/test.nix;
     };
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
