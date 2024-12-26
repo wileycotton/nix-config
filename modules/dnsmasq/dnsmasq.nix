@@ -6,7 +6,7 @@
   hostsPath = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts";
   hostsFile = builtins.fetchurl {
     url = hostsPath;
-    sha256 = "1gz7q0wyijk4719z82iq0db8808jhigc463i5nlcjsyzsm7565pm";
+    sha256 = "1hwybwiy6ndr4n8dcn5ncmpwjzb5pasyq94988nibp4rfmdfipv6";
   };
 in {
   config = {
