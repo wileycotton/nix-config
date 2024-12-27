@@ -61,4 +61,4 @@ check:
   #!/usr/bin/env sh
   sed -i.bak 's/^    apps.nixinate/    # apps.nixinate/' flake.nix
   nix flake check
-  mv glake.nix.bak glake.nix
+  mv flake.nix.bak glake.nix
