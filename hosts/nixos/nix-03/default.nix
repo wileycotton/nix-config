@@ -14,13 +14,15 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/k3s-agent
-    ../../../modules/postgresql
-    ../../../modules/immich
+    ../../../modules/tailscale
     # ../../../modules/frigate
   ];
   services.k3s.role = lib.mkForce "agent";
 
-  services.tailscale.enable = true;
+  services.clubcotton.services.tailscale = {
+    enable = true;
+    authKeyFile = ../../../secrets/tailscale-keys.env;
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -42,10 +44,6 @@
         prefixLength = 24;
       }
     ];
-  };
-
-  age.secrets."tailscale-keys.env" = {
-    file = ../../../secrets/tailscale-keys.env;
   };
 
   age.secrets."immich-database" = {
@@ -82,28 +80,30 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.immich = {
-    enable = true;
-    openFirewall = true;
-  };
+  services.prometheus.exporters.zfs.enable = true;
 
-  #   ## Postressql configuration
-  services.clubcotton.postgresql = {
-    enable = true;
-    immich.enable = true;
-  };
+  # services.immich = {
+  #   enable = true;
+  #   openFirewall = true;
+  # };
 
-  services.clubcotton.immich = {
-    enable = true;
-    serverConfig.logLevel = "debug";
-    secretsFile = config.age.secrets.immich-database.path;
-    database = {
-      enable = false;
-      createDB = false;
-      name = "immich";
-      host = "nix-03";
-    };
-  };
+  # #   ## Postressql configuration
+  # services.clubcotton.postgresql = {
+  #   enable = true;
+  #   immich.enable = true;
+  # };
+
+  # services.clubcotton.immich = {
+  #   enable = true;
+  #   serverConfig.logLevel = "debug";
+  #   secretsFile = config.age.secrets.immich-database.path;
+  #   database = {
+  #     enable = false;
+  #     createDB = false;
+  #     name = "immich";
+  #     host = "nix-03";
+  #   };
+  # };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

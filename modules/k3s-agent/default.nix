@@ -20,7 +20,7 @@
       "--disable servicelb"
       "--disable traefik"
       "--disable local-storage"
-      "--flannel-iface enp2s0"
+      "--flannel-iface enp3s0"
       "--flannel-backend=host-gw"
     ];
     clusterInit = config.networking.hostName == "k3s-01";
