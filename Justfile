@@ -56,3 +56,9 @@ repl:
 gc generations="5d":
   nix-env --delete-generations {{generations}}
   nix-store --gc
+
+check:
+  #!/usr/bin/env sh
+  sed -i.bak 's/^    apps.nixinate/    # apps.nixinate/' flake.nix
+  nix flake check
+  mv flake.nix.bak glake.nix
