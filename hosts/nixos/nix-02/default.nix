@@ -31,6 +31,7 @@
   networking = {
     useDHCP = false;
     hostName = "nix-02";
+    hostId = "038f8559";
     defaultGateway = "192.168.5.1";
     nameservers = ["192.168.5.220"];
     interfaces.enp3s0.ipv4.addresses = [
