@@ -13,6 +13,7 @@
     # ./disk-config.nix
     ../../../modules/zfs/zfs-mirrored-root.nix
     ../../../modules/zfs/zfs-raidz1.nix
+    ../../../modules/zfs/zfs-single-root.nix
   ];
 
   time.timeZone = "America/Denver";
@@ -83,6 +84,28 @@
       "safe/home" = {
         type = "zfs_fs";
         mountpoint = "/home";
+        options = {
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
+      };
+    };
+  };
+
+  clubcotton.zfs_single_root = {
+    enable = true;
+    poolname = "testpool";
+    swapSize = "128M";
+    disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme5";
+    datasets = {
+      "root" = {
+        type = "zfs_fs";
+        mountpoint = "/";
+        options.mountpoint = "legacy";
+      };
+      "nix" = {
+        type = "zfs_fs";
+        mountpoint = "/nix";
         options = {
           mountpoint = "legacy";
           "com.sun:auto-snapshot" = "true";
