@@ -38,6 +38,57 @@
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_root"
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_drive1"
     ];
+    datasets = {
+      local = {
+        type = "zfs_fs";
+        options.mountpoint = "none";
+      };
+      safe = {
+        type = "zfs_fs";
+        options.mountpoint = "none";
+      };
+      "local/reserved" = {
+        type = "zfs_fs";
+        options = {
+          mountpoint = "none";
+          reservation = "5GiB";
+        };
+      };
+      "local/root" = {
+        type = "zfs_fs";
+        mountpoint = "/";
+        options.mountpoint = "legacy";
+        postCreateHook = ''
+          zfs snapshot rpool/local/root@blank
+        '';
+      };
+      "local/nix" = {
+        type = "zfs_fs";
+        mountpoint = "/nix";
+        options = {
+          atime = "off";
+          canmount = "on";
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
+      };
+      "local/log" = {
+        type = "zfs_fs";
+        mountpoint = "/var/log";
+        options = {
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
+      };
+      "safe/home" = {
+        type = "zfs_fs";
+        mountpoint = "/home";
+        options = {
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
+      };
+    };
   };
 
   clubcotton.zfs_raidz1 = {
@@ -49,6 +100,17 @@
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme3"
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme4"
     ];
+    datasets = {
+      database = {
+        type = "zfs_fs";
+        mountpoint = "/db";
+        options = {
+          mountpoint = "legacy";
+          recordsize = "8k"; # for postgres
+          "com.sun:auto-snapshot" = "true";
+        };
+      };
+    };
   };
 
   boot = {
