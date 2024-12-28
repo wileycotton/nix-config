@@ -36,6 +36,16 @@ with lib; let
             type = "filesystem";
             format = "vfat";
             mountpoint = "/boot${toString _index}";
+            # https://discourse.nixos.org/t/nixos-on-mirrored-ssd-boot-swap-native-encrypted-zfs/9215/6
+            mountOptions = ["nofail"];
+          };
+        };
+        encryptedSwap = {
+          size = cfg.swapSize;
+          content = {
+            type = "swap";
+            randomEncryption = true;
+            priority = 100; # prefer to encrypt as long as we have space for it
           };
         };
 
@@ -61,6 +71,11 @@ in {
     disks = mkOption {
       type = types.listOf types.str;
       description = "List of disk devices to use";
+    };
+
+    swapSize = mkOption {
+      type = types.str;
+      description = "Size of the swap partition";
     };
   };
 

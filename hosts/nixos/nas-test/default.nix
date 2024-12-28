@@ -33,6 +33,7 @@
   clubcotton.zfs_mirrored_root = {
     enable = true;
     poolname = "rpool";
+    swapSize = "128M";
     disks = [
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_root"
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_drive1"

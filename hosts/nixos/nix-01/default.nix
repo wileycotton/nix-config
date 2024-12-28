@@ -47,7 +47,6 @@
     # ];
     bridges."br0".interfaces = ["enp2s0"];
     interfaces."br0".useDHCP = true;
-
   };
   services.tailscale.enable = true;
 
