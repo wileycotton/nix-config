@@ -21,6 +21,35 @@ in {
       type = types.listOf types.str;
       description = "List of disk devices to use";
     };
+
+    datasets = mkOption {
+      type = types.attrsOf (types.submodule {
+        options = {
+          type = mkOption {
+            type = types.str;
+            description = "Type of ZFS dataset";
+            default = "zfs_fs";
+          };
+          mountpoint = mkOption {
+            type = types.nullOr types.str;
+            description = "Mountpoint for the dataset";
+            default = null;
+          };
+          options = mkOption {
+            type = types.attrsOf types.str;
+            description = "Dataset-specific options";
+            default = {};
+          };
+          postCreateHook = mkOption {
+            type = types.nullOr types.str;
+            description = "Commands to run after dataset creation";
+            default = null;
+          };
+        };
+      });
+      description = "ZFS datasets to create";
+      default = {};
+    };
   };
 
   config = mkIf cfg.enable {
@@ -55,17 +84,7 @@ in {
           rootFsOptions = common.rootFsOptions;
           options = common.options;
 
-          datasets = {
-            database = {
-              type = "zfs_fs";
-              mountpoint = "/db";
-              options = {
-                mountpoint = "legacy";
-                recordsize = "8k"; # for postgres
-                "com.sun:auto-snapshot" = "true";
-              };
-            };
-          };
+          datasets = cfg.datasets;
         };
       };
     };

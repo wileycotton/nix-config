@@ -79,6 +79,35 @@ in {
       type = types.str;
       description = "Size of the swap partition";
     };
+
+    datasets = mkOption {
+      type = types.attrsOf (types.submodule {
+        options = {
+          type = mkOption {
+            type = types.str;
+            description = "Type of ZFS dataset";
+            default = "zfs_fs";
+          };
+          mountpoint = mkOption {
+            type = types.nullOr types.str;
+            description = "Mountpoint for the dataset";
+            default = null;
+          };
+          options = mkOption {
+            type = types.attrsOf types.str;
+            description = "Dataset-specific options";
+            default = {};
+          };
+          postCreateHook = mkOption {
+            type = types.nullOr types.str;
+            description = "Commands to run after dataset creation";
+            default = null;
+          };
+        };
+      });
+      description = "ZFS datasets to create";
+      default = {};
+    };
   };
 
   config = mkIf cfg.enable {
@@ -97,57 +126,7 @@ in {
           mode = "mirror";
           rootFsOptions = common.rootFsOptions;
           options = common.options;
-          datasets = {
-            local = {
-              type = "zfs_fs";
-              options.mountpoint = "none";
-            };
-            safe = {
-              type = "zfs_fs";
-              options.mountpoint = "none";
-            };
-            "local/reserved" = {
-              type = "zfs_fs";
-              options = {
-                mountpoint = "none";
-                reservation = "5GiB";
-              };
-            };
-            "local/root" = {
-              type = "zfs_fs";
-              mountpoint = "/";
-              options.mountpoint = "legacy";
-              postCreateHook = ''
-                zfs snapshot rpool/local/root@blank
-              '';
-            };
-            "local/nix" = {
-              type = "zfs_fs";
-              mountpoint = "/nix";
-              options = {
-                atime = "off";
-                canmount = "on";
-                mountpoint = "legacy";
-                "com.sun:auto-snapshot" = "true";
-              };
-            };
-            "local/log" = {
-              type = "zfs_fs";
-              mountpoint = "/var/log";
-              options = {
-                mountpoint = "legacy";
-                "com.sun:auto-snapshot" = "true";
-              };
-            };
-            "safe/home" = {
-              type = "zfs_fs";
-              mountpoint = "/home";
-              options = {
-                mountpoint = "legacy";
-                "com.sun:auto-snapshot" = "true";
-              };
-            };
-          }; # datasets
+          datasets = cfg.datasets;
         }; # zpool
       };
     };
