@@ -32,7 +32,7 @@
   # boot.loader.systemd-boot.enable = true;
 
   clubcotton.zfs_mirrored_root = {
-    enable = false;
+    enable = true;
     poolname = "rpool";
     swapSize = "128M";
     disks = [
@@ -93,7 +93,7 @@
   };
 
   clubcotton.zfs_single_root = {
-    enable = true;
+    enable = false;
     poolname = "testpool";
     swapSize = "128M";
     disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_root";

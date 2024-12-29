@@ -9,6 +9,7 @@
     enable = true;
     package = unstablePkgs.open-webui;
     host = "0.0.0.0";
+    # stateDir = "/mnt/docker_volumes/open-webui";
     environment = {
       WEBUI_AUTH = "True";
     };
