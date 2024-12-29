@@ -32,7 +32,7 @@
   # boot.loader.systemd-boot.enable = true;
 
   clubcotton.zfs_mirrored_root = {
-    enable = true;
+    enable = false;
     poolname = "rpool";
     swapSize = "128M";
     disks = [
@@ -96,7 +96,7 @@
     enable = true;
     poolname = "testpool";
     swapSize = "128M";
-    disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme5";
+    disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_root";
     datasets = {
       "root" = {
         type = "zfs_fs";
@@ -136,32 +136,9 @@
     };
   };
 
-  boot = {
-    kernelParams = [
-      "boot.shell_on_fail"
-    ];
-
-    loader = {
-      systemd-boot.enable = lib.mkForce false;
-      grub = {
-        enable = lib.mkForce true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        mirroredBoots = [
-          {
-            devices = ["nodev"];
-            path = "/boot0";
-            efiSysMountPoint = "/boot0";
-          }
-          {
-            devices = ["nodev"];
-            path = "/boot1";
-            efiSysMountPoint = "/boot1";
-          }
-        ];
-      };
-    };
-  };
+  boot.kernelParams = [
+    "boot.shell_on_fail"
+  ];
 
   # This is for incus networking
   networking = {

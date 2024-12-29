@@ -130,5 +130,19 @@ in {
         }; # zpool
       };
     };
+
+    boot.loader = {
+      systemd-boot.enable = lib.mkForce false;
+      grub = {
+        enable = lib.mkForce true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+        mirroredBoots = map (index: {
+          devices = ["nodev"];
+          path = "/boot${toString index}";
+          efiSysMountPoint = "/boot${toString index}";
+        }) (range 0 ((length cfg.disks) - 1));
+      };
+    };
   };
 }
