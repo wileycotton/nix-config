@@ -10,10 +10,6 @@
     # Include the default incus configuration.
     # "${modulesPath}/virtualisation/incus-virtual-machine.nix"
     ./hardware-configuration.nix
-    # ./disk-config.nix
-    ../../../modules/zfs/zfs-mirrored-root.nix
-    ../../../modules/zfs/zfs-raidz1.nix
-    ../../../modules/zfs/zfs-single-root.nix
   ];
 
   time.timeZone = "America/Denver";
