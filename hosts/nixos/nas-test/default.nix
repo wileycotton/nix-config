@@ -35,7 +35,7 @@
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_root"
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_drive1"
     ];
-    datasets = {
+    filesystems = {
       local = {
         type = "zfs_fs";
         options.mountpoint = "none";
@@ -85,6 +85,11 @@
           "com.sun:auto-snapshot" = "true";
         };
       };
+    }; # filesystems
+    volumes = {
+      "local/incus" = {
+        size = "30M";
+      };
     };
   };
 
@@ -93,7 +98,7 @@
     poolname = "testpool";
     swapSize = "128M";
     disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_root";
-    datasets = {
+    filesystems = {
       "root" = {
         type = "zfs_fs";
         mountpoint = "/";
@@ -119,7 +124,7 @@
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme3"
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme4"
     ];
-    datasets = {
+    filesystems = {
       database = {
         type = "zfs_fs";
         mountpoint = "/db";
