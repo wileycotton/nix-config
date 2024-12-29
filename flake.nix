@@ -142,6 +142,10 @@
             nixos-generators.nixosModules.all-formats
 
             disko.nixosModules.disko
+            ./modules/zfs/zfs-single-root.nix
+            ./modules/zfs/zfs-mirrored-root.nix
+            ./modules/zfs/zfs-raidz1.nix
+
             ./hosts/nixos/${hostName} # ip address, host specific stuff
             vscode-server.nixosModules.default
             home-manager.nixosModules.home-manager
@@ -193,6 +197,10 @@
             }
 
             disko.nixosModules.disko
+            ./modules/zfs/zfs-single-root.nix
+            ./modules/zfs/zfs-mirrored-root.nix
+            ./modules/zfs/zfs-raidz1.nix
+
             ./hosts/nixos/${hostName} # ip address, host specific stuff
           ]
           ++ (map (username: ./users/${username}.nix) usernames);
