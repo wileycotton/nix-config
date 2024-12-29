@@ -81,9 +81,9 @@ in {
             default = {};
           };
           postCreateHook = mkOption {
-            type = types.nullOr types.str;
+            type = types.lines;
             description = "Commands to run after dataset creation";
-            default = null;
+            default = "";
           };
         };
       });
