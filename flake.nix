@@ -243,7 +243,7 @@
       };
   in {
     checks.x86_64-linux = {
-      postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix { inherit inputs; });
+      postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit inputs;});
     };
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
