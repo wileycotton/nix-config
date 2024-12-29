@@ -7,9 +7,8 @@
   ...
 }: {
   imports = [
-    # Include the default incus configuration.
-    # "${modulesPath}/virtualisation/incus-virtual-machine.nix"
     ./disk-config.nix
+    ./hardware-configuration.nix
   ];
 
   users.users.root = {
@@ -28,6 +27,8 @@
   boot.supportedFilesystems = ["zfs"];
   boot.zfs.forceImportRoot = false;
 
+  # This is from https://github.com/KornelJahn/nixos-disko-zfs-test
+  # understand all that is happening.
   boot = {
     kernelParams = [
       "nohibernate"
@@ -35,6 +36,7 @@
       # https://github.com/NixOS/nixpkgs/issues/35681
       "systemd.gpt_auto=0"
       "zfs.zfs_arc_max=${toString (512 * 1048576)}"
+      "boot.shell_on_fail"
     ];
 
     loader = {

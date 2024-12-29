@@ -165,6 +165,39 @@
           ++ (map (username: ./users/${username}.nix) usernames);
       };
 
+    # creates a nixos system config
+    nixosMinimalSystem = system: hostName: usernames: let
+      pkgs = genPkgs system;
+      nixinateConfig = {
+        host = hostName;
+        sshUser = "root";
+        buildOn = "remote";
+        hermetic = false;
+      };
+      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+    in
+      nixpkgs.lib.nixosSystem
+      {
+        inherit system;
+        specialArgs = {inherit self system inputs;};
+        modules =
+          [
+            # adds unstable to be available in top-level evals (like in common-packages)
+            {
+              _module.args = {
+                unstablePkgs = unstablePkgs;
+                system = system;
+                inputs = inputs;
+                nixinate = nixinateConfig;
+              };
+            }
+
+            disko.nixosModules.disko
+            ./hosts/nixos/${hostName} # ip address, host specific stuff
+          ]
+          ++ (map (username: ./users/${username}.nix) usernames);
+      };
+
     # creates a macos system config
     darwinSystem = system: hostName: username: let
       pkgs = genDarwinPkgs system;
@@ -219,6 +252,7 @@
 
     nixosConfigurations = {
       admin = nixosSystem "x86_64-linux" "admin" ["bcotton"];
+      nas-01 = nixosSystem "x86_64-linux" "nas-01" ["bcotton" "tomcotton"];
       nix-01 = nixosSystem "x86_64-linux" "nix-01" ["bcotton" "tomcotton"];
       nix-02 = nixosSystem "x86_64-linux" "nix-02" ["bcotton" "tomcotton"];
       nix-03 = nixosSystem "x86_64-linux" "nix-03" ["bcotton" "tomcotton"];
@@ -230,7 +264,8 @@
       k3s-02 = nixosSystem "x86_64-linux" "k3s-02" ["bcotton"];
       k3s-03 = nixosSystem "x86_64-linux" "k3s-03" ["bcotton"];
       nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
-      # incus = nixosSystem "x86_64-linux" "incus" ["bcotton"];
+      incus = nixosMinimalSystem "x86_64-linux" "incus" ["bcotton"];
+      nas-test = nixosMinimalSystem "x86_64-linux" "nas-test" ["bcotton"];
     };
   };
 }
