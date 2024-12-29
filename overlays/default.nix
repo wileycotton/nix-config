@@ -1,7 +1,7 @@
-args:
-let
+args: let
   # Get all .nix files in the current directory except default.nix and test.nix
-  overlayFiles = builtins.filter
+  overlayFiles =
+    builtins.filter
     (f: f != "default.nix" && f != "test.nix" && builtins.match ".*\\.nix$" f != null)
     (builtins.attrNames (builtins.readDir ./.));
 
