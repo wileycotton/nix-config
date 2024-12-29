@@ -1,5 +1,6 @@
 # Run interactively:  nix run '.#checks.x86_64-linux.postgresql.driverInteractive'
-{
+# Run:  nix run '.#checks.x86_64-linux.postgresql'
+{ inputs ? {} }: {
   name = "postgresql";
 
   nodes = {
