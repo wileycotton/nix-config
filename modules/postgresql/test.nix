@@ -1,5 +1,6 @@
 # Run interactively:  nix run '.#checks.x86_64-linux.postgresql.driverInteractive'
-{
+# Run:  nix run '.#checks.x86_64-linux.postgresql'
+{inputs ? {}}: {
   name = "postgresql";
 
   nodes = {
@@ -30,6 +31,13 @@
         enable = true;
         database = "test-immich"; # Match the database name with the user for ensureDBOwnership
         user = "test-immich";
+      };
+
+      # Test Open WebUI configuration
+      services.clubcotton.postgresql.open-webui = {
+        enable = true;
+        database = "test-open-webui";
+        user = "test-open-webui";
       };
     };
   };
@@ -75,6 +83,17 @@
         )
         machine.succeed(
             "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'vectors';\" | grep test-immich"
+        )
+    with subtest("Open WebUI database and user are created"):
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -c '\\l' | grep test-open-webui"
+        )
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -c '\\du' | grep test-open-webui"
+        )
+    with subtest("Open WebUI schema ownership is correct"):
+        machine.succeed(
+            "sudo -u postgres psql -p 5433 -d test-open-webui -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'public';\" | grep test-open-webui"
         )
   '';
 }

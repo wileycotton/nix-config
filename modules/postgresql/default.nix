@@ -9,10 +9,18 @@ with lib; let
 in {
   imports = [
     ./immich.nix
+    ./open-webui.nix
   ];
 
   options.services.clubcotton.postgresql = {
     enable = mkEnableOption "PostgreSQL Server";
+
+    postStartCommands = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = "Commands to run after PostgreSQL starts.";
+      internal = true;
+    };
 
     package = mkOption {
       type = types.package;
@@ -77,5 +85,9 @@ in {
         password_encryption = "scram-sha-256";
       };
     };
+
+    systemd.services.postgresql.postStart = mkIf (cfg.postStartCommands != []) ''
+      ${concatStringsSep "\n" cfg.postStartCommands}
+    '';
   };
 }

@@ -42,7 +42,7 @@ in {
       extensions = ps: with ps; [pgvecto-rs];
     };
 
-    systemd.services.postgresql.serviceConfig.ExecStartPost = let
+    services.clubcotton.postgresql.postStartCommands = let
       sqlFile = pkgs.writeText "immich-pgvectors-setup.sql" ''
         CREATE EXTENSION IF NOT EXISTS unaccent;
         CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
