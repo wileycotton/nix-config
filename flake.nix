@@ -244,6 +244,10 @@
   in {
     checks.x86_64-linux = {
       postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
+      zfs-single-root = import ./modules/zfs/test.nix {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        diskoLib = disko.lib.${nixpkgs.system};
+      };
     };
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
