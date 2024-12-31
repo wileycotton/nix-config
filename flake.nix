@@ -45,7 +45,7 @@
     disko,
     ...
   }: let
-    inputs = {inherit agenix nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable;};
+    inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable;};
 
     # creates correct package sets for specified arch
     genPkgs = system:
@@ -244,10 +244,13 @@
   in {
     checks.x86_64-linux = {
       postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
-      zfs-single-root = import ./modules/zfs/test.nix {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        diskoLib = disko.lib.${nixpkgs.system};
-      };
+      zfs-single-root = let
+        system = "x86_64-linux";
+        pkgs = genPkgs system;
+      in
+        import ./modules/zfs/zfs-single-root-test.nix {
+          inherit nixpkgs pkgs disko;
+        };
     };
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
@@ -263,6 +266,15 @@
     };
 
     nixosConfigurations = {
+      # Basic configuration for disko tests
+      testmachine = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          disko.nixosModules.disko
+          ./modules/zfs/zfs-single-root.nix
+        ];
+      };
+
       admin = nixosSystem "x86_64-linux" "admin" ["bcotton"];
       nas-01 = nixosSystem "x86_64-linux" "nas-01" ["bcotton" "tomcotton"];
       nix-01 = nixosSystem "x86_64-linux" "nix-01" ["bcotton" "tomcotton"];

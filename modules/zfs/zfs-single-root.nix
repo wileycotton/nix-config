@@ -1,48 +1,12 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  common = import ./common.nix {inherit lib;};
-in
-  with lib; let
-    cfg = config.clubcotton.zfs_single_root;
+{ config
+, lib
+, pkgs
+, ...
+}:
 
-    # Function to create root disk configuration
-    makeRootDiskConfig = name: {
-      type = "disk";
-      device = name;
-      content = {
-        type = "gpt";
-        partitions = {
-          ESP = {
-            size = "256M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-            };
-          };
-          encryptedSwap = {
-            size = cfg.swapSize;
-            content = {
-              type = "swap";
-              randomEncryption = true;
-              priority = 100; # prefer to encrypt as long as we have space for it
-            };
-          };
-          zfs = {
-            size = "100%";
-            content = {
-              type = "zfs";
-              pool = cfg.poolname;
-            };
-          };
-        };
-      };
-    };
+with lib; let
+  zfsLib = import ./lib.nix { inherit lib; };
+  cfg = config.clubcotton.zfs_single_root;
   in {
     options.clubcotton.zfs_single_root = {
       enable = mkEnableOption "ZFS single disk root layout";
@@ -127,19 +91,8 @@ in
         efi.canTouchEfiVariables = true;
       };
 
-      disko.devices = {
-        disk = {
-          ${cfg.disk} = makeRootDiskConfig cfg.disk;
-        };
-        zpool = {
-          "${cfg.poolname}" = {
-            type = "zpool";
-            mode = ""; # single disk, no RAID
-            rootFsOptions = common.rootFsOptions;
-            options = common.options;
-            datasets = cfg.filesystems // cfg.volumes;
-          };
-        };
+      disko.devices = zfsLib.makeZfsSingleRootConfig {
+        inherit (cfg) poolname disk swapSize filesystems volumes;
       };
     };
   }
