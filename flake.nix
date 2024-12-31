@@ -45,7 +45,7 @@
     disko,
     ...
   }: let
-    inputs = {inherit agenix nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable;};
+    inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable;};
 
     # creates correct package sets for specified arch
     genPkgs = system:
@@ -243,7 +243,14 @@
       };
   in {
     checks.x86_64-linux = {
-      postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit inputs;});
+      postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
+      zfs-single-root = let
+        system = "x86_64-linux";
+        pkgs = genPkgs system;
+      in
+        import ./modules/zfs/zfs-single-root-test.nix {
+          inherit nixpkgs pkgs disko;
+        };
     };
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
