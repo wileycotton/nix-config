@@ -266,15 +266,6 @@
     };
 
     nixosConfigurations = {
-      # Basic configuration for disko tests
-      testmachine = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          disko.nixosModules.disko
-          ./modules/zfs/zfs-single-root.nix
-        ];
-      };
-
       admin = nixosSystem "x86_64-linux" "admin" ["bcotton"];
       nas-01 = nixosSystem "x86_64-linux" "nas-01" ["bcotton" "tomcotton"];
       nix-01 = nixosSystem "x86_64-linux" "nix-01" ["bcotton" "tomcotton"];
