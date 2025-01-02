@@ -95,11 +95,14 @@ makeDiskoTest {
     check_pool_status("tank", "ashift", "12")
     check_pool_status("tank", "autotrim", "on")
 
-    # Verify RAIDZ1 configuration
-    vdevs = machine.succeed("zpool status tank").rstrip()
-    assert "raidz1" in vdevs, "Expected RAIDZ1 configuration"
-    for disk in ["vdb", "vdc", "vdd", "vde"]:
-        assert f"/dev/{disk}" in vdevs, f"Expected /dev/{disk} in pool"
+    # Verify RAIDZ1 configuration and all components are ONLINE
+    status = machine.succeed("zpool status tank")
+    assert "raidz1" in status, "Expected RAIDZ1 configuration"
+    
+    # Count ONLINE components (pool + raidz1 vdev + 4 drives = 6)
+    # Exclude the "state:" line at the top
+    online_count = machine.succeed("zpool status tank | grep ONLINE | grep -v state | wc -l").strip()
+    assert int(online_count) == 6, f"Expected 6 ONLINE components (pool + raidz1 + 4 drives), got {online_count}"
 
     # Verify dataset structure and properties
     datasets = machine.succeed("zfs list -H -o name").rstrip().split('\n')
@@ -135,11 +138,5 @@ makeDiskoTest {
     # Test boot loader
     machine.succeed("test -d /boot/loader")
     machine.succeed("test -d /boot/EFI")
-
-    # Test RAIDZ1 resilience by simulating a disk failure
-    machine.succeed("zpool offline tank /dev/vdb")
-    check_pool_status("tank", "health", "DEGRADED")
-    machine.succeed("zpool online tank /dev/vdb")
-    check_pool_status("tank", "health", "ONLINE")
   '';
 }

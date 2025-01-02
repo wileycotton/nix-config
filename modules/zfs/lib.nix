@@ -56,8 +56,49 @@ let
     };
   };
 
+  # Function to create disk configuration for RAIDZ1 pool members
+  makeRaidz1DiskConfig = { disk, poolname }: {
+    type = "disk";
+    device = disk;
+    content = {
+      type = "gpt";
+      partitions = {
+        zfs = {
+          size = "100%";
+          content = {
+            type = "zfs";
+            pool = poolname;
+          };
+        };
+      };
+    };
+  };
+
 in {
   inherit rootFsOptions options;
+
+  makeZfsRaidz1Config = {
+    poolname,
+    disks,
+    datasets ? {},
+    volumes ? {}
+  }: {
+    disk = lib.listToAttrs (map (disk: {
+      name = disk;
+      value = makeRaidz1DiskConfig {
+        inherit disk poolname;
+      };
+    }) disks);
+    zpool = {
+      "${poolname}" = {
+        type = "zpool";
+        mode = "raidz1";
+        rootFsOptions = rootFsOptions;
+        options = options;
+        datasets = datasets // volumes;
+      };
+    };
+  };
 
   makeZfsSingleRootConfig = { 
     poolname, 

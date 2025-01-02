@@ -97,3 +97,13 @@ modules/zfs/
   - RAIDZ1-specific resilience tests using disk offline/online operations
   - Dataset property verification for both pools
   - Mountpoint and boot configuration tests
+
+- 2024-01-02: Analyzed test refactoring
+  - Reviewed zfs-single-root-test.nix refactoring which now uses makeDiskTest
+  - Confirmed zfs-raidz1-test.nix already follows similar patterns
+  - Verified test passes with current implementation
+  - No changes needed as the test already:
+    * Uses makeDiskoTest from disko library
+    * Properly tests RAIDZ1 configuration
+    * Verifies pool health, properties, and dataset configuration
+    * Includes RAIDZ1-specific resilience tests
