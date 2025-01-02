@@ -251,6 +251,20 @@
         import ./modules/zfs/zfs-single-root-test.nix {
           inherit nixpkgs pkgs disko;
         };
+      zfs-raidz1 = let
+        system = "x86_64-linux";
+        pkgs = genPkgs system;
+      in
+        import ./modules/zfs/zfs-raidz1-test.nix {
+          inherit nixpkgs pkgs disko;
+        };
+      zfs-mirrored-root = let
+        system = "x86_64-linux";
+        pkgs = genPkgs system;
+      in
+        import ./modules/zfs/zfs-mirrored-root-test.nix {
+          inherit nixpkgs pkgs disko;
+        };
     };
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;

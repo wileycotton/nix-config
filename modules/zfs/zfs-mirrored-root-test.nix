@@ -14,9 +14,9 @@
 
   # Test configuration
   testConfig = {
-    disko.devices = zfsLib.makeZfsSingleRootConfig {
+    disko.devices = zfsLib.makeZfsMirroredRootConfig {
       poolname = "zroot";
-      disk = "/dev/vda";
+      disks = ["/dev/vda" "/dev/vdb"];
       swapSize = "2G";
       filesystems = {
         "root" = {
@@ -38,13 +38,34 @@
 in
   makeDiskoTest {
     inherit pkgs;
-    name = "zfs-single-root";
+    name = "zfs-mirrored-root";
     disko-config = testConfig;
     extraInstallerConfig = {
       networking.hostId = "8425e349";
     };
     extraSystemConfig = {
       networking.hostId = "8425e349";
+      boot.loader = {
+        systemd-boot.enable = lib.mkForce false;
+        grub = {
+          enable = true;
+          devices = lib.mkForce [];
+          efiSupport = true;
+          efiInstallAsRemovable = true;
+          mirroredBoots = [
+            {
+              devices = ["nodev"];
+              path = "/boot0";
+              efiSysMountPoint = "/boot0";
+            }
+            {
+              devices = ["nodev"];
+              path = "/boot1";
+              efiSysMountPoint = "/boot1";
+            }
+          ];
+        };
+      };
     };
     extraTestScript = ''
       def assert_property(ds, property, expected_value):
@@ -67,6 +88,11 @@ in
       check_pool_status("zroot", "readonly", "off")
       check_pool_status("zroot", "autoexpand", "off")
 
+      # Count ONLINE components (pool + raidz1 vdev + 2 drives = 4)
+      # Exclude the "state:" line at the top
+      online_count = machine.succeed("zpool status zroot | grep ONLINE | grep -v state | wc -l").strip()
+      assert int(online_count) == 4, f"Expected 4 ONLINE components (pool + raidz1 + 2 drives), got {online_count}"
+
       # Verify dataset structure and properties
       datasets = machine.succeed("zfs list -H -o name").rstrip().split('\n')
       expected_datasets = ["zroot", "zroot/root", "zroot/home"]
@@ -85,13 +111,19 @@ in
       # Test mountpoints
       machine.succeed("mountpoint /")
       machine.succeed("mountpoint /home")
-      machine.succeed("mountpoint /boot")
+      machine.succeed("mountpoint /boot0")
+      machine.succeed("mountpoint /boot1")
 
-      # Test swap
-      machine.succeed("swapon -s | grep /dev/")
+      machine.shell_interact()
 
-      # Test boot loader
-      machine.succeed("test -d /boot/loader")
-      machine.succeed("test -d /boot/EFI")
+      # Test swap on both disks
+      swap_devices = machine.succeed("swapon -s")
+      assert swap_devices.count("/dev/") == 2, "Expected two swap devices"
+
+      # Test boot loader on both disks
+      machine.succeed("test -d /boot0/kernels")
+      machine.succeed("test -d /boot0/EFI")
+      machine.succeed("test -d /boot1/kernels")
+      machine.succeed("test -d /boot1/EFI")
     '';
   }
