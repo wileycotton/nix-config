@@ -79,7 +79,9 @@ in {
         "tailscale"
         "pandoc"
         "trash"
-        "youtube-dl"
+        # "youtube-dl" depreciated 
+        "pkgconf"
+        "openjdk"
       ];
       casks = [
         "hiddenbar"
@@ -184,6 +186,12 @@ in {
       # Following line should allow us to avoid a logout/login cycle
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
+    # Blocks mac from storing window presence and location. Results in only startup apps at startup. 
+    system.activationScripts.blockWindowLogging.text = """
+      sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow.*
+      sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow.*
+      echo 'blocking access to ~/Library/Preferences/ByHost/com.apple.loginwindow.*'
+    """;
     system.defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
       NSGlobalDomain.AppleShowScrollBars = "Always";
