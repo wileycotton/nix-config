@@ -67,6 +67,19 @@ in {
         and md5 password authentication for TCP connections.
       '';
     };
+
+    initialScript = mkOption {
+      type = types.nullOr types.path;
+      default = null;
+      example = literalExpression ''
+        pkgs.writeText "init-sql-script" '''
+          alter user postgres with password 'myPassword';
+        ''';'';
+
+      description = ''
+        A file containing SQL statements to execute on first startup.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {

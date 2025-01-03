@@ -98,14 +98,20 @@ in {
 
       host = mkOption {
         type = types.str;
-        default = "/run/postgresql";
-        description = "PostgreSQL host. Use absolute path for Unix socket.";
+        default = "localhost";
+        description = "PostgreSQL server hostname or IP address.";
       };
 
       port = mkOption {
         type = types.port;
         default = 5432;
-        description = "PostgreSQL port number.";
+        description = "PostgreSQL server port number.";
+      };
+
+      password = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "PostgreSQL password for authentication. If null, password should be provided via secretsFile.";
       };
     };
 
