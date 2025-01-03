@@ -1,7 +1,15 @@
-{nixpkgs}: {
+{
+  nixpkgs,
+  unstablePkgs,
+}: {
   name = "postgresql-integration";
 
-  interactive.nodes.immich = { ... }: {
+  interactive.nodes = let
+    testLib = import ./libtest.nix {};
+  in {
+    postgres = {...}: testLib.mkSshConfig 2223;
+    immich = {...}: testLib.mkSshConfig 2224;
+    webui = {...}: testLib.mkSshConfig 2225;
   };
   nodes = {
     # PostgreSQL server node
@@ -39,28 +47,18 @@
           user = "test-immich";
           passwordFile = "/etc/immich-secrets";
         };
+
+        # Enable Open WebUI database support
+        open-webui = {
+          enable = true;
+          database = "test-webui";
+          user = "test-webui";
+          passwordFile = "/etc/immich-secrets"; # Using same file since it contains 'test-password'
+        };
       };
 
       # Open firewall for PostgreSQL
       networking.firewall.allowedTCPPorts = [5433];
-
-      # SSH access configuration
-      services.openssh = {
-        enable = true;
-        settings = {
-          PermitRootLogin = "yes";
-          PermitEmptyPasswords = "yes";
-        };
-      };
-      security.pam.services.sshd.allowNullPassword = true;
-      virtualisation.forwardPorts = [
-        {
-          from = "host";
-          host.port = 2224;
-          guest.port = 22;
-        }
-      ];
-      
     };
 
     # Immich server node
@@ -100,23 +98,33 @@
 
       # Open firewall for Immich
       networking.firewall.allowedTCPPorts = [2283];
+    };
 
-      # SSH access configuration
-      services.openssh = {
+    # Open WebUI node
+    webui = {
+      config,
+      pkgs,
+      ...
+    }: {
+      # imports = [
+      #   ../modules/open-webui
+      # ];
+
+      # Configure Open WebUI service
+      services.open-webui = {
         enable = true;
-        settings = {
-          PermitRootLogin = "yes";
-          PermitEmptyPasswords = "yes";
+        package = unstablePkgs.open-webui;
+
+        host = "0.0.0.0";
+        port = 3000;
+        environment = {
+          WEBUI_AUTH = "True";
+          DATABASE_URL = "postgresql://test-webui:test-password@postgres:5433/test-webui";
         };
       };
-      security.pam.services.sshd.allowNullPassword = true;
-      virtualisation.forwardPorts = [
-        {
-          from = "host";
-          host.port = 2223;
-          guest.port = 22;
-        }
-      ];
+
+      # Open firewall for Open WebUI
+      networking.firewall.allowedTCPPorts = [3000];
     };
   };
 
@@ -174,12 +182,41 @@
             "sudo -u postgres psql -p 5433 -d test-immich -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'vectors';\" | grep test-immich"
         )
 
+    with subtest("Open WebUI database and user are created"):
+        postgres.succeed(
+            "sudo -u postgres psql -p 5433 -c '\\l' | grep test-webui"
+        )
+        postgres.succeed(
+            "sudo -u postgres psql -p 5433 -c '\\du' | grep test-webui"
+        )
+
+    with subtest("Open WebUI schema ownership is correct"):
+        postgres.succeed(
+            "sudo -u postgres psql -p 5433 -d test-webui -c \"SELECT schema_owner FROM information_schema.schemata WHERE schema_name = 'public';\" | grep test-webui"
+        )
+
+    with subtest("Open WebUI user can connect"):
+        postgres.succeed(
+            "sudo -u postgres psql -p 5433 -U test-webui -d test-webui -c 'SELECT 1'"
+        )
+
+    with subtest("Open WebUI service starts"):
+        webui.shell_interact()
+
+        webui.wait_for_unit("open-webui.service")
+        webui.succeed("systemctl is-active open-webui.service")
+
+    with subtest("Open WebUI service is listening"):
+        webui.wait_until_succeeds("nc -z localhost 3000")
+
+    with subtest("Open WebUI can connect to PostgreSQL"):
+        webui.succeed("nc -z postgres 5433")
+
     with subtest("Secrets file exists"):
         immich.succeed("test -f /etc/immich-secrets")
 
 
     with subtest("Immich service starts"):
-        immich.shell_interact()
         immich.wait_for_unit("immich-server.service")
         immich.succeed("systemctl is-active immich-server.service")
 

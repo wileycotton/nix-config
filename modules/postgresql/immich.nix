@@ -50,8 +50,8 @@ in {
 
     # https://discourse.nixos.org/t/set-password-for-a-postgresql-user-from-a-file-agenix/41377/13
     # TODO: use agenix for the password
-    systemd.services.postgresql.postStart = let
-      # password_file_path = config.environment.etc."immich-secrets".path;
+    # password_file_path = config.environment.etc."immich-secrets".path;
+    systemd.services.postgresql.postStart = mkIf (cfg.immich.passwordFile != null) (let
       password_file_path = cfg.immich.passwordFile;
     in ''
       $PSQL -tA <<'EOF'
@@ -62,7 +62,7 @@ in {
           EXECUTE format('ALTER ROLE "${cfg.immich.database}" WITH PASSWORD '''%s''';', password);
         END $$;
       EOF
-    '';
+    '');
 
     services.clubcotton.postgresql.postStartCommands = let
       sqlFile = pkgs.writeText "immich-pgvectors-setup.sql" ''

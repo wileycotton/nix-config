@@ -241,10 +241,11 @@
           agenix.nixosModules.default
         ];
       };
+    unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
   in {
     checks.x86_64-linux = {
       postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
-      postgresql-integration = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs;});
+      postgresql-integration = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs unstablePkgs;});
       zfs-single-root = let
         system = "x86_64-linux";
         pkgs = genPkgs system;
