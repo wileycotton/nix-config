@@ -40,7 +40,6 @@ in {
       default = "./data";
       description = "State directory for Open WebUI.";
     };
-
   };
 
   config = mkIf cfg.enable {

@@ -83,7 +83,7 @@ in {
   makeZfsRaidz1Config = {
     poolname,
     disks,
-    datasets ? {},
+    filesystems ? {},
     volumes ? {},
   }: {
     disk = lib.listToAttrs (map (disk: {
@@ -99,7 +99,7 @@ in {
         mode = "raidz1";
         rootFsOptions = rootFsOptions;
         options = options;
-        datasets = datasets // volumes;
+        datasets = filesystems // volumes;
       };
     };
   };
