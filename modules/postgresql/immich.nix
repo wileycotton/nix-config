@@ -25,7 +25,7 @@ in {
 
       passwordFile = mkOption {
         type = types.nullOr types.path;
-        default = "immich";
+        default = null;
         description = "Path to the user's password.";
       };
     };

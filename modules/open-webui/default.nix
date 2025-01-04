@@ -11,38 +11,51 @@ in {
   options.services.clubcotton.open-webui = {
     enable = mkEnableOption "Open WebUI database support";
 
-    database = mkOption {
-      type = types.str;
-      default = "open-webui";
-      description = "Name of the Open WebUI database.";
+    package = mkOption {
+      type = types.package;
+      default = unstablePkgs.open-webui;
+      description = "Open WebUI package to use.";
     };
 
-    user = mkOption {
-      type = types.str;
-      default = "open-webui";
-      description = "Name of the Open WebUI database user.";
+    enableTailscale = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to enable Tailscale support.";
     };
 
-    passwordFile = mkOption {
+    environment = mkOption {
+      type = types.attrsOf types.str;
+      default = {};
+      description = "Environment variables to set.";
+    };
+
+    environmentFile = mkOption {
       type = types.nullOr types.path;
       default = null;
-      description = "Path to the user's password file.";
+      description = "Path to the environment file.";
     };
+
+    stateDir = mkOption {
+      type = types.path;
+      default = "./data";
+      description = "State directory for Open WebUI.";
+    };
+
   };
 
   config = mkIf cfg.enable {
     services.open-webui = {
       enable = true;
-      package = unstablePkgs.open-webui;
+      package = cfg.package;
       host = "0.0.0.0";
-      # stateDir = "/mnt/docker_volumes/open-webui";
+      stateDir = cfg.stateDir;
       environment = {
         WEBUI_AUTH = "True";
       };
       environmentFile = config.age.secrets.open-webui.path;
     };
 
-    services.tsnsrv = {
+    services.tsnsrv = mkIf cfg.enableTailscale {
       enable = true;
       defaults.authKeyPath = config.age.secrets.tailscale-keys.path;
 
