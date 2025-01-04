@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ../../../modules/node-exporter
     ../../../modules/tailscale
+    ../../../modules/samba
   ];
 
   networking = {
@@ -109,33 +110,117 @@
   };
 
   clubcotton.zfs_raidz1 = {
-    enable = true;
-    poolname = "ssdpool";
-    disks = [
-      "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X903171J"
-      "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X903188X"
-      "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X903194N"
-      "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X905916M"
-    ];
-    filesystems = {
-      ssdlocal = {
-        options.mountpoint = "none";
-      };
-
-      "ssdlocal/database" = {
-        type = "zfs_fs";
-        mountpoint = "/db";
-        options = {
-          mountpoint = "legacy";
-          recordsize = "8k"; # for postgres
-          "com.sun:auto-snapshot" = "true";
+    ssdpool = {
+      enable = true;
+      disks = [
+        "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X903171J"
+        "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X903188X"
+        "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X903194N"
+        "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X905916M"
+      ];
+      filesystems = {
+        local = {
+          options.mountpoint = "none";
+        };
+        "local/reserved" = {
+          type = "zfs_fs";
+          options = {
+            mountpoint = "none";
+            reservation = "200GiB";
+          };
+        };
+        "local/database" = {
+          type = "zfs_fs";
+          mountpoint = "/db";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "8k"; # for postgres
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+      }; # filesystems
+      volumes = {
+        "local/incus" = {
+          size = "300G";
         };
       };
-    }; # filesystems
-    volumes = {
-      "ssdlocal/incus" = {
-        size = "300G";
-      };
+    };
+
+    mediapool = {
+      enable = true;
+      disks = [
+        "/dev/disk/by-id/wwn-0x5000c500cbac2c8c"
+        "/dev/disk/by-id/wwn-0x5000c500cbadaef8"
+        "/dev/disk/by-id/wwn-0x5000c500f73da9f5"
+      ];
+      filesystems = {
+        local = {
+          options.mountpoint = "none";
+        };
+        "local/reserved" = {
+          type = "zfs_fs";
+          options = {
+            mountpoint = "none";
+            reservation = "600GiB";
+          };
+        };
+        "local/music" = {
+          type = "zfs_fs";
+          mountpoint = "/media/music";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "1M"; # for larege files
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+        "local/movies" = {
+          type = "zfs_fs";
+          mountpoint = "/media/movies";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "1M"; # for larege files
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+        "local/shows" = {
+          type = "zfs_fs";
+          mountpoint = "/media/shows";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "1M"; # for large files
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+      }; # filesystems
+    };
+    backuppool = {
+      enable = true;
+      disks = [
+        "/dev/disk/by-id/wwn-0x5000c500cb986994"
+        "/dev/disk/by-id/wwn-0x5000c500cb5e1c80"
+        "/dev/disk/by-id/wwn-0x5000c500f6f25ea9"
+      ];
+      filesystems = {
+        local = {
+          options.mountpoint = "none";
+        };
+        "local/reserved" = {
+          type = "zfs_fs";
+          options = {
+            mountpoint = "none";
+            reservation = "600GiB";
+          };
+        };
+        "local/backups" = {
+          type = "zfs_fs";
+          mountpoint = "/backups";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "1M"; # for large files
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+      }; # filesystems
     };
   };
 
