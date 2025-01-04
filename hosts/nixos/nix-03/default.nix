@@ -65,6 +65,14 @@
           "com.sun:auto-snapshot" = "true";
         };
       };
+      "local/lib" = {
+        type = "zfs_fs";
+        mountpoint = "/var/lib";
+        options = {
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
+      };
       "local/home" = {
         mountpoint = "/home";
         options = {

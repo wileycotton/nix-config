@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   mkSshConfig = port: {
     # SSH access configuration
     services.openssh = {

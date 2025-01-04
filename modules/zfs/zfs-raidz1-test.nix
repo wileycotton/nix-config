@@ -41,7 +41,7 @@
       (zfsLib.makeZfsRaidz1Config {
         poolname = "tank";
         disks = ["/dev/vdb" "/dev/vdc" "/dev/vdd" "/dev/vde"];
-        datasets = {
+        filesystems = {
           "data" = {
             type = "zfs_fs";
             mountpoint = "/tank/data";
