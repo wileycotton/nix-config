@@ -92,6 +92,7 @@ in {
         "mactex"
         "obs"
         "ollama"
+        "bambu-studio"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
