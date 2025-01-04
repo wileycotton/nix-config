@@ -59,10 +59,17 @@
         config.allowUnfree = true;
       };
 
+    # creates unstable package set for specified arch
+    genUnstablePkgs = system:
+      import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
     # creates a nixos system config
     nixosVM = system: hostName: usernames: let
       pkgs = genPkgs system;
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nixos-generators.nixosGenerate
       {
@@ -112,7 +119,7 @@
         buildOn = "remote";
         hermetic = false;
       };
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nixpkgs.lib.nixosSystem
       {
@@ -178,7 +185,7 @@
         buildOn = "remote";
         hermetic = false;
       };
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nixpkgs.lib.nixosSystem
       {
@@ -209,7 +216,7 @@
     # creates a macos system config
     darwinSystem = system: hostName: username: let
       pkgs = genDarwinPkgs system;
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nix-darwin.lib.darwinSystem
       {
@@ -219,7 +226,7 @@
           # adds unstable to be available in top-level evals (like in common-packages)
           {
             _module.args = {
-              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+              unstablePkgs = genUnstablePkgs system;
               system = system;
             };
           }
@@ -242,8 +249,12 @@
         ];
       };
   in {
-    checks.x86_64-linux = {
-      postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
+    checks.x86_64-linux = let
+      system = "x86_64-linux";
+      unstablePkgs = genUnstablePkgs system;
+    in {
+      postgresql = nixpkgs.legacyPackages.${system}.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
+      postgresql-integration = nixpkgs.legacyPackages.${system}.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs unstablePkgs;});
       zfs-single-root = let
         system = "x86_64-linux";
         pkgs = genPkgs system;

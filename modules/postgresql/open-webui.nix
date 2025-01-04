@@ -22,6 +22,12 @@ in {
         default = "open-webui";
         description = "Name of the Open WebUI database user.";
       };
+
+      passwordFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = "Path to the user's password file.";
+      };
     };
   };
 
@@ -36,6 +42,20 @@ in {
         }
       ];
     };
+
+    # Set password from file if passwordFile is provided
+    systemd.services.postgresql.postStart = mkIf (cfg.open-webui.passwordFile != null) (let
+      password_file_path = cfg.open-webui.passwordFile;
+    in ''
+      $PSQL -tA <<'EOF'
+        DO $$
+        DECLARE password TEXT;
+        BEGIN
+          password := trim(both from replace(pg_read_file('${password_file_path}'), E'\n', '''));
+          EXECUTE format('ALTER ROLE "${cfg.open-webui.database}" WITH PASSWORD '''%s''';', password);
+        END $$;
+      EOF
+    '');
 
     services.clubcotton.postgresql.postStartCommands = let
       sqlFile = pkgs.writeText "open-webui-setup.sql" ''
