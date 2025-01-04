@@ -388,11 +388,13 @@ in {
   home.packages = with pkgs; [
     (pkgs.python311.withPackages (ppkgs: [
       ppkgs.numpy
+      ppkgs.libtmux
     ]))
     ffmpeg
     rsync
     rhash
     restic
+    # python3Packages.libtmux
     # kubernetes-helm
     # kubectx
     # kubectl
@@ -431,7 +433,7 @@ in {
     #   mosh
     #   neofetch
     #    nmap
-    #      (python311.withPackages(ps: with ps; [ libtmux ]))
+    # (python311.withPackages(ps: with ps; [ libtmux ]))
     #   ripgrep
     #   skopeo
     #   smartmontools
