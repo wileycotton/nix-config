@@ -124,22 +124,42 @@
   };
 
   clubcotton.zfs_raidz1 = {
-    enable = true;
-    poolname = "ssdpool";
-    disks = [
-      "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme1"
-      "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme2"
-      "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme3"
-      "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme4"
-    ];
-    filesystems = {
-      database = {
-        type = "zfs_fs";
-        mountpoint = "/db";
-        options = {
-          mountpoint = "legacy";
-          recordsize = "8k"; # for postgres
-          "com.sun:auto-snapshot" = "true";
+    ssdpool = {
+      enable = true;
+      disks = [
+        "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme1"
+        "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme2"
+        "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme3"
+        "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme4"
+      ];
+      filesystems = {
+        database = {
+          type = "zfs_fs";
+          mountpoint = "/db";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "8k"; # for postgres
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+      };
+    };
+    backuppool = {
+      enable = true;
+      disks = [
+        "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme5"
+        "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme6"
+        "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_nvme7"
+      ];
+      filesystems = {
+        database = {
+          type = "zfs_fs";
+          mountpoint = "/db2";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "8k"; # for postgres
+            "com.sun:auto-snapshot" = "true";
+          };
         };
       };
     };
