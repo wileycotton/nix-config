@@ -52,65 +52,8 @@
       "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_24293W800136"
       "/dev/disk/by-id/wwn-0x500a0751e8afe231"
     ];
-    filesystems = {
-      local = {
-        type = "zfs_fs";
-        options.mountpoint = "none";
-      };
-      safe = {
-        type = "zfs_fs";
-        options.mountpoint = "none";
-      };
-      "local/reserved" = {
-        type = "zfs_fs";
-        options = {
-          mountpoint = "none";
-          reservation = "20GiB";
-        };
-      };
-      "local/root" = {
-        type = "zfs_fs";
-        mountpoint = "/";
-        options.mountpoint = "legacy";
-        postCreateHook = ''
-          zfs snapshot rpool/local/root@blank
-        '';
-      };
-      "local/nix" = {
-        type = "zfs_fs";
-        mountpoint = "/nix";
-        options = {
-          atime = "off";
-          canmount = "on";
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "local/log" = {
-        type = "zfs_fs";
-        mountpoint = "/var/log";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "local/lib" = {
-        type = "zfs_fs";
-        mountpoint = "/var/lib";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "safe/home" = {
-        type = "zfs_fs";
-        mountpoint = "/home";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-    }; # filesystems
+    useStandardFilesystems = true;
+    reservedSize = "20GiB";
   };
 
   clubcotton.zfs_raidz1 = {

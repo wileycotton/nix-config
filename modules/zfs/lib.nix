@@ -1,4 +1,65 @@
 {lib}: let
+  # Function to generate standard filesystem configurations
+  makeStandardFilesystems = {reservedSize ? "20GiB", poolname}: {
+    local = {
+      type = "zfs_fs";
+      options.mountpoint = "none";
+    };
+    safe = {
+      type = "zfs_fs";
+      options.mountpoint = "none";
+    };
+    "local/reserved" = {
+      type = "zfs_fs";
+      options = {
+        mountpoint = "none";
+        reservation = reservedSize;
+      };
+    };
+    "local/root" = {
+      type = "zfs_fs";
+      mountpoint = "/";
+      options.mountpoint = "legacy";
+      postCreateHook = ''
+        zfs snapshot ${poolname}/local/root@blank
+      '';
+    };
+    "local/nix" = {
+      type = "zfs_fs";
+      mountpoint = "/nix";
+      options = {
+        atime = "off";
+        canmount = "on";
+        mountpoint = "legacy";
+        "com.sun:auto-snapshot" = "true";
+      };
+    };
+    "local/log" = {
+      type = "zfs_fs";
+      mountpoint = "/var/log";
+      options = {
+        mountpoint = "legacy";
+        "com.sun:auto-snapshot" = "true";
+      };
+    };
+    "local/lib" = {
+      type = "zfs_fs";
+      mountpoint = "/var/lib";
+      options = {
+        mountpoint = "legacy";
+        "com.sun:auto-snapshot" = "true";
+      };
+    };
+    "safe/home" = {
+      type = "zfs_fs";
+      mountpoint = "/home";
+      options = {
+        mountpoint = "legacy";
+        "com.sun:auto-snapshot" = "true";
+      };
+    };
+  };
+
   # Common ZFS options shared between different pool configurations
   rootFsOptions = {
     atime = "off";
@@ -85,6 +146,8 @@ in {
     disks,
     filesystems ? {},
     volumes ? {},
+    useStandardFilesystems ? false,
+    reservedSize ? "20GiB",
   }: {
     disk = lib.listToAttrs (map (disk: {
         name = disk;
@@ -99,7 +162,7 @@ in {
         mode = "raidz1";
         rootFsOptions = rootFsOptions;
         options = options;
-        datasets = filesystems // volumes;
+        datasets = (if useStandardFilesystems then makeStandardFilesystems {inherit reservedSize poolname;} else {}) // filesystems // volumes;
       };
     };
   };
@@ -110,6 +173,8 @@ in {
     swapSize,
     filesystems ? {},
     volumes ? {},
+    useStandardFilesystems ? true,
+    reservedSize ? "20GiB",
   }: {
     disk = {
       ${disk} = makeRootDiskConfig {
@@ -122,7 +187,7 @@ in {
         mode = ""; # single disk, no RAID
         rootFsOptions = rootFsOptions;
         options = options;
-        datasets = filesystems // volumes;
+        datasets = (if useStandardFilesystems then makeStandardFilesystems {inherit reservedSize poolname;} else {}) // filesystems // volumes;
       };
     };
   };
@@ -134,6 +199,8 @@ in {
     swapSize,
     filesystems ? {},
     volumes ? {},
+    useStandardFilesystems ? true,
+    reservedSize ? "20GiB",
   }: {
     disk = lib.listToAttrs (lib.imap0 (index: disk: {
         name = disk;
@@ -179,7 +246,7 @@ in {
         mode = "mirror";
         rootFsOptions = rootFsOptions;
         options = options;
-        datasets = filesystems // volumes;
+        datasets = (if useStandardFilesystems then makeStandardFilesystems {inherit reservedSize poolname;} else {}) // filesystems // volumes;
       };
     };
   };
