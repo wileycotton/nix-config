@@ -51,10 +51,6 @@
   };
   services.tailscale.enable = true;
 
-  age.secrets."tailscale-keys.env" = {
-    file = ../../../secrets/tailscale-keys.env;
-  };
-
   virtualisation.libvirtd.enable = true;
 
   time.timeZone = "America/Denver";

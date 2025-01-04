@@ -31,6 +31,7 @@ in {
     intel-media-driver
     jellyfin-ffmpeg
     hddtemp
+    nil
     nixos-shell
     synergy
     qemu

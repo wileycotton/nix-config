@@ -149,6 +149,9 @@
             nixos-generators.nixosModules.all-formats
 
             disko.nixosModules.disko
+            tsnsrv.nixosModules.default
+            ./secrets
+            ./modules/open-webui
             ./modules/zfs
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff
@@ -251,6 +254,9 @@
       system = "x86_64-linux";
       unstablePkgs = genUnstablePkgs system;
     in {
+      # to run the checks, use the following pattern of commands:
+      # nix build '.#checks.x86_64-linux.postgresql-integration'
+      # nix run '.#checks.x86_64-linux.postgresql-integration.driverInteractive'
       postgresql = nixpkgs.legacyPackages.${system}.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
       postgresql-integration = nixpkgs.legacyPackages.${system}.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs unstablePkgs;});
       zfs-single-root = let
