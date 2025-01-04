@@ -343,7 +343,7 @@ in {
       tmux-window-name() {
         (${builtins.toString tmux-window-name}/share/tmux-plugins/tmux-window-name/scripts/rename_session_windows.py &)
       }
-      if [[ `uname` == "Darwin" ]]; then
+      if [[ $TERM_PROGRAM == "tmux" && `uname` == "Darwin" ]]; then
         add-zsh-hook chpwd tmux-window-name
       fi
 

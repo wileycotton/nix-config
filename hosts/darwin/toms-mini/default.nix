@@ -10,7 +10,7 @@
 in {
   config = {
     users.users.tomcotton.home = "/Users/tomcotton";
-
+    # Define a user named "tomcotton" with home directory "/Users/tomcotton".
     nixpkgs.overlays = [
         (final: prev: {
       p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
