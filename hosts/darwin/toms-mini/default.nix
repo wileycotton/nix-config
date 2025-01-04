@@ -91,6 +91,7 @@ in {
         "karabiner-elements"
         "mactex"
         "obs"
+        "ollama"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
