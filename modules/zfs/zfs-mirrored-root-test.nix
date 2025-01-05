@@ -85,7 +85,7 @@ in
 
       # Verify dataset structure and properties
       datasets = machine.succeed("zfs list -H -o name").rstrip().split('\n')
-      expected_datasets = ["${rootPool}", "${rootPool}/root", "${rootPool}/home"]
+      expected_datasets = ["${rootPool}", "${rootPool}/local/root", "${rootPool}/safe/home"]
       for ds in expected_datasets:
           assert ds in datasets, f"Expected dataset {ds} not found"
 
@@ -95,14 +95,18 @@ in
 
       # Test ZFS properties
       assert_property("${rootPool}", "compression", "lz4")
-      assert_property("${rootPool}/home", "compression", "zstd")
-      assert_property("${rootPool}/home", "com.sun:auto-snapshot", "true")
+      assert_property("${rootPool}/safe/home", "compression", "lz4")
+      assert_property("${rootPool}/safe/home", "com.sun:auto-snapshot", "true")
 
       # Test mountpoints
       machine.succeed("mountpoint /")
+      machine.succeed("mountpoint /nix")
       machine.succeed("mountpoint /home")
       machine.succeed("mountpoint /boot0")
       machine.succeed("mountpoint /boot1")
+      machine.succeed("mountpoint /var/log")
+      machine.succeed("mountpoint /var/lib")
+
 
       machine.shell_interact()
 

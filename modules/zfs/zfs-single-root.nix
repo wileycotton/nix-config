@@ -26,6 +26,18 @@ in {
       description = "Size of the swap partition";
     };
 
+    useStandardFilesystems = mkOption {
+      type = types.bool;
+      description = "Use standard filesystems";
+      default = true;
+    };
+
+    reservedSize = mkOption {
+      type = types.str;
+      description = "Size of the reserved space";
+      default = "20GiB";
+    };
+
     filesystems = mkOption {
       type = types.attrsOf (types.submodule {
         options = {
@@ -92,7 +104,7 @@ in {
     };
 
     disko.devices = zfsLib.makeZfsSingleRootConfig {
-      inherit (cfg) poolname disk swapSize filesystems volumes;
+      inherit (cfg) poolname disk swapSize filesystems volumes useStandardFilesystems reservedSize;
     };
   };
 }

@@ -1,6 +1,9 @@
 {lib}: let
   # Function to generate standard filesystem configurations
-  makeStandardFilesystems = {reservedSize ? "20GiB", poolname}: {
+  makeStandardRootFilesystems = {
+    reservedSize ? "20GiB",
+    poolname,
+  }: {
     local = {
       type = "zfs_fs";
       options.mountpoint = "none";
@@ -21,7 +24,9 @@
       mountpoint = "/";
       options.mountpoint = "legacy";
       postCreateHook = ''
-        zfs snapshot ${poolname}/local/root@blank
+        if ! zfs list -t snapshot ${poolname}/local/root@blank >/dev/null 2>&1; then
+          zfs snapshot ${poolname}/local/root@blank
+        fi
       '';
     };
     "local/nix" = {
@@ -81,7 +86,7 @@
   };
 
   # Function to create root disk configuration for single disk setup
-  makeRootDiskConfig = {
+  makeRootDiskPartitionConfig = {
     disk,
     swapSize,
     poolname,
@@ -122,7 +127,7 @@
   # Function to create disk configuration for RAIDZ1 pool members
   makeRaidz1DiskConfig = {
     disk,
-    poolname,
+    dataPoolName,
   }: {
     type = "disk";
     device = disk;
@@ -133,7 +138,7 @@
           size = "100%";
           content = {
             type = "zfs";
-            pool = poolname;
+            pool = dataPoolName;
           };
         };
       };
@@ -144,26 +149,26 @@ in {
 
   makeZfsRaidz1Config = {
     poolname,
+    dataPoolName ? poolname,
     disks,
     filesystems ? {},
     volumes ? {},
-    useStandardFilesystems ? false,
     reservedSize ? "20GiB",
   }: {
     disk = lib.listToAttrs (map (disk: {
         name = disk;
         value = makeRaidz1DiskConfig {
-          inherit disk poolname;
+          inherit disk dataPoolName;
         };
       })
       disks);
     zpool = {
-      "${poolname}" = {
+      "${dataPoolName}" = {
         type = "zpool";
         mode = "raidz1";
         rootFsOptions = rootFsOptions;
         options = options;
-        datasets = (if useStandardFilesystems then makeStandardFilesystems {inherit reservedSize poolname;} else {}) // filesystems // volumes;
+        datasets = filesystems // volumes;
       };
     };
   };
@@ -178,7 +183,7 @@ in {
     reservedSize ? "20GiB",
   }: {
     disk = {
-      ${disk} = makeRootDiskConfig {
+      ${disk} = makeRootDiskPartitionConfig {
         inherit disk swapSize poolname;
       };
     };
@@ -188,7 +193,14 @@ in {
         mode = ""; # single disk, no RAID
         rootFsOptions = rootFsOptions;
         options = options;
-        datasets = (if useStandardFilesystems then makeStandardFilesystems {inherit reservedSize poolname;} else {}) // filesystems // volumes;
+        datasets =
+          (
+            if useStandardFilesystems
+            then makeStandardRootFilesystems {inherit reservedSize poolname;}
+            else {}
+          )
+          // filesystems
+          // volumes;
       };
     };
   };
@@ -247,7 +259,14 @@ in {
         mode = "mirror";
         rootFsOptions = rootFsOptions;
         options = options;
-        datasets = (if useStandardFilesystems then makeStandardFilesystems {inherit reservedSize poolname;} else {}) // filesystems // volumes;
+        datasets =
+          (
+            if useStandardFilesystems
+            then makeStandardRootFilesystems {inherit reservedSize poolname;}
+            else {}
+          )
+          // filesystems
+          // volumes;
       };
     };
   };

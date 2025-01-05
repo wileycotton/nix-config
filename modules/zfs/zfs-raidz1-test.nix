@@ -25,22 +25,21 @@
         poolname = rootPool;
         disk = "/dev/vda";
         swapSize = "2G";
-        useStandardFilesystems = true,
-        reservedSize = "2M",
+        useStandardFilesystems = true;
+        reservedSize = "2M";
       })
       # Additional RAIDZ1 pool
       (zfsLib.makeZfsRaidz1Config {
-        poolname = dataPool;
+        poolname = rootPool;
+        dataPoolName = dataPool;
         disks = ["/dev/vdb" "/dev/vdc" "/dev/vdd" "/dev/vde"];
-        useStandardFilesystems = true,
-        reservedSize = "2M",
-        poolname = dataPool,
+        reservedSize = "2M";
         filesystems = {
           "data" = {
             type = "zfs_fs";
             mountpoint = "/tank/data";
             options = {
-              compression = "zstd";
+              compression = "lz4";
               recordsize = "1M";
             };
           };
@@ -48,7 +47,7 @@
             type = "zfs_fs";
             mountpoint = "/tank/backup";
             options = {
-              compression = "zstd";
+              compression = "lz4";
               recordsize = "1M";
               copies = "2";
             };
@@ -101,7 +100,8 @@ in
       # Verify dataset structure and properties
       datasets = machine.succeed("zfs list -H -o name").rstrip().split('\n')
       expected_datasets = [
-          "${rootPool}", "${rootPool}/root", "${rootPool}/home",
+          "${rootPool}", "${rootPool}/local/root", "${rootPool}/safe/home",
+          "${rootPool}/local/lib", "${rootPool}/local/log", "${rootPool}/local/reserved",
           "${dataPool}", "${dataPool}/data", "${dataPool}/backup"
       ]
       for ds in expected_datasets:
@@ -109,13 +109,13 @@ in
 
       # Test ZFS properties for root pool
       assert_property("${rootPool}", "compression", "lz4")
-      assert_property("${rootPool}/home", "compression", "zstd")
-      assert_property("${rootPool}/home", "com.sun:auto-snapshot", "true")
+      assert_property("${rootPool}/safe/home", "compression", "lz4")
+      assert_property("${rootPool}/safe/home", "com.sun:auto-snapshot", "true")
 
       # Test ZFS properties for RAIDZ1 pool
-      assert_property("${dataPool}/data", "compression", "zstd")
+      assert_property("${dataPool}/data", "compression", "lz4")
       assert_property("${dataPool}/data", "recordsize", "1M")
-      assert_property("${dataPool}/backup", "compression", "zstd")
+      assert_property("${dataPool}/backup", "compression", "lz4")
       assert_property("${dataPool}/backup", "recordsize", "1M")
       assert_property("${dataPool}/backup", "copies", "2")
 
