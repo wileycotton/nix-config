@@ -21,7 +21,7 @@
       poolname = rootPool;
       disks = ["/dev/vda" "/dev/vdb"];
       swapSize = "2G";
-      useStandardFilesystems = true;
+      useStandardRootFilesystems = true;
       reservedSize = "2M";
     };
   };

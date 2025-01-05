@@ -25,7 +25,7 @@
         poolname = rootPool;
         disk = "/dev/vda";
         swapSize = "2G";
-        useStandardFilesystems = true;
+        useStandardRootFilesystems = true;
         reservedSize = "2M";
       })
       # Additional RAIDZ1 pool

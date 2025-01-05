@@ -29,7 +29,7 @@
     poolname = "rpool";
     swapSize = "64G";
     disk = "/dev/disk/by-id/nvme-eui.00000000000000000026b738281a3535";
-    useStandardFilesystems = true;
+    useStandardRootFilesystems = true;
     reservedSize = "20GiB";
     volumes = {
       "local/incus" = {

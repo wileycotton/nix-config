@@ -40,7 +40,7 @@ in {
       description = "Size of the swap partition";
     };
 
-    useStandardFilesystems = mkOption {
+    useStandardRootFilesystems = mkOption {
       type = types.bool;
       description = "Use standard filesystems";
       default = true;
@@ -113,7 +113,7 @@ in {
 
   config = mkIf cfg.enable {
     disko.devices = zfsLib.makeZfsMirroredRootConfig {
-      inherit (cfg) poolname disks swapSize filesystems volumes useStandardFilesystems reservedSize;
+      inherit (cfg) poolname disks swapSize filesystems volumes useStandardRootFilesystems reservedSize;
     };
 
     boot.loader = {

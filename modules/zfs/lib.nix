@@ -179,7 +179,7 @@ in {
     swapSize,
     filesystems ? {},
     volumes ? {},
-    useStandardFilesystems ? true,
+    useStandardRootFilesystems ? true,
     reservedSize ? "20GiB",
   }: {
     disk = {
@@ -195,7 +195,7 @@ in {
         options = options;
         datasets =
           (
-            if useStandardFilesystems
+            if useStandardRootFilesystems
             then makeStandardRootFilesystems {inherit reservedSize poolname;}
             else {}
           )
@@ -212,7 +212,7 @@ in {
     swapSize,
     filesystems ? {},
     volumes ? {},
-    useStandardFilesystems ? true,
+    useStandardRootFilesystems ? true,
     reservedSize ? "20GiB",
   }: {
     disk = lib.listToAttrs (lib.imap0 (index: disk: {
@@ -261,7 +261,7 @@ in {
         options = options;
         datasets =
           (
-            if useStandardFilesystems
+            if useStandardRootFilesystems
             then makeStandardRootFilesystems {inherit reservedSize poolname;}
             else {}
           )

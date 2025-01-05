@@ -35,7 +35,7 @@
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_root"
       "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_drive1"
     ];
-    useStandardFilesystems = true;
+    useStandardRootFilesystems = true;
     reservedSize = "5GiB";
     volumes = {
       "local/incus" = {

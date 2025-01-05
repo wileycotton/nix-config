@@ -52,7 +52,7 @@
       "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_24293W800136"
       "/dev/disk/by-id/wwn-0x500a0751e8afe231"
     ];
-    useStandardFilesystems = true;
+    useStandardRootFilesystems = true;
     reservedSize = "20GiB";
   };
 
