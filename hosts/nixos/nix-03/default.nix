@@ -29,58 +29,8 @@
     poolname = "rpool";
     swapSize = "64G";
     disk = "/dev/disk/by-id/nvme-eui.00000000000000000026b738281a3535";
-    filesystems = {
-      local = {
-        options.mountpoint = "none";
-      };
-      safe = {
-        options.mountpoint = "none";
-      };
-      "local/reserved" = {
-        options = {
-          mountpoint = "none";
-          reservation = "20GiB";
-        };
-      };
-      "local/root" = {
-        mountpoint = "/";
-        options.mountpoint = "legacy";
-        postCreateHook = ''
-          zfs snapshot rpool/local/root@blank
-        '';
-      };
-      "local/nix" = {
-        mountpoint = "/nix";
-        options = {
-          atime = "off";
-          canmount = "on";
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "local/log" = {
-        mountpoint = "/var/log";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "local/lib" = {
-        type = "zfs_fs";
-        mountpoint = "/var/lib";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "local/home" = {
-        mountpoint = "/home";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-    };
+    useStandardFilesystems = true;
+    reservedSize = "20GiB";
     volumes = {
       "local/incus" = {
         size = "300G";

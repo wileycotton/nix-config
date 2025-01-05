@@ -12,27 +12,17 @@
   makeDiskoTest = diskoLib.testLib.makeDiskoTest;
   zfsLib = import ./lib.nix {inherit lib;};
 
+  # Pool name
+  rootPool = "zroot";
+
   # Test configuration
   testConfig = {
     disko.devices = zfsLib.makeZfsSingleRootConfig {
-      poolname = "zroot";
+      poolname = rootPool;
       disk = "/dev/vda";
       swapSize = "2G";
-      filesystems = {
-        "root" = {
-          type = "zfs_fs";
-          mountpoint = "/";
-          options = {};
-        };
-        "home" = {
-          type = "zfs_fs";
-          mountpoint = "/home";
-          options = {
-            compression = "zstd";
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-      };
+      useStandardFilesystems = true;
+      reservedSize = "2M";
     };
   };
 in
@@ -59,33 +49,36 @@ in
           assert status == expected, f"Expected pool {field} to be {expected}, got: {status}"
 
       # Test pool health and properties
-      check_pool_status("zroot", "health", "ONLINE")
-      check_pool_status("zroot", "ashift", "12")
-      check_pool_status("zroot", "autotrim", "on")
-      check_pool_status("zroot", "delegation", "on")
-      check_pool_status("zroot", "multihost", "off")
-      check_pool_status("zroot", "readonly", "off")
-      check_pool_status("zroot", "autoexpand", "off")
+      check_pool_status("${rootPool}", "health", "ONLINE")
+      check_pool_status("${rootPool}", "ashift", "12")
+      check_pool_status("${rootPool}", "autotrim", "on")
+      check_pool_status("${rootPool}", "delegation", "on")
+      check_pool_status("${rootPool}", "multihost", "off")
+      check_pool_status("${rootPool}", "readonly", "off")
+      check_pool_status("${rootPool}", "autoexpand", "off")
 
       # Verify dataset structure and properties
       datasets = machine.succeed("zfs list -H -o name").rstrip().split('\n')
-      expected_datasets = ["zroot", "zroot/root", "zroot/home"]
+      expected_datasets = ["${rootPool}", "${rootPool}/local/root", "${rootPool}/safe/home"]
       for ds in expected_datasets:
           assert ds in datasets, f"Expected dataset {ds} not found"
 
       # Test pool features
-      features = int(machine.succeed("zpool get all zroot | grep feature@ | grep active | wc -l").strip())
+      features = int(machine.succeed("zpool get all ${rootPool} | grep feature@ | grep active | wc -l").strip())
       assert features > 0, "Expected some active features on the pool"
 
       # Test ZFS properties
-      assert_property("zroot", "compression", "lz4")
-      assert_property("zroot/home", "compression", "zstd")
-      assert_property("zroot/home", "com.sun:auto-snapshot", "true")
+      assert_property("${rootPool}", "compression", "lz4")
+      assert_property("${rootPool}/safe/home", "compression", "lz4")
+      assert_property("${rootPool}/safe/home", "com.sun:auto-snapshot", "true")
 
       # Test mountpoints
       machine.succeed("mountpoint /")
+      machine.succeed("mountpoint /nix")
       machine.succeed("mountpoint /home")
       machine.succeed("mountpoint /boot")
+      machine.succeed("mountpoint /var/log")
+      machine.succeed("mountpoint /var/lib")
 
       # Test swap
       machine.succeed("swapon -s | grep /dev/")

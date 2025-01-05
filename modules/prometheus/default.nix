@@ -16,9 +16,10 @@
   enabledExportersF = hostName: host: let
     exporters = host.config.services.prometheus.exporters;
     mkExporter = name:
-      if builtins.hasAttr name exporters
-      && builtins.isAttrs exporters.${name}
-      && exporters.${name}.enable or false
+      if
+        builtins.hasAttr name exporters
+        && builtins.isAttrs exporters.${name}
+        && exporters.${name}.enable or false
       then {${name} = exporters.${name};}
       else {};
   in
