@@ -149,9 +149,7 @@
             nixos-generators.nixosModules.all-formats
 
             disko.nixosModules.disko
-            ./modules/zfs/zfs-single-root.nix
-            ./modules/zfs/zfs-mirrored-root.nix
-            ./modules/zfs/zfs-raidz1.nix
+            ./modules/zfs
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff
             vscode-server.nixosModules.default
