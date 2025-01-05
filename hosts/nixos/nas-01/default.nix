@@ -195,6 +195,15 @@
             "com.sun:auto-snapshot" = "true";
           };
         };
+        "local/books" = {
+          type = "zfs_fs";
+          mountpoint = "/media/books";
+          options = {
+            mountpoint = "legacy";
+            recordsize = "1M"; # for large files
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
       }; # filesystems
     };
     backuppool = {
