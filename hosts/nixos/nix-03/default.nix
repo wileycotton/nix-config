@@ -21,7 +21,7 @@
 
   services.clubcotton.services.tailscale = {
     enable = true;
-    authKeyFile = ../../../secrets/tailscale-keys.env;
+    authKeyFile = ../../../secrets/tailscale-keys.raw;
   };
 
   clubcotton.zfs_single_root = {
@@ -143,8 +143,6 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  services.prometheus.exporters.zfs.enable = true;
 
   # services.immich = {
   #   enable = true;
