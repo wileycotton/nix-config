@@ -168,6 +168,7 @@ in {
                 "http://books"
                 "http://photos"
                 "https://llm.tailfeb2e.ts.net"
+                "http://toms-mini:11434/"
               ];
             }
           ];

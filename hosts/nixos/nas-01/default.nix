@@ -26,6 +26,10 @@
       }
     ];
   };
+
+  services.nfs.server.enable = true;
+  services.rpcbind.enable = true;
+  
   # Set your time zone.
   time.timeZone = "America/Denver";
 
