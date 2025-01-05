@@ -84,6 +84,7 @@
   makeRootDiskConfig = {
     disk,
     swapSize,
+    poolname,
   }: {
     type = "disk";
     device = disk;
@@ -111,7 +112,7 @@
           size = "100%";
           content = {
             type = "zfs";
-            pool = "rpool";
+            pool = poolname;
           };
         };
       };
@@ -178,7 +179,7 @@ in {
   }: {
     disk = {
       ${disk} = makeRootDiskConfig {
-        inherit disk swapSize;
+        inherit disk swapSize poolname;
       };
     };
     zpool = {
