@@ -20,6 +20,17 @@
     ../../../modules/code-server
   ];
 
+  services.tsnsrv = {
+    enable = true;
+    services = {
+      "open-webui" = {
+        enable = true;
+        service = "clubcotton.open-webui";
+        ephemeral = true;
+      };
+    };
+  };
+
   services.k3s.role = lib.mkForce "agent";
 
   # Use the systemd-boot EFI boot loader.
@@ -113,10 +124,10 @@
     ];
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   # users.users.alice = {
   #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  #   extraGroups = [ "wheel" ]; # Enable 'sudo' for the user.
   #   packages = with pkgs; [
   #     firefox
   #     tree

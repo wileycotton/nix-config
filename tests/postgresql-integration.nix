@@ -18,6 +18,7 @@
       pkgs,
       ...
     }: {
+      _module.args.unstablePkgs = unstablePkgs;
       imports = [
         ../modules/postgresql
       ];
@@ -67,6 +68,7 @@
       pkgs,
       ...
     }: {
+      _module.args.unstablePkgs = unstablePkgs;
       imports = [
         ../modules/immich
       ];
@@ -106,21 +108,33 @@
       pkgs,
       ...
     }: {
-      # imports = [
-      #   ../modules/open-webui
-      # ];
+      _module.args.unstablePkgs = unstablePkgs;
+      imports = [
+        ../modules/open-webui
+      ];
+
+      # Create secrets file for Open WebUI
+      environment.etc."open-webui-secrets".text = ''
+        DATABASE_URL=postgresql://test-webui:test-password@postgres:5433/test-webui
+      '';
 
       # Configure Open WebUI service
-      services.open-webui = {
+      services.clubcotton.open-webui = {
         enable = true;
-        package = unstablePkgs.open-webui;
-
-        host = "0.0.0.0";
-        port = 3000;
         environment = {
           WEBUI_AUTH = "True";
-          DATABASE_URL = "postgresql://test-webui:test-password@postgres:5433/test-webui";
+          SCARF_NO_ANALYTICS = "True";
+          DO_NOT_TRACK = "True";
+          ANONYMIZED_TELEMETRY = "False";
         };
+        environmentFile = "/etc/open-webui-secrets";
+      };
+
+      # Configure the upstream service directly in the test
+      services.open-webui = {
+        port = 3000;
+        host = "0.0.0.0";
+        openFirewall = true;
       };
 
       # Open firewall for Open WebUI
