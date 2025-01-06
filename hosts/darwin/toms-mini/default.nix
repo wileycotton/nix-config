@@ -93,6 +93,7 @@ in {
         "obs"
         "ollama"
         "bambu-studio"
+        "fork"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
