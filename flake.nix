@@ -113,12 +113,6 @@
     # creates a nixos system config
     nixosSystem = system: hostName: usernames: let
       pkgs = genPkgs system;
-      nixinateConfig = {
-        host = hostName;
-        sshUser = "root";
-        buildOn = "remote";
-        hermetic = false;
-      };
       unstablePkgs = genUnstablePkgs system;
     in
       nixpkgs.lib.nixosSystem
@@ -133,9 +127,21 @@
                 unstablePkgs = unstablePkgs;
                 system = system;
                 inputs = inputs;
-                nixinate = nixinateConfig;
               };
             }
+            # Nixinate configuration with conditional host setting. There is a potentation that 
+            # tailscale is down, and the host is not accessible. In that case, we can use the
+            # local hostname.
+            ({ config, ... }: {
+              _module.args.nixinate = {
+                host = if config.services.tailscale.enable 
+                  then "${hostName}.lan" 
+                  else hostName;
+                sshUser = "root";
+                buildOn = "remote";
+                hermetic = false;
+              };
+            })
 
             # To repl the flake
             # > nix repl
@@ -152,6 +158,7 @@
             tsnsrv.nixosModules.default
             ./secrets
             ./modules/open-webui
+            ./modules/tailscale
             ./modules/zfs
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff

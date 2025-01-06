@@ -1,17 +1,15 @@
 # This is a NixOS module file that defines a service configuration for Open WebUI
 # NixOS modules are the building blocks of system configuration, allowing you to
 # define reusable and composable pieces of configuration
-
 # Module arguments are passed as an attribute set (similar to an object in other languages)
 {
   # Standard module arguments:
-  pkgs,        # The nixpkgs package set, containing all standard packages
-  unstablePkgs,# Access to newer package versions from nixpkgs-unstable
-  lib,         # The nixpkgs library of helper functions
-  config,      # The complete system configuration
-  ...         # Allows for additional arguments to be passed
+  pkgs, # The nixpkgs package set, containing all standard packages
+  unstablePkgs, # Access to newer package versions from nixpkgs-unstable
+  lib, # The nixpkgs library of helper functions
+  config, # The complete system configuration
+  ... # Allows for additional arguments to be passed
 }:
-
 # 'with lib' brings library functions into scope so we can use them directly
 # This is a common pattern in Nix modules to avoid prefixing everything with 'lib.'
 with lib; let
