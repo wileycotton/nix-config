@@ -30,10 +30,6 @@
     systemd.user.services.pipewire.wantedBy = ["default.target"];
 
     # SnapServer Stuff
-    # Make sure this secretfile is specifying both LIBRESPOT_USERNAME and LIBRESPOT_PASSWORD
-    age.secrets.librespot = {
-      file = ../../../secrets/librespot.age;
-    };
 
     systemd.services.snapserver = {
       serviceConfig.EnvironmentFile = config.age.secrets.librespot.path;
@@ -133,12 +129,6 @@
     };
 
     services.ympd.enable = true;
-
-    age.secrets.mopidy = {
-      file = ../../../secrets/mopidy.age;
-      owner = "mopidy";
-      group = "mopidy";
-    };
 
     services.mopidy = {
       enable = true;

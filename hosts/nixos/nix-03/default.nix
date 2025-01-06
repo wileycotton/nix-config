@@ -19,11 +19,6 @@
   ];
   services.k3s.role = lib.mkForce "agent";
 
-  services.clubcotton.services.tailscale = {
-    enable = true;
-    authKeyFile = ../../../secrets/tailscale-keys.raw;
-  };
-
   clubcotton.zfs_single_root = {
     enable = true;
     poolname = "rpool";
@@ -58,14 +53,6 @@
     # ];
     bridges."br0".interfaces = ["enp2s0"];
     interfaces."br0".useDHCP = true;
-  };
-
-  age.secrets."immich-database" = {
-    file = ../../../secrets/immich-database.age;
-  };
-
-  age.secrets."mqtt" = {
-    file = ../../../secrets/mqtt.age;
   };
 
   virtualisation.libvirtd.enable = true;

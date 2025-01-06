@@ -9,23 +9,16 @@ with lib; let
 in {
   options.services.clubcotton.services.tailscale = {
     enable = mkEnableOption "tailscale service";
-
-    authKeyFile = mkOption {
-      type = types.path;
-      description = "Path to the file containing the Tailscale authentication key";
-    };
   };
 
   config = mkIf cfg.enable {
-    age.secrets.tailscale-key = {
-      file = cfg.authKeyFile;
-      mode = "0440";
-    };
+    networking.firewall.allowedUDPPorts = [config.services.tailscale.port];
+    networking.firewall.trustedInterfaces = ["tailscale0"];
 
     services.tailscale = {
       enable = true;
       package = pkgs.tailscale;
-      authKeyFile = config.age.secrets.tailscale-key.path;
+      authKeyFile = config.age.secrets.tailscale-keys.path;
     };
   };
 }
