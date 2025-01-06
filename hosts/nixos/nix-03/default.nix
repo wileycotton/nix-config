@@ -14,9 +14,10 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/k3s-agent
-    ../../../modules/tailscale
-    # ../../../modules/frigate
+    # ../../../modules/frigated
   ];
+
+  services.clubcotton.services.tailscale.enable = true;
   services.k3s.role = lib.mkForce "agent";
 
   clubcotton.zfs_single_root = {
