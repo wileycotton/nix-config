@@ -14,65 +14,19 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/k3s-agent
-    ../../../modules/tailscale
-    # ../../../modules/frigate
+    # ../../../modules/frigated
   ];
-  services.k3s.role = lib.mkForce "agent";
 
-  services.clubcotton.services.tailscale = {
-    enable = true;
-    authKeyFile = ../../../secrets/tailscale-keys.env;
-  };
+  services.clubcotton.services.tailscale.enable = true;
+  services.k3s.role = lib.mkForce "agent";
 
   clubcotton.zfs_single_root = {
     enable = true;
     poolname = "rpool";
     swapSize = "64G";
     disk = "/dev/disk/by-id/nvme-eui.00000000000000000026b738281a3535";
-    filesystems = {
-      local = {
-        options.mountpoint = "none";
-      };
-      safe = {
-        options.mountpoint = "none";
-      };
-      "local/reserved" = {
-        options = {
-          mountpoint = "none";
-          reservation = "20GiB";
-        };
-      };
-      "local/root" = {
-        mountpoint = "/";
-        options.mountpoint = "legacy";
-        postCreateHook = ''
-          zfs snapshot rpool/local/root@blank
-        '';
-      };
-      "local/nix" = {
-        mountpoint = "/nix";
-        options = {
-          atime = "off";
-          canmount = "on";
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "local/log" = {
-        mountpoint = "/var/log";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-      "local/home" = {
-        mountpoint = "/home";
-        options = {
-          mountpoint = "legacy";
-          "com.sun:auto-snapshot" = "true";
-        };
-      };
-    };
+    useStandardRootFilesystems = true;
+    reservedSize = "20GiB";
     volumes = {
       "local/incus" = {
         size = "300G";
@@ -102,14 +56,6 @@
     interfaces."br0".useDHCP = true;
   };
 
-  age.secrets."immich-database" = {
-    file = ../../../secrets/immich-database.age;
-  };
-
-  age.secrets."mqtt" = {
-    file = ../../../secrets/mqtt.age;
-  };
-
   virtualisation.libvirtd.enable = true;
 
   # Pick only one of the below networking options.
@@ -135,8 +81,6 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  services.prometheus.exporters.zfs.enable = true;
 
   # services.immich = {
   #   enable = true;

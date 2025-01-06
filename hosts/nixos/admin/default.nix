@@ -60,14 +60,6 @@
     nodejs_22
   ];
 
-  age.secrets."tailscale-keys.env" = {
-    file = ../../../secrets/tailscale-keys.env;
-  };
-
-  age.secrets."tailscale-keys" = {
-    file = ../../../secrets/tailscale-keys.raw;
-  };
-
   # Set your time zone.
   time.timeZone = "America/Denver";
 
@@ -133,35 +125,6 @@
 
   # Setup for docker
   virtualisation.docker.enable = true;
-
-  age.secrets."pushover-key" = {
-    file = ../../../secrets/pushover-key.age;
-    owner = "alertmanager";
-    group = "alertmanager";
-  };
-  age.secrets."pushover-token" = {
-    file = ../../../secrets/pushover-token.age;
-    owner = "alertmanager";
-    group = "alertmanager";
-  };
-  age.secrets."condo-ha-token" = {
-    file = ../../../secrets/condo-ha-token.age;
-    owner = "prometheus";
-    group = "prometheus";
-  };
-  age.secrets."homeassistant-token" = {
-    file = ../../../secrets/homeassistant-token.age;
-    owner = "prometheus";
-    group = "prometheus";
-  };
-  age.secrets."unpoller" = {
-    file = ../../../secrets/unpoller.age;
-    owner = "unifi-poller";
-    group = "unifi-poller";
-  };
-  age.secrets."grafana-cloud" = {
-    file = ../../../secrets/grafana-cloud.age;
-  };
 
   programs.zsh.enable = true;
 

@@ -59,10 +59,17 @@
         config.allowUnfree = true;
       };
 
+    # creates unstable package set for specified arch
+    genUnstablePkgs = system:
+      import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
     # creates a nixos system config
     nixosVM = system: hostName: usernames: let
       pkgs = genPkgs system;
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nixos-generators.nixosGenerate
       {
@@ -106,13 +113,7 @@
     # creates a nixos system config
     nixosSystem = system: hostName: usernames: let
       pkgs = genPkgs system;
-      nixinateConfig = {
-        host = hostName;
-        sshUser = "root";
-        buildOn = "remote";
-        hermetic = false;
-      };
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nixpkgs.lib.nixosSystem
       {
@@ -126,9 +127,21 @@
                 unstablePkgs = unstablePkgs;
                 system = system;
                 inputs = inputs;
-                nixinate = nixinateConfig;
               };
             }
+            # Nixinate configuration with conditional host setting. There is a potentation that 
+            # tailscale is down, and the host is not accessible. In that case, we can use the
+            # local hostname.
+            ({ config, ... }: {
+              _module.args.nixinate = {
+                host = if config.services.tailscale.enable 
+                  then "${hostName}.lan" 
+                  else hostName;
+                sshUser = "root";
+                buildOn = "remote";
+                hermetic = false;
+              };
+            })
 
             # To repl the flake
             # > nix repl
@@ -142,9 +155,11 @@
             nixos-generators.nixosModules.all-formats
 
             disko.nixosModules.disko
-            ./modules/zfs/zfs-single-root.nix
-            ./modules/zfs/zfs-mirrored-root.nix
-            ./modules/zfs/zfs-raidz1.nix
+            tsnsrv.nixosModules.default
+            ./secrets
+            ./modules/open-webui
+            ./modules/tailscale
+            ./modules/zfs
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff
             vscode-server.nixosModules.default
@@ -178,7 +193,7 @@
         buildOn = "remote";
         hermetic = false;
       };
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nixpkgs.lib.nixosSystem
       {
@@ -209,7 +224,7 @@
     # creates a macos system config
     darwinSystem = system: hostName: username: let
       pkgs = genDarwinPkgs system;
-      unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstablePkgs = genUnstablePkgs system;
     in
       nix-darwin.lib.darwinSystem
       {
@@ -219,7 +234,7 @@
           # adds unstable to be available in top-level evals (like in common-packages)
           {
             _module.args = {
-              unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+              unstablePkgs = genUnstablePkgs system;
               system = system;
             };
           }
@@ -242,8 +257,15 @@
         ];
       };
   in {
-    checks.x86_64-linux = {
-      postgresql = nixpkgs.legacyPackages.x86_64-linux.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
+    checks.x86_64-linux = let
+      system = "x86_64-linux";
+      unstablePkgs = genUnstablePkgs system;
+    in {
+      # to run the checks, use the following pattern of commands:
+      # nix build '.#checks.x86_64-linux.postgresql-integration'
+      # nix run '.#checks.x86_64-linux.postgresql-integration.driverInteractive'
+      postgresql = nixpkgs.legacyPackages.${system}.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
+      postgresql-integration = nixpkgs.legacyPackages.${system}.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs unstablePkgs;});
       zfs-single-root = let
         system = "x86_64-linux";
         pkgs = genPkgs system;

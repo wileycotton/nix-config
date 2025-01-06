@@ -18,7 +18,6 @@
     ../../../modules/docker/minecraft
     ../../../modules/docker/audiobookshelf
     ../../../modules/code-server
-    ../../../modules/open-webui
   ];
 
   services.k3s.role = lib.mkForce "agent";
@@ -59,12 +58,15 @@
     tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
   };
 
-  age.secrets."tailscale-keys.env" = {
-    file = ../../../secrets/tailscale-keys.env;
-  };
-
-  age.secrets."tailscale-keys" = {
-    file = ../../../secrets/tailscale-keys.raw;
+  services.clubcotton.open-webui = {
+    enable = true;
+    environment = {
+      WEBUI_AUTH = "True";
+      ENABLE_OLLAMA_API = "True";
+      OLLAMA_BASE_URL = "http://toms-mini:11434";
+      OLLAMA_API_BASE_URL = "http://toms-mini:11434";
+    };
+    environmentFile = config.age.secrets.open-webui.path;
   };
 
   # Pick only one of the below networking options.

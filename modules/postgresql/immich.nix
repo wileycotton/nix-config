@@ -22,6 +22,12 @@ in {
         default = "immich";
         description = "Name of the Immich database user.";
       };
+
+      passwordFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = "Path to the user's password.";
+      };
     };
   };
 
@@ -41,6 +47,22 @@ in {
       };
       extensions = ps: with ps; [pgvecto-rs];
     };
+
+    # https://discourse.nixos.org/t/set-password-for-a-postgresql-user-from-a-file-agenix/41377/13
+    # TODO: use agenix for the password
+    # password_file_path = config.environment.etc."immich-secrets".path;
+    systemd.services.postgresql.postStart = mkIf (cfg.immich.passwordFile != null) (let
+      password_file_path = cfg.immich.passwordFile;
+    in ''
+      $PSQL -tA <<'EOF'
+        DO $$
+        DECLARE password TEXT;
+        BEGIN
+          password := trim(both from replace(pg_read_file('${password_file_path}'), E'\n', '''));
+          EXECUTE format('ALTER ROLE "${cfg.immich.database}" WITH PASSWORD '''%s''';', password);
+        END $$;
+      EOF
+    '');
 
     services.clubcotton.postgresql.postStartCommands = let
       sqlFile = pkgs.writeText "immich-pgvectors-setup.sql" ''

@@ -18,10 +18,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  age.secrets."wireless-config" = {
-    file = ../../../secrets/wireless-config.age;
-  };
-
   networking = {
     hostName = "octoprint";
     wireless.enable = true;

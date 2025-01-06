@@ -76,3 +76,43 @@ groups:
       severity: critical
     annotations:
       description: "Probe failed"
+
+  - alert: ZfsPoolDegraded
+    expr: zfs_pool_health > 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      description: 'ZFS pool {{ $labels.pool }} on {{ $labels.instance }} is degraded. State: {{ $value }}'
+
+  - alert: ZfsPoolHighUsage
+    expr: (zfs_pool_allocated_bytes / (zfs_pool_allocated_bytes + zfs_pool_free_bytes)) * 100 > 80
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      description: 'ZFS pool {{ $labels.pool }} on {{ $labels.instance }} is at {{ printf "%.1f" $value }}% capacity'
+
+  - alert: ZfsPoolCriticalUsage
+    expr: (zfs_pool_allocated_bytes / (zfs_pool_allocated_bytes + zfs_pool_free_bytes)) * 100 > 90
+    for: 10m
+    labels:
+      severity: critical
+    annotations:
+      description: 'ZFS pool {{ $labels.pool }} on {{ $labels.instance }} is critically full at {{ printf "%.1f" $value }}% capacity'
+
+  - alert: ZfsPoolFragmentation
+    expr: zfs_pool_fragmentation_ratio > 0.5
+    for: 30m
+    labels:
+      severity: warning
+    annotations:
+      description: 'ZFS pool {{ $labels.pool }} on {{ $labels.instance }} has high fragmentation ratio of {{ printf "%.2f" $value }}'
+
+  - alert: ZfsPoolLeaked
+    expr: zfs_pool_leaked_bytes > 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: 'ZFS pool {{ $labels.pool }} on {{ $labels.instance }} has {{ printf "%.0f" $value }} bytes of leaked data'
