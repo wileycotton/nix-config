@@ -151,10 +151,10 @@ in {
     };
   };
 
-  systemd.services.frigate.environment.LD_LIBRARY_PATH = lib.makeLibraryPath [
+  systemd.services.frigate.environment.LD_LIBRARY_PATH = lib.mkForce (lib.makeLibraryPath [
     "${libedgetpu}"
-    pkgs.libusb # libusb
-  ];
+    pkgs.libusb1 # libusb
+  ]);
 
   systemd.services.set-apex-permissions = {
     description = "Set permissions for /dev/apex_0";

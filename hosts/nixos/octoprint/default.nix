@@ -18,16 +18,16 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  age.secrets."wireless-config" = {
-    file = ../../../secrets/wireless-config.age;
-  };
-
   networking = {
     hostName = "octoprint";
     wireless.enable = true;
     wireless.userControlled.enable = true;
-    wireless.environmentFile = config.age.secrets.wireless-config.path;
-    wireless.networks."clubcotton2_5G".psk = "@PSK@";
+    wireless.secretsFile = config.age.secrets.wireless-config.path;
+    wireless.networks = {
+      "clubcotton2_5G" = {
+        pskRaw = "ext:PSK";
+      };
+    };
   };
 
   services.tailscale.enable = true;

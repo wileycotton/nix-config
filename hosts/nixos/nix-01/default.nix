@@ -6,6 +6,7 @@
   pkgs,
   lib,
   unstablePkgs,
+  inputs,
   ...
 }: {
   imports = [
@@ -16,7 +17,6 @@
     ../../../modules/k3s-agent
     ../../../modules/docker/minecraft
     ../../../modules/docker/audiobookshelf
-    ../../../modules/code-server
   ];
 
   services.k3s.role = lib.mkForce "agent";
@@ -26,7 +26,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
+    useDHCP = false;
     hostName = "nix-01";
+    hostId = "85c6dbc0";
     defaultGateway = "192.168.5.1";
     nameservers = ["192.168.5.220"];
     interfaces.enp3s0.ipv4.addresses = [
@@ -35,17 +37,33 @@
         prefixLength = 24;
       }
     ];
-    interfaces.enp2s0.ipv4.addresses = [
-      {
-        address = "192.168.5.211";
-        prefixLength = 24;
-      }
-    ];
+    # interfaces.enp2s0.ipv4.addresses = [
+    #   {
+    #     address = "192.168.5.211";
+    #     prefixLength = 24;
+    #   }
+    # ];
+    bridges."br0".interfaces = ["enp2s0"];
+    interfaces."br0".useDHCP = true;
   };
   services.tailscale.enable = true;
 
-  age.secrets."tailscale-keys.env" = {
-    file = ../../../secrets/tailscale-keys.env;
+  services.clubcotton.code-server = {
+    enable = true;
+    tailnetHostname = "nix-01-vscode";
+    user = "bcotton";
+  };
+
+  services.clubcotton.open-webui = {
+    enable = true;
+    tailnetHostname = "llm";
+    environment = {
+      WEBUI_AUTH = "True";
+      ENABLE_OLLAMA_API = "True";
+      OLLAMA_BASE_URL = "http://toms-mini:11434";
+      OLLAMA_API_BASE_URL = "http://toms-mini:11434";
+    };
+    environmentFile = config.age.secrets.open-webui.path;
   };
 
   # Pick only one of the below networking options.
@@ -92,10 +110,10 @@
     ];
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   # users.users.alice = {
   #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  #   extraGroups = [ "wheel" ]; # Enable 'sudo' for the user.
   #   packages = with pkgs; [
   #     firefox
   #     tree
