@@ -1,5 +1,6 @@
 # This is imported as module, from the top-level flake
 {
+  config,
   pkgs,
   unstablePkgs,
   lib,
@@ -8,5 +9,8 @@
 }: {
   imports = [ ../toms-darwin/default.nix ];
 
-  clubcotton.useP11KitOverlay = false;
+  services.clubcotton.toms-darwin = {
+    enable = true;
+    useP11KitOverlay = false;
+  };
 }

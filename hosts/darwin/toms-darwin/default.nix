@@ -4,8 +4,9 @@
   unstablePkgs,
   lib,
   inputs,
+  config,
   ...
-}: let
+}: with lib; let
   inherit (inputs) nixpkgs nixpkgs-unstable;
   cfg = config.services.clubcotton.toms-darwin;
 in {
@@ -24,13 +25,16 @@ in {
   config = {
     # Apply Optional Configuration
 
-    nixpkgs.overlays = [
-        (final: prev: {
-            p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-                    mesonCheckFlags = oldAttrs.mesonCheckFlags or [] ++ [ "--timeout-multiplier" "0" ];
-            });
-        })
-    ]
+    nixpkgs.overlays = let
+    p11KitOverlay = (final: prev: {
+        p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
+        mesonCheckFlags = oldAttrs.mesonCheckFlags or [] ++ [ "--timeout-multiplier" "0" ];
+        });
+    });
+    in
+        if cfg.useP11KitOverlay 
+        then [ p11KitOverlay ]
+        else [];
 
     # nixpkgs.config.overlays = [
     #   (final: prev:
@@ -68,7 +72,6 @@ in {
       enable = true;
       enableCompletion = true;
       promptInit = builtins.readFile ./mac-dot-zshrc;
-      promptInit = builtins.readFile./mac-dot-zshrc;
     };
 
     homebrew = {
