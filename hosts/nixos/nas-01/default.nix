@@ -27,12 +27,32 @@
     ];
   };
 
+  users = {
+    groups.share = {
+      gid = 993;
+    };
+    users.share = {
+      uid = 994;
+      isSystemUser = true;
+      group = "share";
+    };
+  };
+
   services.nfs.server.enable = true;
   services.rpcbind.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Denver";
 
+  services.clubcotton.sabnzbd = {
+    enable = true;
+    tailnetHostname = "sabnzbd";
+  };
+
+  services.clubcotton.radarr = {
+    enable = true;
+    tailnetHostname = "radarr";
+  };
   programs.zsh.enable = true;
 
   users.users.root = {

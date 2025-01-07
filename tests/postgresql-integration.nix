@@ -112,7 +112,7 @@
       _module.args.unstablePkgs = unstablePkgs;
       imports = [
         inputs.tsnsrv.nixosModules.default
-        ../modules/open-webui
+        ../clubcotton/services/open-webui
       ];
 
       # Create secrets file for Open WebUI
