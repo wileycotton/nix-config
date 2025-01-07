@@ -5,18 +5,8 @@
   lib,
   inputs,
   ...
-}: let
-  sharedConfig = import ../shared;
-in
-{
-  imports = [ sharedConfig ];
+}: {
+  imports = [ ../toms-darwin/default.nix ];
 
-  # Override defaults for this machine
-  mySystem = {
-    enableGUI = true;
-    defaultApplications = [ "vim" "git" "tmux" "firefox" ];
-  };
-
-  # Machine-specific configuration here
-  networking.hostName = "machine1";
+  clubcotton.useP11KitOverlay = false;
 }

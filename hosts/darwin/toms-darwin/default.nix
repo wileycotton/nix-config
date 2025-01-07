@@ -7,26 +7,47 @@
   ...
 }: let
   inherit (inputs) nixpkgs nixpkgs-unstable;
+  cfg = config.services.clubcotton.toms-darwin;
 in {
-  users.users.tomcotton = {
-    # Shared Configurations
+  options.services.clubcotton.toms-darwin = {
+    enable = mkEnableOption "Default configuration for toms darwin machines";
+
+    # Optional Configuration
+
+    # Enable or disable the p11-kit timeout overlay fix to prevent tests from timing out
+    useP11KitOverlay = mkEnableOption {
+      description = "Enables the p11-kit timeout overlay fix to prevent tests from timing out.";
+      default = false;
+    };
+  };
+
   config = {
-    users.users.tomcotton.home = "/Users/tomcotton";
-    # Define a user named "tomcotton" with home directory "/Users/tomcotton".
+    # Apply Optional Configuration
 
     nixpkgs.overlays = [
         (final: prev: {
-      p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-        mesonCheckFlags =
-          oldAttrs.mesonCheckFlags
-          or []
-          ++ [
-            "--timeout-multiplier"
-            "0"
-          ];
-      });
-      })
-    ];
+            p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
+                    mesonCheckFlags = oldAttrs.mesonCheckFlags or [] ++ [ "--timeout-multiplier" "0" ];
+            });
+        })
+    ]
+
+    # nixpkgs.config.overlays = [
+    #   (final: prev:
+    #     lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+    #       # Add access to x86 packages system is running Apple Silicon
+    #       pkgs-x86 = import nixpkgs {
+    #         system = "x86_64-darwin";
+    #         config.allowUnfree = true;
+    #       };
+    #     })
+    # ];
+    
+    # Common Configuration
+    users.users.tomcotton.home = "/Users/tomcotton";
+    # Define a user named "tomcotton" with home directory "/Users/tomcotton".
+
+
 
     # These are packages are just for darwin systems
     environment.systemPackages = [
@@ -34,17 +55,6 @@ in {
     ];
 
     nixpkgs.config.allowUnfree = true;
-
-    #nixpkgs.config.overlays = [
-    #  (final: prev:
-    #    lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
-    #      # Add access to x86 packages system is running Apple Silicon
-    #      pkgs-x86 = import nixpkgs {
-    #        system = "x86_64-darwin";
-    #        config.allowUnfree = true;
-    #      };
-    #    })
-    #];
 
     # Keyboard
     system.keyboard.enableKeyMapping = false;
@@ -58,7 +68,7 @@ in {
       enable = true;
       enableCompletion = true;
       promptInit = builtins.readFile ./mac-dot-zshrc;
-      #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
+      promptInit = builtins.readFile./mac-dot-zshrc;
     };
 
     homebrew = {
@@ -287,3 +297,4 @@ in {
     };
   };
 }
+
