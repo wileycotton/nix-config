@@ -3,10 +3,10 @@
   pkgs,
   ...
 }: let
-  hostsPath = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts";
+  hostsPath = "https://raw.githubusercontent.com/StevenBlack/hosts/3.15.8/alternates/fakenews/hosts";
   hostsFile = builtins.fetchurl {
     url = hostsPath;
-    sha256 = "1rs6n0fi307dvxz61yzkacb52w98rkfixzjri9p3v3dr4b5v5sxi";
+    sha256 = "04i3mp2l6qr079pgxdjnkv0m4kaxks6aj34c8jy3dbsdb97sg1gh";
   };
 in {
   config = {
