@@ -144,24 +144,15 @@
               };
             })
 
-            # To repl the flake
-            # > nix repl
-            # > :lf .
-            # > e.g. admin.[tab]
-            # add the following inline module definition
-            #   here, all parameters of modules are passed to overlays
-            # (args: { nixpkgs.overlays = import ./overlays args; })
-            ## or
             ./overlays.nix
             nixos-generators.nixosModules.all-formats
 
             disko.nixosModules.disko
             tsnsrv.nixosModules.default
+            ./clubcotton
             ./secrets
-            ./modules/open-webui
             ./modules/code-server
             ./modules/tailscale
-            ./modules/sabnzbd
             ./modules/zfs
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff
@@ -215,10 +206,7 @@
             }
 
             disko.nixosModules.disko
-            ./modules/zfs/zfs-single-root.nix
-            ./modules/zfs/zfs-mirrored-root.nix
-            ./modules/zfs/zfs-raidz1.nix
-
+            ./modules/zfs
             ./hosts/nixos/${hostName} # ip address, host specific stuff
           ]
           ++ (map (username: ./users/${username}.nix) usernames);

@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: with lib; let
+}:
+with lib; let
   service = "sabnzbd";
   cfg = config.services.clubcotton.${service};
+  clubcotton = config.clubcotton;
 in {
   options.services.clubcotton.${service} = {
     enable = lib.mkEnableOption {
@@ -28,9 +30,11 @@ in {
   config = lib.mkIf cfg.enable {
     services.${service} = {
       enable = true;
+      user = clubcotton.user;
+      group = clubcotton.group;
     };
 
-    # Expose this code-server as a host on the tailnet
+    # Expose this service as a host on the tailnet
     services.tsnsrv = {
       enable = true;
       defaults.authKeyPath = cfg.tailscaleAuthKeyPath;
