@@ -17,6 +17,7 @@ with lib; let
   # This is a common pattern in NixOS modules to create a shorter name for accessing
   # the module's configuration options
   cfg = config.services.clubcotton.open-webui;
+  clubcotton = config.clubcotton;
 in {
   # Every NixOS module typically has two main sections:
   # 1. options - Declares the configuration interface
@@ -69,12 +70,6 @@ in {
       default = "";
       description = "The tailnet hostname to expose the code-server as.";
     };
-
-    tailscaleAuthKeyPath = mkOption {
-      type = lib.types.str;
-      default = config.age.secrets.tailscale-keys.path;
-      description = "The path to the age-encrypted TS auth key";
-    };
   };
 
   # The config section defines the actual implementation
@@ -94,7 +89,7 @@ in {
     # Expose this code-server as a host on the tailnet if tsnsrv module is available
     services.tsnsrv = {
       enable = true;
-      defaults.authKeyPath = cfg.tailscaleAuthKeyPath;
+      defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
 
       services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;

@@ -21,11 +21,6 @@ in {
       default = "";
       description = "The tailnet hostname to expose the code-server as.";
     };
-    tailscaleAuthKeyPath = mkOption {
-      type = lib.types.str;
-      default = config.age.secrets.tailscale-keys.path;
-      description = "The path to the age-encrypted TS auth key";
-    };
   };
   config = lib.mkIf cfg.enable {
     services.${service} = {
@@ -37,7 +32,7 @@ in {
     # Expose this service as a host on the tailnet
     services.tsnsrv = {
       enable = true;
-      defaults.authKeyPath = cfg.tailscaleAuthKeyPath;
+      defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
 
       services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
