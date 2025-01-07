@@ -17,7 +17,6 @@
     ../../../modules/k3s-agent
     ../../../modules/docker/minecraft
     ../../../modules/docker/audiobookshelf
-    ../../../modules/code-server
   ];
 
   services.k3s.role = lib.mkForce "agent";
@@ -57,6 +56,7 @@
 
   services.clubcotton.open-webui = {
     enable = true;
+    tailnetHostname = "llm";
     environment = {
       WEBUI_AUTH = "True";
       ENABLE_OLLAMA_API = "True";

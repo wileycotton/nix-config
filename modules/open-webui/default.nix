@@ -63,6 +63,18 @@ in {
       default = "/var/lib/open-webui";
       description = "State directory for Open WebUI.";
     };
+
+    tailnetHostname = mkOption {
+      type = types.str;
+      default = "";
+      description = "The tailnet hostname to expose the code-server as.";
+    };
+
+    tailscaleAuthKeyPath = mkOption {
+      type = lib.types.str;
+      default = config.age.secrets.tailscale-keys.path;
+      description = "The path to the age-encrypted TS auth key";
+    };
   };
 
   # The config section defines the actual implementation
@@ -77,6 +89,17 @@ in {
       host = "0.0.0.0"; # Listen on all interfaces for Tailscale access
       port = 3000; # Default port for open-webui
       inherit (cfg) stateDir environment environmentFile;
+    };
+
+    # Expose this code-server as a host on the tailnet if tsnsrv module is available
+    services.tsnsrv = {
+      enable = true;
+      defaults.authKeyPath = cfg.tailscaleAuthKeyPath;
+
+      services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
+        ephemeral = true;
+        toURL = "http://${config.services.open-webui.host}:${toString config.services.open-webui.port}/";
+      };
     };
   };
 }

@@ -2,16 +2,11 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 with lib; let
   cfg = config.services.clubcotton.code-server;
 in {
-  imports = [
-    inputs.tsnsrv.nixosModules.default
-  ];
-
   options.services.clubcotton.code-server = {
     enable = mkEnableOption "Code Server";
 

@@ -129,13 +129,14 @@
                 inputs = inputs;
               };
             }
-            # Nixinate configuration with conditional host setting. There is a potentation that 
+            # Nixinate configuration with conditional host setting. There is a potentation that
             # tailscale is down, and the host is not accessible. In that case, we can use the
             # local hostname.
-            ({ config, ... }: {
+            ({config, ...}: {
               _module.args.nixinate = {
-                host = if config.services.tailscale.enable 
-                  then "${hostName}.lan" 
+                host =
+                  if config.services.tailscale.enable
+                  then "${hostName}.lan"
                   else hostName;
                 sshUser = "root";
                 buildOn = "remote";
@@ -155,11 +156,12 @@
             nixos-generators.nixosModules.all-formats
 
             disko.nixosModules.disko
+            tsnsrv.nixosModules.default
             ./secrets
             ./modules/open-webui
+            ./modules/code-server
             ./modules/tailscale
             ./modules/zfs
-
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff
             vscode-server.nixosModules.default
@@ -265,7 +267,7 @@
       # nix build '.#checks.x86_64-linux.postgresql-integration'
       # nix run '.#checks.x86_64-linux.postgresql-integration.driverInteractive'
       postgresql = nixpkgs.legacyPackages.${system}.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
-      postgresql-integration = nixpkgs.legacyPackages.${system}.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs unstablePkgs;});
+      postgresql-integration = nixpkgs.legacyPackages.${system}.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs unstablePkgs inputs;});
       zfs-single-root = let
         system = "x86_64-linux";
         pkgs = genPkgs system;

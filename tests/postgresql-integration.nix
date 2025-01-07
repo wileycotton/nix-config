@@ -1,6 +1,7 @@
 {
   nixpkgs,
   unstablePkgs,
+  inputs,
 }: {
   name = "postgresql-integration";
 
@@ -110,6 +111,7 @@
     }: {
       _module.args.unstablePkgs = unstablePkgs;
       imports = [
+        inputs.tsnsrv.nixosModules.default
         ../modules/open-webui
       ];
 
@@ -121,6 +123,8 @@
       # Configure Open WebUI service
       services.clubcotton.open-webui = {
         enable = true;
+        tailscaleAuthKeyPath = "/dev/null"; # Not using tailscale
+        tailnetHostname = ""; # Disable tsnsrv service
         environment = {
           WEBUI_AUTH = "True";
           SCARF_NO_ANALYTICS = "True";
