@@ -33,6 +33,10 @@
   # Set your time zone.
   time.timeZone = "America/Denver";
 
+  services.clubcotton.sabnzbd = {
+    enable = true;
+    tailnetHostname = "sabnzbd";
+  };
   programs.zsh.enable = true;
 
   users.users.root = {

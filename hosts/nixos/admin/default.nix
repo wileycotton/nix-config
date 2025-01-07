@@ -44,10 +44,8 @@
 
   services.clubcotton.code-server = {
     enable = true;
-    enableTsnsrv = true;
     tailnetHostname = "admin-vscode";
     user = "bcotton";
-    tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
   };
 
   services.vscode-server.enableFHS = true;

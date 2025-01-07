@@ -161,6 +161,7 @@
             ./modules/open-webui
             ./modules/code-server
             ./modules/tailscale
+            ./modules/sabnzbd
             ./modules/zfs
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff
