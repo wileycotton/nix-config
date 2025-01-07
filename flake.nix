@@ -159,10 +159,7 @@
             ./modules/open-webui
             ./modules/tailscale
             ./modules/zfs
-            {
-              imports = [ tsnsrv.nixosModules.default ];
-              _module.args.tsnsrv = tsnsrv;
-            }
+
 
             ./hosts/nixos/${hostName} # ip address, host specific stuff
             vscode-server.nixosModules.default

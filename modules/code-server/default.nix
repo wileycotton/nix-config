@@ -15,14 +15,8 @@ in {
   options.services.clubcotton.code-server = {
     enable = mkEnableOption "Code Server";
 
-    enableTsnsrv = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Expose this code-server on the tailnet";
-    };
-
     tailnetHostname = mkOption {
-      type = lib.types.str;
+      type = types.nullOr types.str;
       default = "";
       description = "The tailnet hostname to expose the code-server as.";
     };
@@ -34,6 +28,7 @@ in {
 
     tailscaleAuthKeyPath = mkOption {
       type = lib.types.str;
+      default = config.age.secrets.tailscale-keys.path;
       description = "The path to the age-encrypted TS auth key";
     };
   };
@@ -56,10 +51,10 @@ in {
 
     # Expose this code-server as a host on the tailnet
     services.tsnsrv = {
-      enable = cfg.enableTsnsrv;
+      enable = true;
       defaults.authKeyPath = cfg.tailscaleAuthKeyPath;
 
-      services."${cfg.tailnetHostname}" = {
+      services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
         toURL = "http://${config.services.code-server.host}:${toString config.services.code-server.port}/";
       };

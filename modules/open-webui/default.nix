@@ -63,7 +63,6 @@ in {
       default = "/var/lib/open-webui";
       description = "State directory for Open WebUI.";
     };
-
   };
 
   # The config section defines the actual implementation
@@ -75,8 +74,8 @@ in {
     services.open-webui = {
       enable = true;
       package = cfg.package;
-      host = "0.0.0.0";  # Listen on all interfaces for Tailscale access
-      port = 3000;       # Default port for open-webui
+      host = "0.0.0.0"; # Listen on all interfaces for Tailscale access
+      port = 3000; # Default port for open-webui
       inherit (cfg) stateDir environment environmentFile;
     };
   };

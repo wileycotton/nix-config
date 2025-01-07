@@ -20,17 +20,6 @@
     ../../../modules/code-server
   ];
 
-  services.tsnsrv = {
-    enable = true;
-    services = {
-      "open-webui" = {
-        enable = true;
-        service = "clubcotton.open-webui";
-        ephemeral = true;
-      };
-    };
-  };
-
   services.k3s.role = lib.mkForce "agent";
 
   # Use the systemd-boot EFI boot loader.
@@ -62,11 +51,8 @@
 
   services.clubcotton.code-server = {
     enable = true;
-    enableTsnsrv = true;
     tailnetHostname = "nix-01-vscode";
-    # TODO: how to handle mutliples? Ports for sure.
     user = "bcotton";
-    tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
   };
 
   services.clubcotton.open-webui = {
