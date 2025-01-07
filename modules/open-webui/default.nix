@@ -57,14 +57,6 @@ in {
       description = "Path to the age secret for the secret environment.";
     };
 
-    # Path to Tailscale authentication key
-    # types.path is for filesystem paths
-    tailscaleAuthKeyPath = mkOption {
-      type = types.path;
-      default = config.age.secrets.tailscale-keys.path;
-      description = "Path to the Tailscale auth key.";
-    };
-
     # Directory for persistent storage
     stateDir = mkOption {
       type = types.path;
@@ -72,11 +64,16 @@ in {
       description = "State directory for Open WebUI.";
     };
 
-    # Tailscale service name configuration
-    tsName = mkOption {
+    tailnetHostname = mkOption {
       type = types.str;
-      default = "llm";
-      description = "Tailscale name for the Open WebUI service.";
+      default = "";
+      description = "The tailnet hostname to expose the code-server as.";
+    };
+
+    tailscaleAuthKeyPath = mkOption {
+      type = lib.types.str;
+      default = config.age.secrets.tailscale-keys.path;
+      description = "The path to the age-encrypted TS auth key";
     };
   };
 
@@ -89,31 +86,18 @@ in {
     services.open-webui = {
       enable = true;
       package = cfg.package;
-      # "0.0.0.0" means listen on all network interfaces
-      host = "0.0.0.0";
-      # Reference our module's configuration values
-      stateDir = cfg.stateDir;
-      environment = cfg.environment;
-      environmentFile = cfg.environmentFile;
+      host = "0.0.0.0"; # Listen on all interfaces for Tailscale access
+      port = 3000; # Default port for open-webui
+      inherit (cfg) stateDir environment environmentFile;
     };
 
-    # Configure Tailscale network service integration
-    # This sets up secure networking access to the Open WebUI service
+    # Expose this code-server as a host on the tailnet if tsnsrv module is available
     services.tsnsrv = {
-      # Only enable if Tailscale is enabled system-wide
-      # This is an example of making one service dependent on another
-      enable = config.services.tailscale.enable;
-      # Pass through the authentication key configuration
+      enable = true;
       defaults.authKeyPath = cfg.tailscaleAuthKeyPath;
 
-      # Define the service endpoint
-      # Using string interpolation with ${} to reference configuration values
-      # todo: parameterize the tailscale name
-      services."${cfg.tsName}" = {
-        # ephemeral = true means the node will be automatically removed from the network when stopped
+      services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
-        # Construct the URL using the host and port from the open-webui service configuration
-        # toString is needed to convert the port number to a string
         toURL = "http://${config.services.open-webui.host}:${toString config.services.open-webui.port}/";
       };
     };

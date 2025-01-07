@@ -17,7 +17,6 @@
     ../../../modules/k3s-agent
     ../../../modules/docker/minecraft
     ../../../modules/docker/audiobookshelf
-    ../../../modules/code-server
   ];
 
   services.k3s.role = lib.mkForce "agent";
@@ -51,15 +50,13 @@
 
   services.clubcotton.code-server = {
     enable = true;
-    enableTsnsrv = true;
     tailnetHostname = "nix-01-vscode";
-    # TODO: how to handle mutliples? Ports for sure.
     user = "bcotton";
-    tailscaleAuthKeyPath = config.age.secrets.tailscale-keys.path;
   };
 
   services.clubcotton.open-webui = {
     enable = true;
+    tailnetHostname = "llm";
     environment = {
       WEBUI_AUTH = "True";
       ENABLE_OLLAMA_API = "True";
@@ -113,10 +110,10 @@
     ];
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   # users.users.alice = {
   #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  #   extraGroups = [ "wheel" ]; # Enable 'sudo' for the user.
   #   packages = with pkgs; [
   #     firefox
   #     tree
