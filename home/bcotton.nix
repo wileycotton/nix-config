@@ -398,6 +398,7 @@ in {
     kubernetes-helm
     kubectx
     kubectl
+    unstablePkgs.aider-chat
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform
