@@ -1,10 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, smartmontools
-, jq
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  smartmontools,
+  jq,
 }:
-
 stdenv.mkDerivation rec {
   pname = "smart-disk-monitoring";
   version = "unstable-2024-01-09";
@@ -16,8 +16,8 @@ stdenv.mkDerivation rec {
     hash = "sha256-1gvyypdwyp5q3imcmk9rc5ads7qbzhk8hwsgmkhp5nm9ilg9fd9d";
   };
 
-  nativeBuildInputs = [ ];
-  buildInputs = [ smartmontools jq ];
+  nativeBuildInputs = [];
+  buildInputs = [smartmontools jq];
 
   installPhase = ''
     install -Dm755 smartmon.sh $out/bin/smartmon.sh
@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
     mkdir -p $out/bin
     cat > $out/bin/smart-disk-monitoring <<EOF
     #!${stdenv.shell}
-    export PATH="${lib.makeBinPath [ smartmontools jq ]}:\$PATH"
+    export PATH="${lib.makeBinPath [smartmontools jq]}:\$PATH"
     exec $out/bin/smartmon.sh "\$@"
     EOF
     chmod +x $out/bin/smart-disk-monitoring
@@ -65,7 +65,7 @@ stdenv.mkDerivation rec {
     description = "S.M.A.R.T. disk monitoring script for Prometheus node-exporter";
     homepage = "https://github.com/micha37-martins/S.M.A.R.T-disk-monitoring-for-Prometheus";
     license = licenses.mit;
-    maintainers = [ ];
+    maintainers = [];
     platforms = platforms.linux;
   };
 }

@@ -13,20 +13,38 @@
   ];
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  
+
   # Intel A390
   boot.initrd.kernelModules = ["i915"];
   hardware.enableRedistributableFirmware = true;
-  environment.variables = {
-    VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+      intel-media-sdk
+      onevpl-intel-gpu
+      intel-compute-runtime
+
+      # intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+    ];
   };
+  environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";}; # Optionally, set the environment variable
+  # environment.variables = {
+  #   VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
+  # };
 
-  hardware.opengl.extraPackages = with pkgs; [
-    (if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then vaapiIntel else intel-vaapi-driver)
-    libvdpau-va-gl
-    intel-media-driver
-  ];
-
+  # hardware.graphics = {
+  #   enable = true;
+  #   extraPackages = with pkgs; [
+  #     (
+  #       if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11")
+  #       then vaapiIntel
+  #       else intel-vaapi-driver
+  #     )
+  #     libvdpau-va-gl
+  #     intel-media-driver
+  #   ];
+  # };
 
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
