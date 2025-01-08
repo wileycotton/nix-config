@@ -53,6 +53,11 @@
     enable = true;
     tailnetHostname = "radarr";
   };
+
+  services.clubcotton.jellyfin = {
+    enable = true;
+    tailnetHostname = "jellyfin";
+  };
   programs.zsh.enable = true;
 
   users.users.root = {
