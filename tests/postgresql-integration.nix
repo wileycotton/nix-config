@@ -123,7 +123,6 @@
       # Configure Open WebUI service
       services.clubcotton.open-webui = {
         enable = true;
-        tailscaleAuthKeyPath = "/dev/null"; # Not using tailscale
         tailnetHostname = ""; # Disable tsnsrv service
         environment = {
           WEBUI_AUTH = "True";
