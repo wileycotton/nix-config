@@ -172,6 +172,37 @@
             "com.sun:auto-snapshot" = "true";
           };
         };
+        # tomcotton tree
+        "local/tomcotton" = {
+          type = "zfs_fs";
+          mountpoint = "/media/tomcotton";
+          options = {
+            mountpoint = "legacy";
+            "com.sun:auto-snapshot" = "false"; # Parent FS, no data
+          };
+        };
+        "local/tomcotton/data" = {
+          type = "zfs_fs";
+          mountpoint = "/media/tomcotton/data";
+          options = {
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+        "local/tomcotton/cold-data" = {
+          # Separated for alternate possible offsite backup method
+          type = "zfs_fs";
+          mountpoint = "/media/tomcotton/cold-data";
+          options = {
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
+        "local/tomcotton/audio-library" = {
+          type = "zfs_fs";
+          mountpoint = "/media/tomcotton/audio-library";
+          options = {
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
       }; # filesystems
     };
     backuppool = {
