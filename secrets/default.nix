@@ -48,7 +48,7 @@
     group = "prometheus";
   };
 
-  age.secrets."unpoller" = lib.mkIf config.services.unifi-poller.enable {
+  age.secrets."unpoller" = lib.mkIf config.services.unpoller.enable {
     file = ./unpoller.age;
     owner = "unifi-poller";
     group = "unifi-poller";

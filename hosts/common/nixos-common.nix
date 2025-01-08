@@ -29,6 +29,7 @@ in {
     intel-gpu-tools
     libva-utils
     docker
+    file
     intel-media-driver
     jellyfin-ffmpeg
     hddtemp

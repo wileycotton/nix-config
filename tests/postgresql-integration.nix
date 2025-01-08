@@ -112,7 +112,7 @@
       _module.args.unstablePkgs = unstablePkgs;
       imports = [
         inputs.tsnsrv.nixosModules.default
-        ../modules/open-webui
+        ../clubcotton/services/open-webui
       ];
 
       # Create secrets file for Open WebUI
@@ -123,7 +123,6 @@
       # Configure Open WebUI service
       services.clubcotton.open-webui = {
         enable = true;
-        tailscaleAuthKeyPath = "/dev/null"; # Not using tailscale
         tailnetHostname = ""; # Disable tsnsrv service
         environment = {
           WEBUI_AUTH = "True";
