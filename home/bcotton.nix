@@ -335,6 +335,7 @@ in {
       batly = "bat -l yaml";
       batmd = "bat -l md";
       dir = "exa -l --icons --no-user --group-directories-first  --time-style long-iso --color=always";
+      gdn = "git diff | gitnav";
       k = "kubectl";
       kctx = "kubectx";
       kns = "kubens";
@@ -359,7 +360,7 @@ in {
       bindkey -e
       bindkey '^[[A' up-history
       bindkey '^[[B' down-history
-      #bindkey -m
+      #bindkey -M
       bindkey '\M-\b' backward-delete-word
       bindkey -s "^Z" "^[Qls ^D^U^[G"
       bindkey -s "^X^F" "e "

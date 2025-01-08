@@ -168,7 +168,10 @@ in {
               targets = [
                 "http://books"
                 "http://photos"
-                "https://llm.tailfeb2e.ts.net"
+                "https://llm.bobtail-clownfish.ts.net"
+                "https://jellyfin.bobtail-clownfish.ts.net"
+                "https://radarr.bobtail-clownfish.ts.net"
+                "https://sabnzbd.bobtail-clownfish.ts.net"
                 "http://toms-mini:11434/"
               ];
             }

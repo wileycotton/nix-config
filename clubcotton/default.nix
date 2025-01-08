@@ -1,4 +1,8 @@
-{lib, config, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   imports = [
     ./services
   ];
@@ -25,6 +29,5 @@
       default = config.age.secrets.tailscale-keys.path;
       description = "The path to the age-encrypted TS auth key";
     };
-
   };
 }
