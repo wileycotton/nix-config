@@ -13,8 +13,6 @@ in {
   options.services.clubcotton.toms-darwin = {
     enable = mkEnableOption "Default configuration for toms darwin machines";
 
-    # Optional Configuration
-
     # Enable or disable the p11-kit timeout overlay fix to prevent tests from timing out
     useP11KitOverlay = mkEnableOption {
       description = "Enables the p11-kit timeout overlay fix to prevent tests from timing out.";
@@ -59,6 +57,16 @@ in {
     ];
 
     nixpkgs.config.allowUnfree = true;
+
+      # Run the linux-builder as a background service
+    nix.linux-builder.enable = true;
+
+    # Add needed system-features to the nix daemon
+    # Starting with Nix 2.19, this will be automatic
+    nix.settings.system-features = [
+      "nixos-test"
+      "apple-virt"
+    ];
 
     # Keyboard
     system.keyboard.enableKeyMapping = false;

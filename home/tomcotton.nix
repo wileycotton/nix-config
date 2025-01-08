@@ -75,7 +75,6 @@ in {
         # ci = "commit";
         # d = "diff";
         # dc = "diff --cached";
-        gs = "status";
         # la = "config --get-regexp alias";
         lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit";
         lga = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --all";
