@@ -38,6 +38,8 @@
     };
   };
 
+  services.clubcotton.services.tailscale.enable = true;
+
   services.nfs.server.enable = true;
   services.rpcbind.enable = true;
 
