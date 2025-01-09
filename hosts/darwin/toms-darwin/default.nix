@@ -119,6 +119,7 @@ in {
         "ollama"
         "bambu-studio"
         "fork"
+        "nikitabobko/tap/aerospace"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
