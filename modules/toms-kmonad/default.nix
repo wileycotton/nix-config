@@ -58,22 +58,32 @@ in
               allow-cmd false
             )
 
-            ;; Define aliases for home row mods
+            ;; Define aliases
             (defalias
               ;; Left-hand home row mods
-              a-sft (tap-hold-next-release 200 a lsft)  ;; Shift when held, 'a' when tapped
-              s-ctl (tap-hold-next-release 200 s lctl)  ;; Control when held, 's' when tapped
-              d-alt (tap-hold-next-release 200 d lalt)  ;; Alt when held, 'd' when tapped
-              f-met (tap-hold-next-release 200 f lmet)  ;; Meta/Super when held, 'f' when tapped
+              a-sft (tap-hold-next-release 200 a lsft)
+              s-ctl (tap-hold-next-release 200 s lctl)
+              d-alt (tap-hold-next-release 200 d lalt)
+              f-met (tap-hold-next-release 200 f lmet)
 
               ;; Right-hand home row mods
-              j-met (tap-hold-next-release 200 j rmet)  ;; Meta/Super when held, 'j' when tapped
-              k-alt (tap-hold-next-release 200 k ralt)  ;; Alt when held, 'k' when tapped
-              l-ctl (tap-hold-next-release 200 l rctl)  ;; Control when held, 'l' when tapped
-              sem-sft (tap-hold-next-release 200 ; rsft) ;; Shift when held, ';' when tapped
+              j-met (tap-hold-next-release 200 j rmet)
+              k-alt (tap-hold-next-release 200 k ralt)
+              l-ctl (tap-hold-next-release 200 l rctl)
+              sem-sft (tap-hold-next-release 200 ; rsft)
 
-              ;; Additional useful aliases
-              cap (tap-hold-next-release 200 esc lctl)  ;; Escape when tapped, Control when held
+              ;; Layer toggle for caps lock
+              ;; Tap for escape, hold for nav layer
+              nav (tap-hold 200 esc (layer-toggle nav))
+
+              ;; Navigation and editing aliases
+              prev C-left     ;; Previous word
+              next C-right    ;; Next word
+              beg home        ;; Beginning of line
+              end end         ;; End of line
+              del del         ;; Delete forward
+              bsp bspc        ;; Backspace
+              sel S-          ;; Shift modifier for selection
             )
 
             ;; Define keyboard source
@@ -86,14 +96,32 @@ in
               lctl lmet lalt           spc            ralt rmet rctl
             )
 
-            ;; Define keyboard mapping with home row mods
+            ;; Base layer
             (deflayer default
               esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
               grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
               tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-              @cap @a-sft @s-ctl @d-alt @f-met g h @j-met @k-alt @l-ctl @sem-sft ' ret
+              @nav @a-sft @s-ctl @d-alt @f-met g h @j-met @k-alt @l-ctl @sem-sft ' ret
               lsft z    x    c    v    b    n    m    ,    .    /    rsft
               lctl lmet lalt           spc            ralt rmet rctl
+            )
+
+            ;; Navigation and editing layer (activated by holding caps lock)
+            (deflayer nav
+              _    _    _    _    _    _    _    _    _    _    _    _    _
+              _    _    _    _    _    _    _    _    _    _    _    _    _    _
+              _    _    _    end  _    _    _    home pgdn pgup end  _    _    _
+              _    @sel @bsp @del _    _    left down up   rght _    _    _
+              _    _    _    _    _    _    _    _    _    _    _    _
+              _    _    _              _              _    _    _
+
+              ;; Quick reference for nav layer:
+              ;; - hjkl: Vim-style arrow keys
+              ;; - u/i: Page up/down
+              ;; - y/o: Home/End
+              ;; - s: Add selection (shift)
+              ;; - d: Backspace
+              ;; - f: Delete
             )
           '';
         };
