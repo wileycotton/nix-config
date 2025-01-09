@@ -159,8 +159,9 @@ in {
       }
     ];
     extraConfig = ''
-
-      set-option -g default-command "reattach-to-user-namespace -l zsh"
+      if-shell "uname | grep -q Darwin" {
+        set-option -g default-command "reattach-to-user-namespace -l zsh"
+      }
 
       new-session -s main
       # Vim style pane selection
@@ -355,7 +356,7 @@ in {
       tmux-window-name() {
         (${builtins.toString tmux-window-name}/share/tmux-plugins/tmux-window-name/scripts/rename_session_windows.py &)
       }
-      if [[ `uname` == "Darwin" ]]; then
+      if [[ -n "$TMUX" ]]; then
         add-zsh-hook chpwd tmux-window-name
       fi
       source <(kubectl completion zsh)
