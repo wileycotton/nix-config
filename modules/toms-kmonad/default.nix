@@ -58,9 +58,22 @@ in
               allow-cmd false
             )
 
-            ;; Define aliases
+            ;; Define aliases for home row mods
             (defalias
-              cap (tap-hold-next-release 200 esc lctl)
+              ;; Left-hand home row mods
+              a-sft (tap-hold-next-release 200 a lsft)  ;; Shift when held, 'a' when tapped
+              s-ctl (tap-hold-next-release 200 s lctl)  ;; Control when held, 's' when tapped
+              d-alt (tap-hold-next-release 200 d lalt)  ;; Alt when held, 'd' when tapped
+              f-met (tap-hold-next-release 200 f lmet)  ;; Meta/Super when held, 'f' when tapped
+
+              ;; Right-hand home row mods
+              j-met (tap-hold-next-release 200 j rmet)  ;; Meta/Super when held, 'j' when tapped
+              k-alt (tap-hold-next-release 200 k ralt)  ;; Alt when held, 'k' when tapped
+              l-ctl (tap-hold-next-release 200 l rctl)  ;; Control when held, 'l' when tapped
+              sem-sft (tap-hold-next-release 200 ; rsft) ;; Shift when held, ';' when tapped
+
+              ;; Additional useful aliases
+              cap (tap-hold-next-release 200 esc lctl)  ;; Escape when tapped, Control when held
             )
 
             ;; Define keyboard source
@@ -73,12 +86,12 @@ in
               lctl lmet lalt           spc            ralt rmet rctl
             )
 
-            ;; Define keyboard mapping
+            ;; Define keyboard mapping with home row mods
             (deflayer default
               esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
               grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
               tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-              @cap a    s    d    f    g    h    j    k    l    ;    '    ret
+              @cap @a-sft @s-ctl @d-alt @f-met g h @j-met @k-alt @l-ctl @sem-sft ' ret
               lsft z    x    c    v    b    n    m    ,    .    /    rsft
               lctl lmet lalt           spc            ralt rmet rctl
             )
