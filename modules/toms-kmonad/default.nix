@@ -97,6 +97,7 @@ in
               min -
               plus +
               eq =
+              uns _
             )
 
             ;; Base layer (same as before)
@@ -106,17 +107,17 @@ in
               tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
               @nav @a-sft @s-ctl @d-alt @f-met g h @j-met @k-alt @l-ctl @sem-sft ' ret
               lsft z    x    c    v    b    n    m    ,    .    /    rsft
-              lctl lmet lalt           spc            ralt rmet rctl
+              lctl lalt lmet           spc            rmet _    rctl
             )
 
-            ;; Navigation and editing layer (activated by holding caps lock)
+            ;; Navigation layer - exactly like default keyboard except IJKL
             (deflayer nav
-              _    _    _    _    _    _    _    _    _    _    _    _    _
-              _    @excl @at   @hash @doll @perc @caret @amp @star @lprn @rprn @min @plus _
-              _    @beg  @pwd  _     _     _     _     _    up   _    @end  [    ]    _
-              _    @del  @bsp  _     _     _     _    left down rght _     _    _
-              _    _     _     _     _     _     _     _    ,    .    _    _
-              _    _     _               _              _    _    _
+              esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+              grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+              tab  q    7    8    9    t    \(   \)   up   {    }    [    ]    \
+              _    a    4    5    6    g    bspc left down rght ;    '    ret
+              lsft 1    2    3    v    b    @uns -    ,    .    /    rsft
+              lctl lalt lmet           spc            ralt _    rctl
 
               ;; Quick reference for nav layer:
               ;; - IJKL: Arrow keys
