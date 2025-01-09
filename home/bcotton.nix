@@ -159,6 +159,9 @@ in {
       }
     ];
     extraConfig = ''
+
+      set-option -g default-command "reattach-to-user-namespace -l zsh"
+
       new-session -s main
       # Vim style pane selection
       bind h select-pane -L
@@ -400,6 +403,7 @@ in {
     kubectx
     kubectl
     unstablePkgs.aider-chat
+    reattach-to-user-namespace
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform
