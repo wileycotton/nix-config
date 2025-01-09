@@ -60,43 +60,46 @@ in
 
             ;; Define aliases
             (defalias
-              ;; Left-hand home row mods
+              ;; Home row mods (same as before)
               a-sft (tap-hold-next-release 200 a lsft)
               s-ctl (tap-hold-next-release 200 s lctl)
               d-alt (tap-hold-next-release 200 d lalt)
               f-met (tap-hold-next-release 200 f lmet)
-
-              ;; Right-hand home row mods
               j-met (tap-hold-next-release 200 j rmet)
               k-alt (tap-hold-next-release 200 k ralt)
               l-ctl (tap-hold-next-release 200 l rctl)
               sem-sft (tap-hold-next-release 200 ; rsft)
 
               ;; Layer toggle for caps lock
-              ;; Tap for escape, hold for nav layer
               nav (tap-hold 200 esc (layer-toggle nav))
 
               ;; Navigation and editing aliases
-              prev C-left     ;; Previous word
-              next C-right    ;; Next word
-              beg home        ;; Beginning of line
-              end end         ;; End of line
               del del         ;; Delete forward
               bsp bspc        ;; Backspace
-              sel S-          ;; Shift modifier for selection
+              
+              ;; Quick text navigation
+              beg home        ;; Beginning of line
+              end end         ;; End of line
+              nwd C-right     ;; Next word
+              pwd C-left      ;; Previous word
+              
+              ;; Common symbols for nav layer
+              excl !
+              at @
+              hash #
+              doll $
+              perc %
+              caret ^
+              amp &
+              star *
+              lprn (
+              rprn )
+              min -
+              plus +
+              eq =
             )
 
-            ;; Define keyboard source
-            (defsrc
-              esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-              grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-              tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-              caps a    s    d    f    g    h    j    k    l    ;    '    ret
-              lsft z    x    c    v    b    n    m    ,    .    /    rsft
-              lctl lmet lalt           spc            ralt rmet rctl
-            )
-
-            ;; Base layer
+            ;; Base layer (same as before)
             (deflayer default
               esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
               grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
@@ -109,19 +112,20 @@ in
             ;; Navigation and editing layer (activated by holding caps lock)
             (deflayer nav
               _    _    _    _    _    _    _    _    _    _    _    _    _
-              _    _    _    _    _    _    _    _    _    _    _    _    _    _
-              _    _    _    end  _    _    _    home pgdn pgup end  _    _    _
-              _    @sel @bsp @del _    _    left down up   rght _    _    _
-              _    _    _    _    _    _    _    _    _    _    _    _
-              _    _    _              _              _    _    _
+              _    @excl @at   @hash @doll @perc @caret @amp @star @lprn @rprn @min @plus _
+              _    @beg  @pwd  _     _     _     _     _    up   _    @end  [    ]    _
+              _    @del  @bsp  _     _     _     _    left down rght _     _    _
+              _    _     _     _     _     _     _     _    ,    .    _    _
+              _    _     _               _              _    _    _
 
               ;; Quick reference for nav layer:
-              ;; - hjkl: Vim-style arrow keys
-              ;; - u/i: Page up/down
-              ;; - y/o: Home/End
-              ;; - s: Add selection (shift)
-              ;; - d: Backspace
-              ;; - f: Delete
+              ;; - IJKL: Arrow keys
+              ;; - U: Home
+              ;; - O: End
+              ;; - H: Backspace
+              ;; - G: Delete
+              ;; - Top row: Common symbols (!@#$%^&*()_+)
+              ;; - Other useful navigation remains accessible
             )
           '';
         };
