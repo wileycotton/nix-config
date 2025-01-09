@@ -6,10 +6,10 @@
 with lib;
 
 let
-  cfg = config.services.clubcotton.kmonad;
+  cfg = config.services.clubcotton.toms-kmonad;
 in
 {
-  options.services.clubcotton.kmonad = {
+  options.services.clubcotton.toms-kmonad = {
     enable = mkEnableOption "kmonad";
 
     platform = mkOption {
@@ -32,6 +32,9 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
+      # Required packages
+      environment.systemPackages = [ pkgs.kmonad ];
+
       services.kmonad = {
         enable = true;
         keyboards = {
@@ -119,9 +122,6 @@ in
     }
 
     (mkIf (cfg.platform == "linux") {
-      # Required packages
-      environment.systemPackages = [ pkgs.kmonad ];
-
       # User permissions
       users.groups.uinput = {};
       users.groups.input = {};
@@ -140,9 +140,6 @@ in
     })
 
     (mkIf (cfg.platform == "darwin") {
-      # Required packages
-      environment.systemPackages = [ pkgs.kmonad ];
-
       # LaunchDaemons for kmonad
       launchd.daemons.kmonad = {
         serviceConfig = {
