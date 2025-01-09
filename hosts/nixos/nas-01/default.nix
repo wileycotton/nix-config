@@ -232,6 +232,14 @@
             "com.sun:auto-snapshot" = "true";
           };
         };
+        "local/tomcotton/toms-mini" = {
+          type = "zfs_fs";
+          mountpoint = "/backups/tomcotton/toms-mini";
+        };
+        "local/tomcotton/toms-MBP" = {
+          type = "zfs_fs";
+          mountpoint = "/backups/tomcotton/toms-MBP";
+        };
       }; # filesystems
     };
   };
