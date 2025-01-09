@@ -114,9 +114,9 @@ in
             (deflayer nav
               esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
               grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-              tab  q    7    8    9    t    \(   \)   up   {    }    [    ]    \
-              _    a    4    5    6    g    bspc left down rght ;    '    ret
-              lsft 1    2    3    v    b    @uns -    ,    .    /    rsft
+              tab  q    kp7  kp8  kp9  t    \(   \)   up   {    }    [    ]    \
+              _    a    kp4  kp5  kp6  g    bspc left down rght ;    '    ret
+              lsft kp1  kp2  kp3  v    b    @uns -    ,    .    /    rsft
               lctl lalt lmet           spc            ralt _    rctl
 
               ;; Quick reference for nav layer:
