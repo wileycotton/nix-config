@@ -20,6 +20,7 @@ in {
       esptool
       # Node and friends
       nodejs_22
+      reattach-to-user-namespace
       yarn-berry
     ];
 
