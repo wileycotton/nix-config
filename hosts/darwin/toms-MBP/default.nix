@@ -13,4 +13,10 @@
     enable = true;
     useP11KitOverlay = true;
   };
+
+  services.clubcotton.kmonad = {
+    enable = true;
+    platform = "darwin";
+    macKeyboardName = "Air 75";
+  }
 }

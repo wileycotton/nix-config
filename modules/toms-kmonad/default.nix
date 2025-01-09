@@ -20,8 +20,7 @@ in
 
     linuxKeyboardPath = mkOption {
       type = types.str;
-      default = "/dev/input/by-id/your-keyboard-device";
-      description = "Path to keyboard device on Linux";
+      description = "Path to keyboard device on Linux. ex: /dev/input/by-id/your-keyboard-device";
     };
 
     macKeyboardName = mkOption {
@@ -71,7 +70,7 @@ in
               sem-sft (tap-hold-next-release 200 ; rsft)
 
               ;; Layer toggle for caps lock
-              nav (tap-hold 200 esc (layer-toggle nav))
+              nav (tap-hold 0 esc (layer-toggle nav))
 
               ;; Navigation and editing aliases
               del del         ;; Delete forward
