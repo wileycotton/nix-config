@@ -14,7 +14,6 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/k3s-agent
-    ../../../modules/roon-server
     ../../../modules/docker/immich
     ../../../modules/incus
     # ../../../modules/terminal-server

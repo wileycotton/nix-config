@@ -60,6 +60,9 @@
     enable = true;
     tailnetHostname = "jellyfin";
   };
+
+  services.clubcotton.roon-server.enable = true;
+
   programs.zsh.enable = true;
 
   users.users.root = {
