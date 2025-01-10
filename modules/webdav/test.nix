@@ -1,5 +1,4 @@
-{nixpkgs ? import <nixpkgs> {}}:
-nixpkgs.lib.makeTest {
+{nixpkgs}: {
   name = "webdav";
 
   nodes.machine = {config, pkgs, ...}: {
