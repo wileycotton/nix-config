@@ -49,11 +49,6 @@
   };
 
   services.vscode-server.enableFHS = true;
-  services.vscode-server.extraRuntimeDependencies = pkgs:
-    with pkgs; [
-      curl
-      puppeteer-cli
-    ];
 
   environment.systemPackages = with pkgs; [
     nodejs_22

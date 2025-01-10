@@ -230,11 +230,6 @@ in {
   ];
   services.vscode-server.enable = true;
   services.vscode-server.installPath = "$HOME/.vscode-server";
-  services.vscode-server.extraRuntimeDependencies = pkgs:
-    with pkgs; [
-      curl
-      puppeteer-cli
-    ];
 
 
   # TODO: add ~/bin
