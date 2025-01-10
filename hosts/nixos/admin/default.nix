@@ -52,6 +52,7 @@
   services.vscode-server.extraRuntimeDependencies = pkgs:
     with pkgs; [
       curl
+      puppeteer-cli
     ];
 
   environment.systemPackages = with pkgs; [
