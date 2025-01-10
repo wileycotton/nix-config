@@ -128,7 +128,7 @@ in
       users.users.${config.user.name}.extraGroups = [ "input" "uinput" ];
 
       # Kernel modules
-      boot.kernelModules = [ "uinput" ];
+      # boot.kernelModules = [ "uinput" ];
 
       # UDev rules
       services.udev.extraRules = ''
