@@ -231,7 +231,6 @@ in {
   services.vscode-server.enable = true;
   services.vscode-server.installPath = "$HOME/.vscode-server";
 
-
   # TODO: add ~/bin
   # code --remote ssh-remote+<remoteHost> <remotePath>
 
