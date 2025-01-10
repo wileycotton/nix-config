@@ -28,14 +28,12 @@ in {
     alsa-utils
     intel-gpu-tools
     libva-utils
-    docker
     file
     intel-media-driver
     jellyfin-ffmpeg
     hddtemp
     nil
     nixos-shell
-    podman
     synergy
     qemu
     quickemu

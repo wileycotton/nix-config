@@ -172,7 +172,6 @@ in {
                 "https://jellyfin.bobtail-clownfish.ts.net"
                 "https://radarr.bobtail-clownfish.ts.net"
                 "https://sabnzbd.bobtail-clownfish.ts.net"
-                "http://toms-mini:11434/"
               ];
             }
           ];

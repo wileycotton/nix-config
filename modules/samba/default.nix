@@ -21,7 +21,7 @@ in {
         "guest account" = "nobody";
         "map to guest" = "bad user";
       };
-      "bcotton-backups" = {
+      "backups-bcotton" = {
         "path" = "/backups/bcotton";
         "browseable" = "yes";
         "read only" = "no";
@@ -31,7 +31,7 @@ in {
         "force user" = "bcotton";
         "force group" = "users";
       };
-      "tomcotton-backups" = {
+      "backups-tomcotton" = {
         "path" = "/backups/tomcotton";
         "browseable" = "yes";
         "read only" = "no";
@@ -41,7 +41,7 @@ in {
         "force user" = "tomcotton";
         "force group" = "users";
       };
-      "tomcotton-media" = {
+      "media-tomcotton" = {
         "path" = "/media/tomcotton";
         "browseable" = "yes";
         "read only" = "no";
