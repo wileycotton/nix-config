@@ -1,8 +1,26 @@
 {nixpkgs}: {
   name = "webdav";
+  interactive.nodes = let
+    testLib = import ../../tests/libtest.nix {};
+  in {
+    machine = {...}: testLib.mkSshConfig 2223;
+  };
 
-  nodes.machine = {config, pkgs, ...}: {
+  nodes.machine = {
+    config,
+    pkgs,
+    ...
+  }: {
     imports = [./default.nix];
+
+    # Create the user and group for WebDAV
+    users.users.testuser = {
+      isSystemUser = true;
+      group = "webdav";
+      createHome = false;
+    };
+
+    users.groups.webdav = {};
 
     services.clubcotton.webdav = {
       enable = true;
@@ -24,6 +42,7 @@
     # Wait for webdav service to start
     machine.wait_for_unit("webdav.service")
     machine.wait_for_open_port(8080)
+    machine.shell_interact()
 
     # Test authentication and file access
     machine.succeed(
