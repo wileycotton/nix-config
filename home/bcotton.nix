@@ -404,6 +404,7 @@ in {
     kubectx
     kubectl
     unstablePkgs.aider-chat
+    tldr
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform
