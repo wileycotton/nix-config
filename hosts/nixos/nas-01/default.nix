@@ -70,7 +70,20 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
     ];
   };
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      Macs = [
+        "hmac-sha2-512-etm@openssh.com"
+        "hmac-sha2-256-etm@openssh.com"
+        "umac-128-etm@openssh.com"
+
+        # This are needed for Arq (libssh2)
+        "hmac-sha2-512"
+      ];
+    };
+  };
+
   networking.firewall.enable = false;
   networking.hostId = "007f0200";
 
