@@ -26,7 +26,7 @@
       enable = true;
       user = "testuser";
       password = "testpass";
-      scope = "/var/lib/webdav";
+      directory = "/var/lib/webdav";
     };
 
     # Create test directory and file
@@ -43,6 +43,18 @@
     machine.wait_for_unit("webdav.service")
     machine.wait_for_open_port(8080)
     machine.shell_interact()
+
+        # Debug: Show directory contents and paths
+    machine.succeed(
+      "echo '=== WebDAV Directory Contents ==='",
+      "ls -la /var/lib/webdav/",
+      "echo '=== Current Working Directory ==='",
+      "pwd",
+      "echo '=== Current User and Groups ==='",
+      "id testuser",
+      "echo '=== WebDAV Directory Permissions ==='",
+      "stat /var/lib/webdav"
+    )
 
     # Test authentication and file access
     machine.succeed(
