@@ -1,3 +1,5 @@
+# nix build '.#checks.x86_64-linux.webdav'
+# nix run '.#checks.x86_64-linux.webdav.driverInteractive'
 {nixpkgs}: {
   name = "webdav";
   interactive.nodes = let
@@ -14,13 +16,13 @@
     imports = [./default.nix];
 
     # Create the user and group for WebDAV
-    users.users.testuser = {
-      isSystemUser = true;
-      group = "webdav";
-      createHome = false;
-    };
+    # users.users.testuser = {
+    #   isSystemUser = true;
+    #   group = "webdav";
+    #   createHome = false;
+    # };
 
-    users.groups.webdav = {};
+    # users.groups.webdav = {};
 
     services.clubcotton.webdav = {
       enable = true;
@@ -42,10 +44,9 @@
     # Wait for webdav service to start
     machine.wait_for_unit("webdav.service")
     machine.wait_for_open_port(8080)
-    machine.shell_interact()
 
         # Debug: Show directory contents and paths
-    machine.succeed(
+    output = machine.succeed(
       "echo '=== WebDAV Directory Contents ==='",
       "ls -la /var/lib/webdav/",
       "echo '=== Current Working Directory ==='",
@@ -55,6 +56,9 @@
       "echo '=== WebDAV Directory Permissions ==='",
       "stat /var/lib/webdav"
     )
+    print(output)
+
+    machine.shell_interact()
 
     # Test authentication and file access
     machine.succeed(

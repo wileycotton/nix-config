@@ -46,6 +46,7 @@ in {
         address = "0.0.0.0";
         port = 8080;
         prefix = "/";
+        debug = "true";
         log = {
           format = "console";
           colors = true;
@@ -59,24 +60,19 @@ in {
             password = "${cfg.password}";
             directory = "${cfg.directory}";
             permissions = "CRUD";
-            # Rules to handle different path patterns for WebDAV access
-            rules = [
-              # Allow access to the base directory itself
-              {
-                path = "${cfg.directory}";
-                permissions = "CRUD";
-              }
-              # Allow access to the directory with trailing slash (needed for some WebDAV clients)
-              {
-                path = "${cfg.directory}/";
-                permissions = "CRUD";
-              }
-              # Allow access to all files and subdirectories within the base directory
-              {
-                regex = "^${cfg.directory}/.*$";
-                permissions = "CRUD";
-              }
-            ];
+            # # Rules to handle different path patterns for WebDAV access
+            # rules = [
+            #   # Allow access to the directory with trailing slash (needed for some WebDAV clients)
+            #   {
+            #     path = "${cfg.directory}/";
+            #     permissions = "CRUD";
+            #   }
+            #   # Allow access to all files and subdirectories within the base directory
+            #   {
+            #     regex = "^${cfg.directory}/.*$";
+            #     permissions = "CRUD";
+            #   }
+            # ];
           }
         ];
       };
