@@ -72,13 +72,13 @@
     enable = true;
     users = {
       obsidian-sync = {
-        password = config.age.secrets.obsidian-sync.path;
-        directory = "/media/webdav/obsidian-sync";
+        password = ;
+        directory = "{env}OBSIDIAN_SYNC_PASSWORD";
         permissions = "CRUD"
       };
       zotero-sync = {
         password = config.age.secrets.zotero-sync.path;
-        directory = "/media/webdav/zotero-sync";
+        directory = "{env}ZOTERO_SYNC_PASSWORD";
         permissions = "CRUD";
       };
     };
@@ -91,7 +91,7 @@
     defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
     services.webdav = {
       ephemeral = true;
-      toURL = "http//127.0.0.1:8080";
+      toURL = "http//127.0.0.1:6065";
     };
   };
 
