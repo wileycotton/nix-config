@@ -71,8 +71,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    users.groups.webdav = {};
-
     services.webdav = {
       enable = true;
       settings = {
