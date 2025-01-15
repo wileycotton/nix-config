@@ -38,8 +38,19 @@
           directory = "/var/lib/webdav/reader";
           permissions = "R";
         };
-        
+        # Test user with environment variable password
+        env-user = {
+          password = "{env}WEBDAV_TEST_PASSWORD";
+          directory = "/var/lib/webdav/env-user";
+          permissions = "CRUD";
+        };
       };
+    };
+
+    # Configure webdav service to use environment file
+    systemd.services.webdav.serviceConfig = {
+      StateDirectory = "webdav";
+      EnvironmentFile = "/var/lib/webdav/test-env";
     };
 
     # Create test directories and files
@@ -48,9 +59,12 @@
       "d /var/lib/webdav/admin-0 0755 webdav webdav"
       "d /var/lib/webdav/admin-1 0755 webdav webdav"
       "d /var/lib/webdav/reader 0755 webdav webdav"
+      "d /var/lib/webdav/env-user 0755 webdav webdav"
       "f /var/lib/webdav/admin-0/test.txt 0644 webdav webdav - hello-admin-0"
       "f /var/lib/webdav/admin-1/test.txt 0644 webdav webdav - hello-admin-1"
       "f /var/lib/webdav/reader/test.txt 0644 webdav webdav - hello-reader"
+      "f /var/lib/webdav/env-user/test.txt 0644 webdav webdav - hello-env-user"
+      "f /var/lib/webdav/test-env 0600 webdav webdav - WEBDAV_TEST_PASSWORD=testpass123"
     ];
   };
 
@@ -101,6 +115,23 @@
       # Write should fail
       "echo 'new content' > upload.txt && curl -f -u reader:readerpass -T upload.txt http://localhost:6065/upload.txt",
     );
+
+    # Test environment variable password user
+    machine.succeed(
+      # Read own file
+      "curl -f -u env-user:testpass123 http://localhost:6065/test.txt | grep hello-env-user",
+      # Create/Update in own directory
+      "echo 'env-user content' > upload.txt",
+      "curl -f -u env-user:testpass123 -T upload.txt http://localhost:6065/upload.txt",
+      "curl -f -u env-user:testpass123 http://localhost:6065/upload.txt | grep 'env-user content'",
+      # Delete from own directory
+      "curl -f -u env-user:testpass123 -X DELETE http://localhost:6065/upload.txt"
+    )
+
+    # Test that wrong password fails for env user
+    machine.fail(
+      "curl -f -u env-user:wrongpass http://localhost:6065/test.txt"
+    )
 
     # Test directory isolation and path traversal prevention
     machine.fail(
