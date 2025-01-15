@@ -37,13 +37,13 @@
       curl
       diffr # Modern Unix `diff`
       difftastic # Modern Unix `diff`
+      dig
       dua # Modern Unix `du`
       duf # Modern Unix `df`
       du-dust # Modern Unix `du`
       # direnv # programs.direnv
       #docker
       drill
-      drone-cli
       du-dust
       dua
       duf

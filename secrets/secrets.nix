@@ -1,4 +1,3 @@
-
 # to add or edit the secrets run 'agenix -e <file>.age'
 # to add a file, add it to the list below, then run 'agenix -e <file>.age'
 let
