@@ -68,4 +68,16 @@
   age.secrets."immich-database" = lib.mkIf config.services.immich.enable {
     file = ./immich-database.age;
   };
+
+  age.secrets."obsidian-sync" = lib.mkIf config.services.clubcotton.webdav.enable {
+    file = ./obsidian-sync.age;
+    owner = "webdav";
+    group = "webdav";
+  };
+
+  age.secrets."zotero-sync" = lib.mkIf config.services.clubcotton.webdav.enable {
+    file = ./zotero-sync.age;
+    owner = "webdav";
+    group = "webdav";
+  };
 }
