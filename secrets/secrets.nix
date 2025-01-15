@@ -29,6 +29,5 @@ in {
   "grafana-cloud.age".publicKeys = users ++ systems;
   "immich-database.age".publicKeys = users ++ systems;
   "open-webui.age".publicKeys = users ++ systems;
-  "obsidian-sync.age".publicKeys = users ++ systems;
-  "zotero-sync.age".publicKeys = users ++ systems;
+  "webdav.age".publicKeys = users ++ systems;
 }

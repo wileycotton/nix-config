@@ -63,6 +63,11 @@
 
   services.clubcotton.roon-server.enable = true;
 
+  systemd.services.webdav.serviceConfig = {
+    StateDirectory = "webdav";
+    EnvironmentFile = config.age.secrets.webdav.path;
+  };
+
   services.clubcotton.webdav = {
     enable = true;
     users = {
