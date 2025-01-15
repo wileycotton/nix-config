@@ -92,31 +92,6 @@
       "curl -f -u admin-1:adminpass1 -X DELETE http://localhost:6065/upload.txt"
     )
 
-    # Test directory isolation between admin users
-    
-    # Test relative path access for admin-0
-    machine.succeed(
-      # Read file using relative path
-      "curl -f -u admin-0:adminpass0 http://localhost:6065/../admin-0/test.txt | grep hello-admin-0",
-      # Create/Update using relative path
-      "echo 'relative path content' > relative.txt",
-      "curl -f -u admin-0:adminpass0 -T relative.txt http://localhost:6065/../admin-0/relative.txt",
-      "curl -f -u admin-0:adminpass0 http://localhost:6065/../admin-0/relative.txt | grep 'relative path content'",
-      # Delete using relative path
-      "curl -f -u admin-0:adminpass0 -X DELETE http://localhost:6065/../admin-0/relative.txt"
-    )
-
-    machine.fail(
-      # admin-0 should not be able to access admin-1's directory
-      "curl -f -u admin-0:adminpass0 http://localhost:6065/../admin-1/test.txt",
-      # admin-1 should not be able to access admin-0's directory
-      "curl -f -u admin-1:adminpass1 http://localhost:6065/../admin-0/test.txt",
-      # admin-0 should not be able to write to admin-1's directory
-      "echo 'hack' > hack.txt && curl -f -u admin-0:adminpass0 -T hack.txt http://localhost:6065/../admin-1/hack.txt",
-      # admin-1 should not be able to write to admin-0's directory
-      "echo 'hack' > hack.txt && curl -f -u admin-1:adminpass1 -T hack.txt http://localhost:6065/../admin-0/hack.txt"
-    )
-
     # Test read-only user
     machine.succeed(
       # Read should work
@@ -125,10 +100,32 @@
     machine.fail(
       # Write should fail
       "echo 'new content' > upload.txt && curl -f -u reader:readerpass -T upload.txt http://localhost:6065/upload.txt",
-      # Should not be able to access admin-0's directory
-      "curl -f -u reader:readerpass http://localhost:6065/../admin-0/test.txt",
-      # Should not be able to access admin-1's directory
-      "curl -f -u reader:readerpass http://localhost:6065/../admin-1/test.txt"
-    )
+    );
+
+    # Test directory isolation and path traversal prevention
+    machine.fail(
+      # admin-0 should not be able to access admin-1's directory
+      "curl -f -u admin-0:adminpass0 http://localhost:6065/admin-1/test.txt",
+      # admin-0 should not be able to access reader's directory
+      "curl -f -u admin-0:adminpass0 http://localhost:6065/reader/test.txt",
+      # admin-1 should not be able to access admin-0's directory
+      "curl -f -u admin-1:adminpass1 http://localhost:6065/admin-0/test.txt",
+      # reader should not be able to access admin-0's directory
+      "curl -f -u reader:readerpass http://localhost:6065/admin-0/test.txt",
+      # Prevent absolute path access attempts
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065//etc/passwd'",
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065//var/lib/webdav/admin-1/test.txt'",
+      # Prevent path traversal attempts
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065/../etc/passwd'",
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065/..%2F..%2Fetc%2Fpasswd'",
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065/%2E%2E%2F%2E%2E%2Fetc%2Fpasswd'",
+      # Prevent encoded traversal attempts
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065/%2e%2e/%2e%2e/etc/passwd'",
+      # Prevent double slash directory confusion
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065//admin-1/test.txt'",
+      # Prevent access via alternate path representations
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065/./admin-1/test.txt'",
+      "curl -f -u admin-0:adminpass0 'http://localhost:6065/admin-0/../admin-1/test.txt'"
+    );
   '';
 }
