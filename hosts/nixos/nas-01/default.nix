@@ -232,20 +232,20 @@
             "com.sun:auto-snapshot" = "false";
           };
         };
-        "local/webdav/obsidian-sync" = {
-          type = "zfs_fs";
-          mountpoint = "/media/webdav/obsidian-sync";
-          options = {
-            "com.sun:auto-snapshot" = "false";
-          };
-        };
-        "local/webdav/zotero-sync" = {
-          type = "zfs_fs";
-          mountpoint = "/media/webdav/zotero-sync";
-          options = {
-            "com.sun:auto-snapshot" = "false";
-          };
-        };
+        # "local/webdav/obsidian-sync" = {
+        #   type = "zfs_fs";
+        #   mountpoint = "/media/webdav/obsidian-sync";
+        #   options = {
+        #     "com.sun:auto-snapshot" = "false";
+        #   };
+        # };
+        # "local/webdav/zotero-sync" = {
+        #   type = "zfs_fs";
+        #   mountpoint = "/media/webdav/zotero-sync";
+        #   options = {
+        #     "com.sun:auto-snapshot" = "false";
+        #   };
+        # };
 
         # tomcotton tree
         "local/tomcotton" = {
