@@ -93,6 +93,19 @@
     )
 
     # Test directory isolation between admin users
+    
+    # Test relative path access for admin-0
+    machine.succeed(
+      # Read file using relative path
+      "curl -f -u admin-0:adminpass0 http://localhost:8080/../admin-0/test.txt | grep hello-admin-0",
+      # Create/Update using relative path
+      "echo 'relative path content' > relative.txt",
+      "curl -f -u admin-0:adminpass0 -T relative.txt http://localhost:8080/../admin-0/relative.txt",
+      "curl -f -u admin-0:adminpass0 http://localhost:8080/../admin-0/relative.txt | grep 'relative path content'",
+      # Delete using relative path
+      "curl -f -u admin-0:adminpass0 -X DELETE http://localhost:8080/../admin-0/relative.txt"
+    )
+
     machine.fail(
       # admin-0 should not be able to access admin-1's directory
       "curl -f -u admin-0:adminpass0 http://localhost:8080/../admin-1/test.txt",
