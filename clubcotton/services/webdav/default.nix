@@ -42,6 +42,11 @@ with lib; let
             CRUD = Create, Read, Update, Delete
         '';
       };
+      tailnetHostname = mkOption {
+        type = types.nullOr types.str;
+        default = "";
+        description = "The tailnet hostname to expose the code-server as.";
+      };
     };
   };
 
@@ -93,6 +98,16 @@ in {
             inherit (user) password directory permissions;
           })
           cfg.users;
+      };
+    };
+
+    services.tsnsrv = {
+      enable = true;
+      defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
+
+      services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
+        ephemeral = true;
+        toURL = "http://127.0.0.1:8080/";
       };
     };
   };
