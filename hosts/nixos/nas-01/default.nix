@@ -72,13 +72,13 @@
     enable = true;
     users = {
       obsidian-sync = {
-        password = ;
-        directory = "{env}OBSIDIAN_SYNC_PASSWORD";
+        password = "{env}OBSIDIAN_SYNC_PASSWORD";
+        directory = /media/webdav/obsidian-sync;
         permissions = "CRUD"
       };
       zotero-sync = {
-        password = config.age.secrets.zotero-sync.path;
-        directory = "{env}ZOTERO_SYNC_PASSWORD";
+        password = "{env}ZOTERO_SYNC_PASSWORD";
+        directory = /media/webdav/zotero-sync;
         permissions = "CRUD";
       };
     };
