@@ -59,37 +59,37 @@
 
     # Wait for webdav service to start
     machine.wait_for_unit("webdav.service")
-    machine.wait_for_open_port(8080)
+    machine.wait_for_open_port(6065)
 
     machine.shell_interact()
 
     # Test authentication failures
     machine.fail(
-      "curl -f -u wronguser:wrongpass http://localhost:8080/test.txt"
+      "curl -f -u wronguser:wrongpass http://localhost:6065/test.txt"
     )
 
     # Test admin-0 user (CRUD permissions)
     machine.succeed(
       # Read own file
-      "curl -f -u admin-0:adminpass0 http://localhost:8080/test.txt | grep hello-admin-0",
+      "curl -f -u admin-0:adminpass0 http://localhost:6065/test.txt | grep hello-admin-0",
       # Create/Update in own directory
       "echo 'new content' > upload.txt",
-      "curl -f -u admin-0:adminpass0 -T upload.txt http://localhost:8080/upload.txt",
-      "curl -f -u admin-0:adminpass0 http://localhost:8080/upload.txt | grep 'new content'",
+      "curl -f -u admin-0:adminpass0 -T upload.txt http://localhost:6065/upload.txt",
+      "curl -f -u admin-0:adminpass0 http://localhost:6065/upload.txt | grep 'new content'",
       # Delete from own directory
-      "curl -f -u admin-0:adminpass0 -X DELETE http://localhost:8080/upload.txt"
+      "curl -f -u admin-0:adminpass0 -X DELETE http://localhost:6065/upload.txt"
     )
 
     # Test admin-1 user (CRUD permissions)
     machine.succeed(
       # Read own file
-      "curl -f -u admin-1:adminpass1 http://localhost:8080/test.txt | grep hello-admin-1",
+      "curl -f -u admin-1:adminpass1 http://localhost:6065/test.txt | grep hello-admin-1",
       # Create/Update in own directory
       "echo 'admin-1 content' > upload.txt",
-      "curl -f -u admin-1:adminpass1 -T upload.txt http://localhost:8080/upload.txt",
-      "curl -f -u admin-1:adminpass1 http://localhost:8080/upload.txt | grep 'admin-1 content'",
+      "curl -f -u admin-1:adminpass1 -T upload.txt http://localhost:6065/upload.txt",
+      "curl -f -u admin-1:adminpass1 http://localhost:6065/upload.txt | grep 'admin-1 content'",
       # Delete from own directory
-      "curl -f -u admin-1:adminpass1 -X DELETE http://localhost:8080/upload.txt"
+      "curl -f -u admin-1:adminpass1 -X DELETE http://localhost:6065/upload.txt"
     )
 
     # Test directory isolation between admin users
@@ -97,38 +97,38 @@
     # Test relative path access for admin-0
     machine.succeed(
       # Read file using relative path
-      "curl -f -u admin-0:adminpass0 http://localhost:8080/../admin-0/test.txt | grep hello-admin-0",
+      "curl -f -u admin-0:adminpass0 http://localhost:6065/../admin-0/test.txt | grep hello-admin-0",
       # Create/Update using relative path
       "echo 'relative path content' > relative.txt",
-      "curl -f -u admin-0:adminpass0 -T relative.txt http://localhost:8080/../admin-0/relative.txt",
-      "curl -f -u admin-0:adminpass0 http://localhost:8080/../admin-0/relative.txt | grep 'relative path content'",
+      "curl -f -u admin-0:adminpass0 -T relative.txt http://localhost:6065/../admin-0/relative.txt",
+      "curl -f -u admin-0:adminpass0 http://localhost:6065/../admin-0/relative.txt | grep 'relative path content'",
       # Delete using relative path
-      "curl -f -u admin-0:adminpass0 -X DELETE http://localhost:8080/../admin-0/relative.txt"
+      "curl -f -u admin-0:adminpass0 -X DELETE http://localhost:6065/../admin-0/relative.txt"
     )
 
     machine.fail(
       # admin-0 should not be able to access admin-1's directory
-      "curl -f -u admin-0:adminpass0 http://localhost:8080/../admin-1/test.txt",
+      "curl -f -u admin-0:adminpass0 http://localhost:6065/../admin-1/test.txt",
       # admin-1 should not be able to access admin-0's directory
-      "curl -f -u admin-1:adminpass1 http://localhost:8080/../admin-0/test.txt",
+      "curl -f -u admin-1:adminpass1 http://localhost:6065/../admin-0/test.txt",
       # admin-0 should not be able to write to admin-1's directory
-      "echo 'hack' > hack.txt && curl -f -u admin-0:adminpass0 -T hack.txt http://localhost:8080/../admin-1/hack.txt",
+      "echo 'hack' > hack.txt && curl -f -u admin-0:adminpass0 -T hack.txt http://localhost:6065/../admin-1/hack.txt",
       # admin-1 should not be able to write to admin-0's directory
-      "echo 'hack' > hack.txt && curl -f -u admin-1:adminpass1 -T hack.txt http://localhost:8080/../admin-0/hack.txt"
+      "echo 'hack' > hack.txt && curl -f -u admin-1:adminpass1 -T hack.txt http://localhost:6065/../admin-0/hack.txt"
     )
 
     # Test read-only user
     machine.succeed(
       # Read should work
-      "curl -f -u reader:readerpass http://localhost:8080/test.txt | grep hello-reader"
+      "curl -f -u reader:readerpass http://localhost:6065/test.txt | grep hello-reader"
     )
     machine.fail(
       # Write should fail
-      "echo 'new content' > upload.txt && curl -f -u reader:readerpass -T upload.txt http://localhost:8080/upload.txt",
+      "echo 'new content' > upload.txt && curl -f -u reader:readerpass -T upload.txt http://localhost:6065/upload.txt",
       # Should not be able to access admin-0's directory
-      "curl -f -u reader:readerpass http://localhost:8080/../admin-0/test.txt",
+      "curl -f -u reader:readerpass http://localhost:6065/../admin-0/test.txt",
       # Should not be able to access admin-1's directory
-      "curl -f -u reader:readerpass http://localhost:8080/../admin-1/test.txt"
+      "curl -f -u reader:readerpass http://localhost:6065/../admin-1/test.txt"
     )
   '';
 }
