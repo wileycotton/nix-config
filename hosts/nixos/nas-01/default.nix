@@ -63,6 +63,39 @@
 
   services.clubcotton.roon-server.enable = true;
 
+  systemd.services.webdav.serviceConfig = {
+    StateDirectory = "webdav";
+    EnvironmentFile = config.age.secrets.webdav.path;
+  };
+
+  services.clubcotton.webdav = {
+    enable = true;
+    users = {
+      obsidian-sync = {
+        password = "{env}OBSIDIAN_SYNC_PASSWORD";
+        directory = "/media/webdav/obsidian-sync";
+        permissions = "CRUD";
+      };
+      zotero-sync = {
+        password = "{env}ZOTERO_SYNC_PASSWORD";
+        directory = "/media/webdav/zotero-sync";
+        permissions = "CRUD";
+      };
+    };
+  };
+  # Expose this code-server as a host on the tailnet
+  # This is here and not in the webdav module because of fuckery
+  # rg fuckery
+  services.tsnsrv = {
+    enable = true;
+    defaults.authKeyPath = config.clubcotton.tailscaleAuthKeyPath;
+    services.webdav = {
+      ephemeral = true;
+      toURL = "http//127.0.0.1:6065";
+    };
+  };
+
+
   programs.zsh.enable = true;
 
   users.users.root = {
@@ -190,6 +223,16 @@
             "com.sun:auto-snapshot" = "true";
           };
         };
+
+        # webdav tree
+        "local/webdav" = {
+          type = "zfs_fs";
+          mountpoint = "/media/webdav";
+          options = {
+            "com.sun:auto-snapshot" = "false";
+          };
+        };
+
         # tomcotton tree
         "local/tomcotton" = {
           type = "zfs_fs";

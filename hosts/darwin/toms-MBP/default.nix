@@ -7,7 +7,7 @@
   inputs,
   ...
 }: {
-  imports = [ ../toms-darwin/default.nix ];
+  imports = [../toms-darwin/default.nix];
 
   services.clubcotton.toms-darwin = {
     enable = true;
