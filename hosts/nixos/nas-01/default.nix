@@ -56,6 +56,45 @@
     tailnetHostname = "radarr";
   };
 
+  services.clubcotton.sonarr = {
+    enable = true;
+    tailnetHostname = "sonarr";
+  };
+
+  services.clubcotton.prowlarr = {
+    enable = true;
+    tailnetHostname = "prowlarr";
+  };
+
+  services.clubcotton.lidarr = {
+    enable = true;
+    tailnetHostname = "lidarr";
+  };
+
+  services.clubcotton.readarr = {
+    enable = true;
+    epub = {
+      dataDir = "/var/lib/readarr-epub";
+      tailnetHostname = "readarr-epub";
+      port = 8787;
+    };
+    audio = {
+      dataDir = "/var/lib/readarr-audio";
+      tailnetHostname = "readarr-audio";
+      port = 8788;
+    };
+  };
+
+  services.clubcotton.calibre = {
+    enable = true;
+    tailnetHostname = "calibre";
+  };
+
+  services.clubcotton.calibre-web = {
+    enable = true;
+    tailnetHostname = "calibre-web";
+  };
+
   services.clubcotton.jellyfin = {
     enable = true;
     tailnetHostname = "jellyfin";
@@ -222,7 +261,14 @@
             "com.sun:auto-snapshot" = "true";
           };
         };
-
+        "local/photots" = {
+          type = "zfs_fs";
+          mountpoint = "/media/photos";
+          options = {
+            mountpoint = "legacy";
+            "com.sun:auto-snapshot" = "true";
+          };
+        };
         # webdav tree
         "local/webdav" = {
           type = "zfs_fs";
@@ -231,7 +277,6 @@
             "com.sun:auto-snapshot" = "false";
           };
         };
-
         # tomcotton tree
         "local/tomcotton" = {
           type = "zfs_fs";
