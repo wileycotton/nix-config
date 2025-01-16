@@ -73,12 +73,12 @@
     users = {
       obsidian-sync = {
         password = "{env}OBSIDIAN_SYNC_PASSWORD";
-        directory = /media/webdav/obsidian-sync;
-        permissions = "CRUD"
+        directory = "/media/webdav/obsidian-sync";
+        permissions = "CRUD";
       };
       zotero-sync = {
         password = "{env}ZOTERO_SYNC_PASSWORD";
-        directory = /media/webdav/zotero-sync;
+        directory = "/media/webdav/zotero-sync";
         permissions = "CRUD";
       };
     };
@@ -88,7 +88,7 @@
   # rg fuckery
   services.tsnsrv = {
     enable = true;
-    defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
+    defaults.authKeyPath = config.clubcotton.tailscaleAuthKeyPath;
     services.webdav = {
       ephemeral = true;
       toURL = "http//127.0.0.1:6065";
