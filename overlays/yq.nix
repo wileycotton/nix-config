@@ -18,7 +18,7 @@
 
     vendorHash = "sha256-d4dwhZYzEuyh1zJQ2xU0WkygHjoVLoCBrDKuAHUzu1w=";
 
-    nativeBuildInputs = [ pkgs.installShellFiles ];
+    nativeBuildInputs = [pkgs.installShellFiles];
 
     postInstall = ''
       installShellCompletion --cmd yq \
@@ -32,7 +32,7 @@
       homepage = "https://mikefarah.gitbook.io/yq/";
       changelog = "https://github.com/mikefarah/yq/raw/v${version}/release_notes.txt";
       mainProgram = "yq";
-      license = [ licenses.mit ];
+      license = [licenses.mit];
     };
   };
 }

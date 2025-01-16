@@ -95,7 +95,6 @@
     };
   };
 
-
   programs.zsh.enable = true;
 
   users.users.root = {
