@@ -5,5 +5,6 @@
     ./open-webui
     ./roon-server
     ./sabnzbd
+    ./webdav
   ];
 }

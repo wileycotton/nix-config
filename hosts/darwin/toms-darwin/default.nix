@@ -6,7 +6,8 @@
   inputs,
   config,
   ...
-}: with lib; let
+}:
+with lib; let
   inherit (inputs) nixpkgs nixpkgs-unstable;
   cfg = config.services.clubcotton.toms-darwin;
 in {
@@ -24,15 +25,15 @@ in {
     # Apply Optional Configuration
 
     nixpkgs.overlays = let
-    p11KitOverlay = (final: prev: {
+      p11KitOverlay = final: prev: {
         p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-        mesonCheckFlags = oldAttrs.mesonCheckFlags or [] ++ [ "--timeout-multiplier" "0" ];
+          mesonCheckFlags = oldAttrs.mesonCheckFlags or [] ++ ["--timeout-multiplier" "0"];
         });
-    });
+      };
     in
-        if cfg.useP11KitOverlay 
-        then [ p11KitOverlay ]
-        else [];
+      if cfg.useP11KitOverlay
+      then [p11KitOverlay]
+      else [];
 
     # nixpkgs.config.overlays = [
     #   (final: prev:
@@ -44,12 +45,10 @@ in {
     #       };
     #     })
     # ];
-    
+
     # Common Configuration
     users.users.tomcotton.home = "/Users/tomcotton";
     # Define a user named "tomcotton" with home directory "/Users/tomcotton".
-
-
 
     # These are packages are just for darwin systems
     environment.systemPackages = [
@@ -58,7 +57,7 @@ in {
 
     nixpkgs.config.allowUnfree = true;
 
-      # Run the linux-builder as a background service
+    # Run the linux-builder as a background service
     nix.linux-builder.enable = true;
 
     # Add needed system-features to the nix daemon
@@ -214,12 +213,12 @@ in {
       # Following line should allow us to avoid a logout/login cycle
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
-    # Blocks mac from storing window presence and location. Results in only startup apps at startup. 
-    system.activationScripts.blockWindowLogging.text = """
+    # Blocks mac from storing window presence and location. Results in only startup apps at startup.
+    system.activationScripts.blockWindowLogging.text = "" "
       sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow.*
       sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow.*
       echo 'blocking access to ~/Library/Preferences/ByHost/com.apple.loginwindow.*'
-    """;
+    " "";
     system.defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
       NSGlobalDomain.AppleShowScrollBars = "Always";
@@ -308,4 +307,3 @@ in {
     };
   };
 }
-
