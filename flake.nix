@@ -290,6 +290,7 @@
     darwinConfigurations = {
       bobs-laptop = darwinSystem "aarch64-darwin" "bobs-laptop" "bcotton";
       toms-MBP = darwinSystem "x86_64-darwin" "toms-MBP" "tomcotton";
+      toms-mini = darwinSystem "aarch64-darwin" "toms-mini" "tomcotton";
       bobs-imac = darwinSystem "x86_64-darwin" "bobs-imac" "bcotton";
     };
 

@@ -7,7 +7,7 @@
 with lib; let
   cfg = config.services.clubcotton.webdav;
   # clubcotton = config.clubcotton; # this fails in tests with the following error aka fuckery
-  # 
+  #
   # error: attribute 'clubcotton' missing
   #      at /nix/store/yvfs8vs5bnalv8i8iwqq2qlnp810h4yn-source/clubcotton/services/webdav/default.nix:9:16:
   #           8|   cfg = config.services.clubcotton.webdav;
@@ -44,7 +44,6 @@ with lib; let
       };
     };
   };
-
 in {
   options.services.clubcotton.webdav = {
     enable = mkEnableOption "WebDAV server";
@@ -85,7 +84,8 @@ in {
         };
         permissions = "none";
         rulesBehavior = "overwrite";
-        users = mapAttrsToList
+        users =
+          mapAttrsToList
           (name: user: {
             username = name;
             inherit (user) password directory permissions;
