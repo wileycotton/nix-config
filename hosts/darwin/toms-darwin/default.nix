@@ -4,23 +4,51 @@
   unstablePkgs,
   lib,
   inputs,
+  config,
   ...
-}: {
-  imports = [../toms-darwin/default.nix];
+}:
+with lib; let
+  inherit (inputs) nixpkgs nixpkgs-unstable;
+  cfg = config.services.clubcotton.toms-darwin;
+in {
+  options.services.clubcotton.toms-darwin = {
+    enable = mkEnableOption "Default configuration for toms darwin machines";
 
-    nixpkgs.overlays = [
-      (final: prev: {
+    # Enable or disable the p11-kit timeout overlay fix to prevent tests from timing out
+    useP11KitOverlay = mkEnableOption {
+      description = "Enables the p11-kit timeout overlay fix to prevent tests from timing out.";
+      default = false;
+    };
+  };
+
+  config = {
+    # Apply Optional Configuration
+
+    nixpkgs.overlays = let
+      p11KitOverlay = final: prev: {
         p11-kit = prev.p11-kit.overrideAttrs (oldAttrs: {
-          mesonCheckFlags =
-            oldAttrs.mesonCheckFlags
-            or []
-            ++ [
-              "--timeout-multiplier"
-              "0"
-            ];
+          mesonCheckFlags = oldAttrs.mesonCheckFlags or [] ++ ["--timeout-multiplier" "0"];
         });
-      })
-    ];
+      };
+    in
+      if cfg.useP11KitOverlay
+      then [p11KitOverlay]
+      else [];
+
+    # nixpkgs.config.overlays = [
+    #   (final: prev:
+    #     lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+    #       # Add access to x86 packages system is running Apple Silicon
+    #       pkgs-x86 = import nixpkgs {
+    #         system = "x86_64-darwin";
+    #         config.allowUnfree = true;
+    #       };
+    #     })
+    # ];
+
+    # Common Configuration
+    users.users.tomcotton.home = "/Users/tomcotton";
+    # Define a user named "tomcotton" with home directory "/Users/tomcotton".
 
     # These are packages are just for darwin systems
     environment.systemPackages = [
@@ -28,16 +56,16 @@
     ];
 
     nixpkgs.config.allowUnfree = true;
-    #nixpkgs.config.overlays = [
-    #  (final: prev:
-    #    lib.optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
-    #      # Add access to x86 packages system is running Apple Silicon
-    #      pkgs-x86 = import nixpkgs {
-    #        system = "x86_64-darwin";
-    #        config.allowUnfree = true;
-    #      };
-    #    })
-    #];
+
+    # Run the linux-builder as a background service
+    nix.linux-builder.enable = true;
+
+    # Add needed system-features to the nix daemon
+    # Starting with Nix 2.19, this will be automatic
+    nix.settings.system-features = [
+      "nixos-test"
+      "apple-virt"
+    ];
 
     # Keyboard
     system.keyboard.enableKeyMapping = false;
@@ -51,7 +79,6 @@
       enable = true;
       enableCompletion = true;
       promptInit = builtins.readFile ./mac-dot-zshrc;
-      #interactiveShellInit = "/Users/alex/go/bin/figurine -f \"Rammstein.flf\" magrathea";
     };
 
     homebrew = {
@@ -76,7 +103,9 @@
         "tailscale"
         "pandoc"
         "trash"
-        "youtube-dl"
+        "yt-dlp"
+        "pkgconf"
+        "openjdk"
       ];
       casks = [
         "hiddenbar"
@@ -84,6 +113,11 @@
         "font-hack-nerd-font"
         "libreoffice"
         "karabiner-elements"
+        "mactex"
+        "obs"
+        "ollama"
+        "bambu-studio"
+        "fork"
         #"alfred" # you are on alfred4 not 5
         #      "autodesk-fusion360"
         #      "audacity"
@@ -179,6 +213,12 @@
       # Following line should allow us to avoid a logout/login cycle
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
+    # Blocks mac from storing window presence and location. Results in only startup apps at startup.
+    system.activationScripts.blockWindowLogging.text = "" "
+      sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow.*
+      sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow.*
+      echo 'blocking access to ~/Library/Preferences/ByHost/com.apple.loginwindow.*'
+    " "";
     system.defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
       NSGlobalDomain.AppleShowScrollBars = "Always";
