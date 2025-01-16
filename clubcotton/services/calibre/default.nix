@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  service = "sonarr";
+  service = "calibre";
   cfg = config.services.clubcotton.${service};
   clubcotton = config.clubcotton;
 in {
@@ -24,14 +24,15 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    nixpkgs.config.permittedInsecurePackages = [
-      "dotnet-sdk-6.0.428"
-      "aspnetcore-runtime-6.0.36"
-    ];
-    services.${service} = {
+    services.calibre-server = {
       enable = true;
+      port = 8111;
+      libraries = [
+        "/media/books/epub/calibre"
+      ];
       user = clubcotton.user;
       group = clubcotton.group;
+      auth.enable = false;
     };
 
     services.tsnsrv = {
@@ -40,7 +41,7 @@ in {
 
       services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
-        toURL = "http://127.0.0.1:8989/";
+        toURL = "http://127.0.0.1:8111/";
       };
     };
   };
