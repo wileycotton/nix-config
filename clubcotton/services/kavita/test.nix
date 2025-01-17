@@ -3,9 +3,13 @@
 {nixpkgs}: {
   name = "kavita";
   interactive.nodes = let
-    testLib = import ../../tests/libtest.nix {};
+    testLib = import ../../../tests/libtest.nix {};
+    lib = nixpkgs.lib;
   in {
-    machine = {...}: testLib.mkSshConfig 2223;
+    machine = {...}:
+      lib.recursiveUpdate
+      (testLib.mkSshConfig 2223)
+      (testLib.portForward 8085 8085);
   };
 
   nodes.machine = {
