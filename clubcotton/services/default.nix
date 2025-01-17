@@ -12,5 +12,6 @@
     ./roon-server
     ./sabnzbd
     ./webdav
+    ./kavita
   ];
 }
