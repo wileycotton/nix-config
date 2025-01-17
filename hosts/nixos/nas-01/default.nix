@@ -130,7 +130,7 @@
     defaults.authKeyPath = config.clubcotton.tailscaleAuthKeyPath;
     services.webdav = {
       ephemeral = true;
-      toURL = "http//127.0.0.1:6065";
+      toURL = "http://127.0.0.1:6065";
     };
   };
 
