@@ -169,6 +169,7 @@
     useStandardRootFilesystems = true;
     reservedSize = "20GiB";
   };
+  boot.zfs.extraPools = [ "ssdpool" "mediapool" "backuppool" ];
 
   clubcotton.zfs_raidz1 = {
     ssdpool = {
@@ -179,27 +180,6 @@
         "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X903194N"
         "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X905916M"
       ];
-      filesystems = {
-        local = {
-          options.mountpoint = "none";
-        };
-        "local/reserved" = {
-          type = "zfs_fs";
-          options = {
-            mountpoint = "none";
-            reservation = "200GiB";
-          };
-        };
-        "local/database" = {
-          type = "zfs_fs";
-          mountpoint = "/db";
-          options = {
-            mountpoint = "legacy";
-            recordsize = "8k"; # for postgres
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-      }; # filesystems
       volumes = {
         "local/incus" = {
           size = "300G";
@@ -214,101 +194,6 @@
         "/dev/disk/by-id/wwn-0x5000c500cbadaef8"
         "/dev/disk/by-id/wwn-0x5000c500f73da9f5"
       ];
-      filesystems = {
-        local = {
-          options.mountpoint = "none";
-        };
-        "local/reserved" = {
-          type = "zfs_fs";
-          options = {
-            mountpoint = "none";
-            reservation = "600GiB";
-          };
-        };
-        "local/music" = {
-          type = "zfs_fs";
-          mountpoint = "/media/music";
-          options = {
-            mountpoint = "legacy";
-            recordsize = "1M"; # for larege files
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        "local/movies" = {
-          type = "zfs_fs";
-          mountpoint = "/media/movies";
-          options = {
-            mountpoint = "legacy";
-            recordsize = "1M"; # for larege files
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        "local/shows" = {
-          type = "zfs_fs";
-          mountpoint = "/media/shows";
-          options = {
-            mountpoint = "legacy";
-            recordsize = "1M"; # for large files
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        "local/books" = {
-          type = "zfs_fs";
-          mountpoint = "/media/books";
-          options = {
-            mountpoint = "legacy";
-            recordsize = "1M"; # for large files
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        "local/photots" = {
-          type = "zfs_fs";
-          mountpoint = "/media/photos";
-          options = {
-            mountpoint = "legacy";
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        # webdav tree
-        "local/webdav" = {
-          type = "zfs_fs";
-          mountpoint = "/media/webdav";
-          options = {
-            "com.sun:auto-snapshot" = "false";
-          };
-        };
-        # tomcotton tree
-        "local/tomcotton" = {
-          type = "zfs_fs";
-          mountpoint = "/media/tomcotton";
-          options = {
-            mountpoint = "legacy";
-            "com.sun:auto-snapshot" = "false"; # Parent FS, no data
-          };
-        };
-        "local/tomcotton/data" = {
-          type = "zfs_fs";
-          mountpoint = "/media/tomcotton/data";
-          options = {
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        "local/tomcotton/cold-data" = {
-          # Separated for alternate possible offsite backup method
-          type = "zfs_fs";
-          mountpoint = "/media/tomcotton/cold-data";
-          options = {
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        "local/tomcotton/audio-library" = {
-          type = "zfs_fs";
-          mountpoint = "/media/tomcotton/audio-library";
-          options = {
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-      }; # filesystems
     };
     backuppool = {
       enable = true;
@@ -317,35 +202,6 @@
         "/dev/disk/by-id/wwn-0x5000c500cb5e1c80"
         "/dev/disk/by-id/wwn-0x5000c500f6f25ea9"
       ];
-      filesystems = {
-        local = {
-          options.mountpoint = "none";
-        };
-        "local/reserved" = {
-          type = "zfs_fs";
-          options = {
-            mountpoint = "none";
-            reservation = "600GiB";
-          };
-        };
-        "local/backups" = {
-          type = "zfs_fs";
-          mountpoint = "/backups";
-          options = {
-            mountpoint = "legacy";
-            recordsize = "1M"; # for large files
-            "com.sun:auto-snapshot" = "true";
-          };
-        };
-        "local/tomcotton/toms-mini" = {
-          type = "zfs_fs";
-          mountpoint = "/backups/tomcotton/toms-mini";
-        };
-        "local/tomcotton/toms-MBP" = {
-          type = "zfs_fs";
-          mountpoint = "/backups/tomcotton/toms-MBP";
-        };
-      }; # filesystems
     };
   };
 

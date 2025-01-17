@@ -116,3 +116,11 @@ groups:
       severity: warning
     annotations:
       description: 'ZFS pool {{ $labels.pool }} on {{ $labels.instance }} has {{ printf "%.0f" $value }} bytes of leaked data'
+
+  - alert: BleSensorOffline
+    expr: homeassistant_sensor_unit_seconds{domain="sensor",entity="sensor.main_ble_sensor_age",instance="homeassistant:8123"} > 5000
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: 'BLE sensor {{ $labels.entity }} on {{ $labels.instance }} is not respinding'
