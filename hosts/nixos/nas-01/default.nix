@@ -122,6 +122,20 @@
       };
     };
   };
+
+    services.clubcotton.kavita = {
+    enable = true;
+    port = 8085;
+    dataDir = "/var/lib/kavita/data";
+    # Specify library directory separately from dataDir for better organization
+    libraryDir = "/var/lib/kavita/library";
+    # List users who should have access to the libraries
+    sharedUsers = [ "tomcotton" ];  # Add more users as needed
+    tokenKeyFile = config.age.secrets."kavita-token".path;
+    bindAddresses = ["0.0.0.0" "::"];
+    tailnetHostname = "kavita";
+  };
+
   # Expose this code-server as a host on the tailnet
   # This is here and not in the webdav module because of fuckery
   # rg fuckery
