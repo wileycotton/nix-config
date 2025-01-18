@@ -24,7 +24,7 @@ in {
 
     libraryDir = mkOption {
       type = types.str;
-      default = "/var/lib/kavita/libraries";
+      default = "/var/lib/kavita/library";
       description = "Directory where Kavita stores its libraries";
     };
 
