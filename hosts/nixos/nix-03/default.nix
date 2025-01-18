@@ -96,9 +96,9 @@
   services.clubcotton.kavita = {
     enable = true;
     port = 8085;
-    dataDir = /var/lib/kavita;
+    dataDir = "/var/lib/kavita";
     tokenKeyFile = config.age.secrets."kavita-token".path;
-    bindAddresses = "0.0.0.0";
+    bindAddresses = ["0.0.0.0" "::"];
   };
 
   # services.immich = {
