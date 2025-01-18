@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.services.clubcotton.kavita;
+  clubcotton = config.clubcotton;
 in {
   options.services.clubcotton.kavita = {
     enable = mkEnableOption "Kavita server";
@@ -48,6 +49,12 @@ in {
       description = "IP addresses to bind to (IPv4 and IPv6)";
     };
 
+    tailnetHostname = mkOption {
+      type = types.str;
+      default = "";
+      description = "The tailnet hostname to expose Kavita as";
+    };
+
     sharedUsers = mkOption {
       type = types.listOf types.str;
       default = [];
@@ -73,6 +80,17 @@ in {
       settings = {
         Port = cfg.port;
         IpAddresses = concatStringsSep "," cfg.bindAddresses;
+      };
+    };
+
+    # Expose Kavita on the tailnet if hostname is configured
+    services.tsnsrv = {
+      enable = true;
+      defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
+
+      services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
+        ephemeral = true;
+        toURL = "http://localhost:${toString cfg.port}/";
       };
     };
 

@@ -103,6 +103,7 @@
     sharedUsers = [ "tomcotton" ];  # Add more users as needed
     tokenKeyFile = config.age.secrets."kavita-token".path;
     bindAddresses = ["0.0.0.0" "::"];
+    tailnetHostname = "kavita";
   };
 
   # services.immich = {
