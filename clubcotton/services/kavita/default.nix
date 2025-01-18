@@ -18,8 +18,14 @@ in {
 
     dataDir = mkOption {
       type = types.str;
-      default = "/var/lib/kavita";
+      default = "/var/lib/kavita/data";
       description = "Directory where Kavita stores its data";
+    };
+
+    libraryDir = mkOption {
+      type = types.str;
+      default = "/var/lib/kavita/libraries";
+      description = "Directory where Kavita stores its libraries";
     };
 
     user = mkOption {
@@ -41,9 +47,26 @@ in {
       default = ["0.0.0.0" "::"];
       description = "IP addresses to bind to (IPv4 and IPv6)";
     };
+
+    sharedUsers = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = "List of users who should have access to the Kavita libraries";
+    };
   };
 
   config = mkIf cfg.enable {
+    # Create the library directory with appropriate permissions:
+    # - 0775 means rwxrwxr-x
+    # - Owner (kavita user) gets full access (rwx)
+    # - Group (kavita group) gets full access (rwx)
+    # - Others get read and execute (r-x)
+    systemd.tmpfiles.rules = [
+      "d '${cfg.libraryDir}' 0775 ${cfg.user} kavita - -"
+    ];
+
+    # Configure the upstream Kavita service
+    # Note: The kavita group is created by the upstream module
     services.kavita = {
       enable = true;
       inherit (cfg) user dataDir tokenKeyFile;
@@ -52,5 +75,15 @@ in {
         IpAddresses = concatStringsSep "," cfg.bindAddresses;
       };
     };
+
+    # Add specified users to the kavita group to grant them
+    # shared access to the libraries through group permissions
+    users.users = let
+      makeKavitaUser = user: {
+        "${user}" = {
+          extraGroups = [ "kavita" ];
+        };
+      };
+    in mkMerge (map makeKavitaUser cfg.sharedUsers);
   };
 }
