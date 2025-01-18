@@ -96,7 +96,7 @@
   services.clubcotton.kavita = {
     enable = true;
     port = 8085;
-    dataDir = "/var/lib/kavita/data";
+    dataDir = "/var/lib/kavita/test-data";
     # Specify library directory separately from dataDir for better organization
     libraryDir = "/var/lib/kavita/test-library";
     # List users who should have access to the libraries
