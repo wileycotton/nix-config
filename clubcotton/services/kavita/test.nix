@@ -30,7 +30,7 @@
     # Create test directories and files
     systemd.tmpfiles.rules = [
       "d /var/lib/kavita 0755 kavita kavita"
-      "f /var/lib/kavita/token.key 0600 kavita kavita - 8MRerWknMnLmsSnknZhXYZxOVUqwRESNae0me0eEx6mBjRzAaiW5+Q0Q3cTRWkeprCAk4HRAvBeMIc+dJFm7uw=="
+      "f /var/lib/kavita/token.key 0600 kavita kavita - dummyTokenKeyForTesting"
       "d /var/lib/kavita/manga 0755 kavita kavita"
       "d /var/lib/kavita/comics 0755 kavita kavita"
       "d /var/lib/kavita/books 0755 kavita kavita"
@@ -39,8 +39,6 @@
 
   testScript = ''
     start_all()
-
-    machine.shell_interact()
 
     # Wait for kavita service to start
     machine.wait_for_unit("kavita.service")
