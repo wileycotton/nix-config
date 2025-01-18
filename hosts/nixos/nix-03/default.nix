@@ -91,6 +91,16 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  # The following is a test implementation of kavita, to be moved to nas-01 when working
+
+  services.config.clubcotton.kavita = {
+    enable = true;
+    port = 8085;
+    dataDir = /var/lib/kavita;
+    tokenKeyFile = ;
+    bindAddresses = "0.0.0.0";
+  }
+
   # services.immich = {
   #   enable = true;
   #   openFirewall = true;
