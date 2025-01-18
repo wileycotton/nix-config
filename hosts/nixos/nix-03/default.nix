@@ -93,11 +93,11 @@
 
   # The following is a test implementation of kavita, to be moved to nas-01 when working
 
-  services.config.clubcotton.kavita = {
+  services.clubcotton.kavita = {
     enable = true;
     port = 8085;
     dataDir = /var/lib/kavita;
-    tokenKeyFile = config.age.secrets.kavita-token.path;
+    tokenKeyFile = config.age.secrets."kavita-token".path;
     bindAddresses = "0.0.0.0";
   };
 
