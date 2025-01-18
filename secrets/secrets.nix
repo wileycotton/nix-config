@@ -30,4 +30,5 @@ in {
   "immich-database.age".publicKeys = users ++ systems;
   "open-webui.age".publicKeys = users ++ systems;
   "webdav.age".publicKeys = users ++ systems;
+  "kavita-token.age".publicKeys = users ++ systems;
 }
