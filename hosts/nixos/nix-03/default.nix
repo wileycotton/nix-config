@@ -97,9 +97,9 @@
     enable = true;
     port = 8085;
     dataDir = /var/lib/kavita;
-    tokenKeyFile = ;
+    tokenKeyFile = config.age.secrets.kavita-token.path;
     bindAddresses = "0.0.0.0";
-  }
+  };
 
   # services.immich = {
   #   enable = true;
