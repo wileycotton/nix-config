@@ -123,7 +123,7 @@
     };
   };
 
-    services.clubcotton.kavita = {
+  services.clubcotton.kavita = {
     enable = true;
     user = "share";
     port = 8085;
@@ -184,7 +184,7 @@
     useStandardRootFilesystems = true;
     reservedSize = "20GiB";
   };
-  boot.zfs.extraPools = [ "ssdpool" "mediapool" "backuppool" ];
+  boot.zfs.extraPools = ["ssdpool" "mediapool" "backuppool"];
 
   clubcotton.zfs_raidz1 = {
     ssdpool = {

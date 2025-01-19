@@ -109,24 +109,5 @@ in {
         cfg.instances;
     in
       flatten enabledPorts;
-
-    users.users =
-      mapAttrs' (
-        name: instanceCfg:
-          nameValuePair instanceCfg.user {
-            description = "Readarr service (${name})";
-            home = instanceCfg.dataDir;
-            group = instanceCfg.group;
-            isSystemUser = true;
-          }
-      )
-      cfg.instances;
-
-    users.groups =
-      mapAttrs' (
-        name: instanceCfg:
-          nameValuePair instanceCfg.group {}
-      )
-      cfg.instances;
   };
 }
