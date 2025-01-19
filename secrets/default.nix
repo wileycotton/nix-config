@@ -77,7 +77,5 @@
 
   age.secrets."kavita-token" = lib.mkIf config.services.clubcotton.kavita.enable {
     file = ./kavita-token.age;
-    owner = "kavita";
-    group = "kavita";
   };
 }
