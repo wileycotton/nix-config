@@ -69,7 +69,7 @@ in {
     # - Group (kavita group) gets full access (rwx)
     # - Others get read and execute (r-x)
     systemd.tmpfiles.rules = [
-      "d '${cfg.libraryDir}' 0775 ${cfg.user} kavita - -"
+      "d '${cfg.libraryDir}' 0775 ${cfg.user} ${cfg.user} - -"
     ];
 
     # Configure the upstream Kavita service
@@ -96,12 +96,12 @@ in {
 
     # Add specified users to the kavita group to grant them
     # shared access to the libraries through group permissions
-    users.users = let
-      makeKavitaUser = user: {
-        "${user}" = {
-          extraGroups = [ "kavita" ];
-        };
-      };
-    in mkMerge (map makeKavitaUser cfg.sharedUsers);
+    # users.users = let
+    #   makeKavitaUser = user: {
+    #     "${user}" = {
+    #       extraGroups = [ "kavita" ];
+    #     };
+    #   };
+    # in mkMerge (map makeKavitaUser cfg.sharedUsers);
   };
 }

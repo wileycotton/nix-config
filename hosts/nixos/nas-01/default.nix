@@ -125,12 +125,13 @@
 
     services.clubcotton.kavita = {
     enable = true;
+    user = "share";
     port = 8085;
-    dataDir = "/var/lib/kavita/data";
+    dataDir = "/var/lib/kavita";
     # Specify library directory separately from dataDir for better organization
-    libraryDir = "/var/lib/kavita/library";
+    libraryDir = "/media/books/kavita";
     # List users who should have access to the libraries
-    sharedUsers = [ "tomcotton" ];  # Add more users as needed
+    # sharedUsers = [ "tomcotton" ];  # Add more users as needed
     tokenKeyFile = config.age.secrets."kavita-token".path;
     bindAddresses = ["0.0.0.0" "::"];
     tailnetHostname = "kavita";
