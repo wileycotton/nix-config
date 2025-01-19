@@ -257,6 +257,7 @@
       # nix run '.#checks.x86_64-linux.postgresql-integration.driverInteractive'
       postgresql = nixpkgs.legacyPackages.${system}.nixosTest (import ./modules/postgresql/test.nix {inherit nixpkgs;});
       webdav = nixpkgs.legacyPackages.${system}.nixosTest (import ./clubcotton/services/webdav/test.nix {inherit nixpkgs;});
+      kavita = nixpkgs.legacyPackages.${system}.nixosTest (import ./clubcotton/services/kavita/test.nix {inherit nixpkgs;});
       postgresql-integration = nixpkgs.legacyPackages.${system}.nixosTest (import ./tests/postgresql-integration.nix {inherit nixpkgs unstablePkgs inputs;});
       zfs-single-root = let
         system = "x86_64-linux";
