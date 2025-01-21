@@ -1,8 +1,8 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-# 
-# Nuke and pave this machine 
+#
+# Nuke and pave this machine
 # nix run github:nix-community/nixos-anywhere -- --flake '.#nix-04' root@<host ip>
 {
   config,
@@ -22,21 +22,21 @@
     ];
   };
 
-    clubcotton.zfs_single_root = {
-      enable = true;
-      poolname = "rpool";
-      swapSize = "64G";
-      disk = "/dev/disk/by-id/ata-X12_SSD_256GB_KT2023000020001117";
-      useStandardRootFilesystems = true;
-      reservedSize = "20GiB";
+  clubcotton.zfs_single_root = {
+    enable = true;
+    poolname = "rpool";
+    swapSize = "64G";
+    disk = "/dev/disk/by-id/ata-X12_SSD_256GB_KT2023000020001117";
+    useStandardRootFilesystems = true;
+    reservedSize = "20GiB";
     #   volumes = {
     #     "local/incus" = {
     #       size = "300G";
     #     };
     #   };
-    };
+  };
 
-   networking = {
+  networking = {
     hostId = "3fa4e0cb";
     hostName = "nix-04";
     defaultGateway = "192.168.5.1";
