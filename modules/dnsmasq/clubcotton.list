@@ -2,6 +2,7 @@
 192.168.5.47 audio-01
 192.168.5.62 kvm
 192.168.5.49 octoprint
+192.168.5.54 nix-04
 192.168.5.219 music-01.lan music-01
 192.168.5.210 nix-01.lan minecraft minecraft.lan minecraft-host books-host
 192.168.5.212 nix-02.lan roon-host immich-host
