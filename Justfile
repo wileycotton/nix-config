@@ -43,6 +43,10 @@ update:
 fmt:
   nix fmt
 
+  # Run nixinate for a specific host
+nixinate hostname:
+    nix run ".#apps.nixinate.{{hostname}}"
+
 nix-all:
   for i in `(nix flake show --json | jq -r '.nixosConfigurations |keys[]' | grep -v admin ) 2>/dev/null `; do nix run ".#apps.nixinate.$i" ; done
 
