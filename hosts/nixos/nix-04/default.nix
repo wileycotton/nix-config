@@ -1,6 +1,9 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
+# 
+# Nuke and pave this machine 
+# nix run github:nix-community/nixos-anywhere -- --flake '.#nix-04' root@<host ip>
 {
   config,
   pkgs,
@@ -68,12 +71,6 @@
   # services.xserver.libinput.enable = true;
 
   programs.zsh.enable = true;
-
-  users.users.root = {
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
-    ];
-  };
 
   # An attemp at a headless x server
   services.x2goserver.enable = true;
