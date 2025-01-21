@@ -13,19 +13,25 @@
     ./hardware-configuration.nix
   ];
 
-#   clubcotton.zfs_single_root = {
-#     enable = true;
-#     poolname = "rpool";
-#     swapSize = "64G";
-#     disk = "/dev/disk/by-id/nvme-eui.00000000000000000026b738281a3535";
-#     useStandardRootFilesystems = true;
-#     reservedSize = "20GiB";
-#     volumes = {
-#       "local/incus" = {
-#         size = "300G";
-#       };
-#     };
-#   };
+  users.users.root = {
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com"
+    ];
+  };
+
+  #   clubcotton.zfs_single_root = {
+  #     enable = true;
+  #     poolname = "rpool";
+  #     swapSize = "64G";
+  #     disk = "/dev/disk/by-id/nvme-eui.00000000000000000026b738281a3535";
+  #     useStandardRootFilesystems = true;
+  #     reservedSize = "20GiB";
+  #     volumes = {
+  #       "local/incus" = {
+  #         size = "300G";
+  #       };
+  #     };
+  #   };
 
   networking = {
     hostId = "007f0200";
