@@ -13,7 +13,7 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    # ./hardware-configuration.nix
   ];
 
   users.users.root = {
@@ -36,26 +36,17 @@
     #   };
     };
 
-  networking = {
-    hostId = "007f0200";
-    useDHCP = false;
-    hostName = "nix-03";
+   networking = {
+    hostId = "3fa4e0cb";
+    hostName = "nix-04";
     defaultGateway = "192.168.5.1";
     nameservers = ["192.168.5.220"];
-    interfaces.enp3s0.ipv4.addresses = [
+    interfaces.eno1.ipv4.addresses = [
       {
-        address = "192.168.5.214";
+        address = "192.168.5.54";
         prefixLength = 24;
       }
     ];
-    # interfaces.enp2s0.ipv4.addresses = [
-    #   {
-    #     address = "192.168.5.215";
-    #     prefixLength = 24;
-    #   }
-    # ];
-    bridges."br0".interfaces = ["enp2s0"];
-    interfaces."br0".useDHCP = true;
   };
 
   virtualisation.libvirtd.enable = true;
