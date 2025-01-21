@@ -22,19 +22,19 @@
     ];
   };
 
-  #   clubcotton.zfs_single_root = {
-  #     enable = true;
-  #     poolname = "rpool";
-  #     swapSize = "64G";
-  #     disk = "/dev/disk/by-id/nvme-eui.00000000000000000026b738281a3535";
-  #     useStandardRootFilesystems = true;
-  #     reservedSize = "20GiB";
-  #     volumes = {
-  #       "local/incus" = {
-  #         size = "300G";
-  #       };
-  #     };
-  #   };
+    clubcotton.zfs_single_root = {
+      enable = true;
+      poolname = "rpool";
+      swapSize = "64G";
+      disk = "/dev/disk/by-id/ata-X12_SSD_256GB_KT2023000020001117";
+      useStandardRootFilesystems = true;
+      reservedSize = "20GiB";
+    #   volumes = {
+    #     "local/incus" = {
+    #       size = "300G";
+    #     };
+    #   };
+    };
 
   networking = {
     hostId = "007f0200";
