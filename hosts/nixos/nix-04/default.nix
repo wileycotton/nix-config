@@ -13,7 +13,7 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    # ./hardware-configuration.nix
+    ./hardware-configuration.nix
   ];
 
   users.users.root = {
@@ -25,15 +25,10 @@
   clubcotton.zfs_single_root = {
     enable = true;
     poolname = "rpool";
-    swapSize = "64G";
+    swapSize = "4G"; # 1/4 of 16G
     disk = "/dev/disk/by-id/ata-X12_SSD_256GB_KT2023000020001117";
     useStandardRootFilesystems = true;
-    reservedSize = "20GiB";
-    #   volumes = {
-    #     "local/incus" = {
-    #       size = "300G";
-    #     };
-    #   };
+    reservedSize = "50GiB"; #0.20 of 256G
   };
 
   networking = {
@@ -62,9 +57,6 @@
   # services.xserver.libinput.enable = true;
 
   programs.zsh.enable = true;
-
-  # An attemp at a headless x server
-  services.x2goserver.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -96,5 +88,5 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }
