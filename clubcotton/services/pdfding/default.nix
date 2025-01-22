@@ -12,7 +12,7 @@ in {
     enable = mkEnableOption "PDFDing Docker pdf hoster";
 
     port = mkOption {
-      type = types.integer;
+      type = types.str;
       default = "8000";
     };
 
@@ -47,11 +47,11 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.rules = map (x: "d ${x} 0775 share share - -") "${cfg.mediaDir}"; # ideally this is a persistant folder mounted into docker, not a docker only folder.
+    # systemd.tmpfiles.rules = map (x: "d ${x} 0775 share share - -") "${cfg.mediaDir}"; # ideally this is a persistant folder mounted into docker, not a docker only folder.
 
     virtualisation.oci-containers = {
       containers = {
-        sabnzbd = {
+        pdfding = {
           image = "mrmn/pdfding";
           autoStart = true;
           extraOptions = [

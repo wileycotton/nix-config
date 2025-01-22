@@ -16,12 +16,25 @@
     ./hardware-configuration.nix
   ];
 
-  virtualisation.docker.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    dockerSocket.enable = true;
+    # Required for containers under podman-compose to be able to talk to each other.
+    defaultNetwork.settings.dns_enabled = true;
+  };
+  services.clubcotton.pdfding.enable = true;
 
   users.users.root = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKW08oClThlF1YJ+ey3y8XKm9yX/45EtaM/W7hx5Yvzb tomcotton@Toms-MacBook-Pro.local"
     ];
+  };
+
+  services.clubcotton.pdfding = {
+    port = "8000";
+    dbDir = "/var/lib/pdfding/database";
+    mediaDir = "/var/lib/pdfding/media";
   };
 
   clubcotton.zfs_single_root = {
