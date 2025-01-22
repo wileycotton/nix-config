@@ -14,6 +14,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../../modules/apache
   ];
 
   virtualisation.podman = {
@@ -23,7 +24,7 @@
     # Required for containers under podman-compose to be able to talk to each other.
     defaultNetwork.settings.dns_enabled = true;
   };
-  services.clubcotton.pdfding.enable = true;
+  # services.clubcotton.pdfding.enable = true;
 
   users.users.root = {
     openssh.authorizedKeys.keys = [
@@ -31,11 +32,11 @@
     ];
   };
 
-  services.clubcotton.pdfding = {
-    port = "8000";
-    dbDir = "/var/lib/pdfding/database";
-    mediaDir = "/var/lib/pdfding/media";
-  };
+  # services.clubcotton.pdfding = {
+  #   port = "8000";
+  #   dbDir = "/var/lib/pdfding/database";
+  #   mediaDir = "/var/lib/pdfding/media";
+  # };
 
   clubcotton.zfs_single_root = {
     enable = true;
