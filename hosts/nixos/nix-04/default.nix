@@ -16,6 +16,8 @@
     ./hardware-configuration.nix
   ];
 
+  virtualisation.docker.enable = true;
+
   users.users.root = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKW08oClThlF1YJ+ey3y8XKm9yX/45EtaM/W7hx5Yvzb tomcotton@Toms-MacBook-Pro.local"

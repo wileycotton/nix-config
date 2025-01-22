@@ -12,25 +12,25 @@ in {
     enable = mkEnableOption "PDFDing Docker pdf hoster";
 
     port = mkOption {
-        type = types.integer;
-        default = "8000"
+      type = types.integer;
+      default = "8000";
     };
 
     dbDir = mkOption {
-        type = types.str;
-        default = "";
-        description = "a full path";
+      type = types.str;
+      default = "";
+      description = "a full path";
     };
 
     mediaDir = mkOption {
-        type = types.str;
-        default = "";
-        description = "a full path";  
+      type = types.str;
+      default = "";
+      description = "a full path";
     };
 
     tailnetHostname = mkOption {
-        type = types.str;
-        default = "";  
+      type = types.str;
+      default = "";
     };
 
     secretKeyPath = mkOption {
@@ -45,7 +45,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.rules = map (x: "d ${x} 0775 share share - -") ${cfg.mediaDir};
+    systemd.tmpfiles.rules = map (x: "d ${x} 0775 share share - -") "${cfg.mediaDir}"; # ideally this is a persistant folder mounted into docker, not a docker only folder.
 
     virtualisation.oci-containers = {
       containers = {
@@ -67,31 +67,20 @@ in {
             POSTGRES_HOST = "postgres";
             POSTGRES_PASSWORD = builtins.readFile cfg.postgresPasswordPath;
             POSTGRES_PORT = 5432;
-
-            BACKUP_ENABLE = FALSE; 
-            BACKUP_ENDPOINT = "None"; # The endpoint of the S3 compatible storage. Example: minio.pdfding.com
-            BACKUP_ACCESS_KEY = "None"; # The access key of the S3 compatible storage. Example: random_access_key
-            BACKUP_SECRET_KEY = "None"; # The secret key of the S3 compatible storage. Example: random_secret_key
-            BACKUP_BUCKET_NAMEf = "pdfding"; # The name of the bucket where PdfDing should be backed up to. Example: pdfding
-            BACKUP_SCHEDULE = "0 2 * * *"; # The schedule for the periodic backups. Example: 0 2 * * *. This schedule will start the backup every night at 2:00. More information can be found here.
-            BACKUP_SECURE = FALSE; # Flag to indicate to use secure (TLS) connection to S3 service or not.
-            BACKUP_ENCRYPTION_ENABLE = FALSE; 
-            BACKUP_ENCRYPTION_PASSWORD = "None"; # Password used for generating the encryption key. The encryption key generation is done via PBKDF2 with 1000000 iterations.
-            BACKUP_ENCRYPTION_SALT = "pdfding";
           };
         };
       };
     };
-  };
 
-  # Expose this code-server as a host on the tailnet if tsnsrv module is available
-  services.tsnsrv = {
-    enable = true;
-    defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
+    # Expose this code-server as a host on the tailnet if tsnsrv module is available
+    services.tsnsrv = {
+      enable = true;
+      defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
 
-    services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
-      ephemeral = true;
-      toURL = "http://${config.services.open-webui.host}:${toString config.services.open-webui.port}/";
+      services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
+        ephemeral = true;
+        toURL = "http://${config.services.open-webui.host}:${toString config.services.open-webui.port}/";
+      };
     };
   };
 }
