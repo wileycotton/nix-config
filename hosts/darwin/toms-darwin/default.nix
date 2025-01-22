@@ -58,7 +58,7 @@ in {
     nixpkgs.config.allowUnfree = true;
 
     # Run the linux-builder as a background service
-    nix.linux-builder.enable = true;
+    # nix.linux-builder.enable = true;
 
     # Add needed system-features to the nix daemon
     # Starting with Nix 2.19, this will be automatic
