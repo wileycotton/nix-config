@@ -13,4 +13,18 @@
     enable = true;
     useP11KitOverlay = true;
   };
+
+      homebrew = {
+      enable = true;
+      # updates homebrew packages on activation,
+      # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
+      onActivation.upgrade = true;
+
+      taps = [
+        #
+      ];
+      brews = [];
+      casks = [ "reaper" ];
+      masApps = {};
+    };
 }
