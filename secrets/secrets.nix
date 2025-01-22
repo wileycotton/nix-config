@@ -32,4 +32,6 @@ in {
   "open-webui.age".publicKeys = users ++ systems;
   "webdav.age".publicKeys = users ++ systems;
   "kavita-token.age".publicKeys = users ++ systems;
+  "pdfding-secret-key.age".publicKeys = users ++ systems;
+  "pdfding-database-password.age".publicKeys = users ++ systems;
 }
