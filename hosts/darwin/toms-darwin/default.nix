@@ -91,15 +91,6 @@ in {
         #
       ];
       brews = [
-        # home.nix
-        # home.packages
-        # "argocd"
-        # "doctl"
-        # "helm"
-        # "flyctl"
-        #"azure-cli"
-        # "npm"
-        # "node"
         "tailscale"
         "pandoc"
         "trash"
@@ -119,62 +110,26 @@ in {
         "ollama"
         "bambu-studio"
         "fork"
-        #"alfred" # you are on alfred4 not 5
-        #      "autodesk-fusion360"
-        #      "audacity"
-        # "1password-cli"
-        # "1password"
         "alfred"
-        # "amethyst"
-        # "balenaetcher"
-        # "bartender"
-        #      "bambu-studio"
-        #"canon-eos-utility" #old version and v3 not in repo
+        "balenaetcher"
         "discord"
         "docker"
-        # "dropbox"
-        # "element"
-        #      "firefox"
-        # "google-chrome"
-        # "google-cloud-sdk"
+        "firefox"
         "istat-menus"
         "iterm2"
-        #"lingon-x"
-        # "little-snitch"
-        #      "logitech-options"
-        # "macwhisper"
-        # "monitorcontrol"
-        # "mqtt-explorer"
-        #      "nextcloud"
-        #      "notion"
-        #      "obs"
+        "nextcloud"
         "obsidian"
-        # "omnidisksweeper"
         "openscad"
         "nuage"
-        # "orbstack"
-        #      "plexamp"
-        # "prusaslicer"
-        # "rectangle"
-        # "signal"
-        # "slack"
         "spotify"
-        # "telegram"
-        # "swinsian"
-        #      "steam"
-        #      "thunderbird"
-        #      "viscosity"
         "visual-studio-code"
         "vlc"
-        # "wireshark"
         "zoom"
-        #      "yubico-yubikey-manager"
-
-        # rogue amoeba
-        # "audio-hijack"
-        # "farrago"
-        # "loopback"
-        # "soundsource"
+        "supercollider"
+        # "unity-hub"
+        # "epic-games"
+        "bitwarden"
+        "steam"
       ];
       masApps = {
         #   "Amphetamine" = 937984704;
@@ -187,6 +142,9 @@ in {
         #   "Resize Master" = 1025306797;
         #   # "Steam Link" = 123;
         "Tailscale" = 1475387142;
+        "Adobe Photoshop" = 1457771281;
+        "Flow - Focus & Pomodoro Timer" = 1423210932;
+        # "iStat Menus 7" = 6499559693;
         # "BookPlayer" = 1138219998;
 
         #   "Telegram" = 747648890;
@@ -208,6 +166,13 @@ in {
         #   "Pages" = 409201541;
       };
     };
+
+    /* Nonmanaged Apps
+    Wwise Launcher: https://www.audiokinetic.com/en/download/
+    Epic Games Launcher: https://store.epicgames.com/en-US/download 
+    
+
+    */
 
     # macOS configuration
     system.activationScripts.postUserActivation.text = ''
