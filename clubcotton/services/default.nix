@@ -10,6 +10,7 @@
     ./jellyfin
     ./kavita
     ./open-webui
+    ./pdfding
     ./roon-server
     ./sabnzbd
     ./webdav
