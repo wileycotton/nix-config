@@ -35,7 +35,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.rules = map (x: "d ${x} 0775 share share - -") directories;
+    systemd.tmpfiles.rules = map (x: "d ${x} 0775 share share - -") ${cfg.mediaDir};
 
     virtualisation.oci-containers = {
       containers = {
@@ -58,7 +58,8 @@ in {
             POSTGRES_PASSWORD = "none";
             POSTGRES_PORT = 5432;
 
-            BACKUP_ENABLE = "None"; # The endpoint of the S3 compatible storage. Example: minio.pdfding.com
+            BACKUP_ENABLE = FALSE; 
+            BACKUP_ENDPOINT = "None"; # The endpoint of the S3 compatible storage. Example: minio.pdfding.com
             BACKUP_ACCESS_KEY = "None"; # The access key of the S3 compatible storage. Example: random_access_key
             BACKUP_SECRET_KEY = "None"; # The secret key of the S3 compatible storage. Example: random_secret_key
             BACKUP_BUCKET_NAMEf = "pdfding"; # The name of the bucket where PdfDing should be backed up to. Example: pdfding
