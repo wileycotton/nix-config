@@ -34,12 +34,14 @@ in {
     };
 
     secretKeyPath = mkOption {
-      type = types.str;
+      type = types.path;
+      default = config.age.secrets.pdfding-secret-key.path;
       description = "Path to file containing the SECRET_KEY";
     };
 
-    postgresPasswordPath = mkOption {
-      type = types.str;
+    databasePasswordPath = mkOption {
+      type = types.path;
+      default = config.age.secrets.pdfding-database-password.path;
       description = "Path to file containing the PostgreSQL password";
     };
   };
@@ -65,7 +67,7 @@ in {
 
             DATABASE_TYPE = "POSTGRES";
             POSTGRES_HOST = "postgres";
-            POSTGRES_PASSWORD = builtins.readFile cfg.postgresPasswordPath;
+            POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
             POSTGRES_PORT = 5432;
           };
         };
