@@ -32,6 +32,16 @@ in {
         type = types.str;
         default = "";  
     };
+
+    secretKeyPath = mkOption {
+      type = types.str;
+      description = "Path to file containing the SECRET_KEY";
+    };
+
+    postgresPasswordPath = mkOption {
+      type = types.str;
+      description = "Path to file containing the PostgreSQL password";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -49,13 +59,13 @@ in {
           environment = {
             HOST_NAME = "127.0.0.1";
             HOST_PORT = cfg.port;
-            SECRET_KEY = ;
+            SECRET_KEY = builtins.readFile cfg.secretKeyPath;
             CSRF_COOKIE_SECURE = true; # Set this to TRUE to avoid transmitting the CSRF cookie over HTTP accidentally.
             SESSION_COOKIE_SECURE = true; # Set this to TRUE to avoid transmitting the session cookie over HTTP accidentally.
 
             DATABASE_TYPE = "POSTGRES";
             POSTGRES_HOST = "postgres";
-            POSTGRES_PASSWORD = "none";
+            POSTGRES_PASSWORD = builtins.readFile cfg.postgresPasswordPath;
             POSTGRES_PORT = 5432;
 
             BACKUP_ENABLE = FALSE; 
