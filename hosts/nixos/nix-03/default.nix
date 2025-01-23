@@ -19,8 +19,8 @@
 
   services.clubcotton.services.tailscale.enable = true;
   virtualisation.containers.enable = true;
+
   virtualisation.podman = {
-    enable = true;
     dockerCompat = true;
     dockerSocket.enable = true;
     # Required for containers under podman-compose to be able to talk to each other.

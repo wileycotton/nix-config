@@ -60,7 +60,6 @@ in {
       autostart = true;
     };
 
-
     # virtualisation.oci-containers = {
     #   containers = {
     #     pdfding = {
