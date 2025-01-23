@@ -54,13 +54,13 @@ in {
 
     virtualisation.oci-containers.containers."pdfding" = {
       image = "mrmn/pdfding";
+      autoStart = true;
       ports = [ "${cfg.port}:${cfg.port}" ];
       volumes = [
         "${cfg.dbDir}:/postgres_data"
         "${cfg.mediaDir}:/media"
       ];
       log-driver = "journald";
-      autoStart = true;
     };
 
     systemd.timers."podman-prune" = {
