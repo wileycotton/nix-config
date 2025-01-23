@@ -55,16 +55,27 @@ in {
     virtualisation.oci-containers.containers."pdfding" = {
       image = "mrmn/pdfding";
       autoStart = true;
-      ports = [ "${cfg.port}:${cfg.port}" ];
+      ports = ["${cfg.port}:${cfg.port}"];
       volumes = [
         "${cfg.dbDir}:/postgres_data"
         "${cfg.mediaDir}:/media"
       ];
       log-driver = "journald";
+      environment = {
+        HOST_NAME = "127.0.0.1";
+        SECRET_KEY = builtins.readFile cfg.secretKeyPath;
+        CSRF_COOKIE_SECURE = true; # Set this to TRUE to avoid transmitting the CSRF cookie over HTTP accidentally.
+        SESSION_COOKIE_SECURE = true; # Set this to TRUE to avoid transmitting the session cookie over HTTP accidentally.
+
+        DATABASE_TYPE = "POSTGRES";
+        POSTGRES_HOST = "postgres";
+        POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
+        POSTGRES_PORT = 5432;
+      };
     };
 
     systemd.timers."podman-prune" = {
-      wantedBy = [ "timers.target" ];
+      wantedBy = ["timers.target"];
       timerConfig = {
         OnCalendar = "daily";
         Persistent = true;
