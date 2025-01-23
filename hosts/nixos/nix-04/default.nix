@@ -17,13 +17,7 @@
     ../../../modules/apache
   ];
 
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-    dockerSocket.enable = true;
-    # Required for containers under podman-compose to be able to talk to each other.
-    defaultNetwork.settings.dns_enabled = true;
-  };
+  virtualisation.podman.enable = true;
   # services.clubcotton.pdfding.enable = true;
 
   users.users.root = {
@@ -37,6 +31,13 @@
   #   dbDir = "/var/lib/pdfding/database";
   #   mediaDir = "/var/lib/pdfding/media";
   # };
+
+  virtualisation.podman = {
+    dockerCompat = true;
+    dockerSocket.enable = true;
+    # Required for containers under podman-compose to be able to talk to each other.
+    defaultNetwork.settings.dns_enabled = true;
+  };
 
   clubcotton.zfs_single_root = {
     enable = true;
