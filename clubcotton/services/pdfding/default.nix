@@ -47,17 +47,35 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # systemd.tmpfiles.rules = map (x: "d ${x} 0775 share share - -") "${cfg.mediaDir}"; # ideally this is a persistant folder mounted into docker, not a docker only folder.
+    systemd.tmpfiles.rules = [
+      "d ${cfg.dbDir} 0775 root root - -"
+      "d ${cfg.mediaDir} 0775 root root - -"
+    ];
 
     virtualisation.oci-containers.containers."pdfding" = {
       image = "mrmn/pdfding";
-      ports = "${cfg.port}:${cfg.port}";
+      ports = [ "${cfg.port}:${cfg.port}" ];
       volumes = [
-        "${cfg.dbDir}:postgres_data"
-        "${cfg.mediaDir}:media"
+        "${cfg.dbDir}:/postgres_data"
+        "${cfg.mediaDir}:/media"
       ];
       log-driver = "journald";
-      autostart = true;
+      autoStart = true;
+    };
+
+    systemd.timers."podman-prune" = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "daily";
+        Persistent = true;
+      };
+    };
+
+    systemd.services."podman-prune" = {
+      serviceConfig.Type = "oneshot";
+      script = ''
+        ${pkgs.podman}/bin/podman system prune -f
+      '';
     };
 
     # virtualisation.oci-containers = {
@@ -92,7 +110,7 @@ in {
 
       services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
-        toURL = "http://${config.services.open-webui.host}:${toString config.services.open-webui.port}/";
+        toURL = "http://127.0.0.1:${toString config.services.pdfding.port}/";
       };
     };
   };
