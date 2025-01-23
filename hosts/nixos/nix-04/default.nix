@@ -14,11 +14,11 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../../modules/apache
+    # ../../../modules/apache
   ];
 
   virtualisation.podman.enable = true;
-  # services.clubcotton.pdfding.enable = true;
+  services.clubcotton.pdfding.enable = true;
 
   users.users.root = {
     openssh.authorizedKeys.keys = [
@@ -26,11 +26,11 @@
     ];
   };
 
-  # services.clubcotton.pdfding = {
-  #   port = "8000";
-  #   dbDir = "/var/lib/pdfding/database";
-  #   mediaDir = "/var/lib/pdfding/media";
-  # };
+  services.clubcotton.pdfding = {
+    port = "8000";
+    dbDir = "/var/lib/pdfding/database";
+    mediaDir = "/var/lib/pdfding/media";
+  };
 
   virtualisation.podman = {
     dockerCompat = true;
