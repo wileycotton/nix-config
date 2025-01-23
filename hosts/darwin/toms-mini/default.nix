@@ -20,11 +20,9 @@
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     onActivation.upgrade = true;
 
-    taps = [
-      #
-    ];
+    taps = [  ];
     brews = [ "lolcat" ];
     casks = [  ];
-    masApps = {};
+    masApps = {  };
   };
 }
