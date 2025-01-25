@@ -57,7 +57,7 @@ in {
       autoStart = true;
       ports = [ "${cfg.port}:${cfg.port}" ];
       volumes = [
-        "${cfg.dbDir}:/postgres_data"
+        "${cfg.dbDir}:/sqlite_data"
         "${cfg.mediaDir}:/media"
       ];
       log-driver = "journald";
@@ -68,8 +68,8 @@ in {
         # SECRET_KEY = builtins.readFile cfg.secretKeyPath;
         CSRF_COOKIE_SECURE = "true";
         SESSION_COOKIE_SECURE = "true";
-        DATABASE_TYPE = "POSTGRES";
-        POSTGRES_HOST = "postgres";
+        DATABASE_TYPE = "SQLITE";
+        # POSTGRES_HOST = "postgres";
         # POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
         # POSTGRES_PORT = "5432";
       };
