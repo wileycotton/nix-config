@@ -65,12 +65,12 @@ in {
         HOST_NAME = "0.0.0.0";
         HOST_PORT = cfg.port;
         ALLOWED_HOSTS = "*";  # In production, you might want to restrict this to specific hostnames
-        SECRET_KEY = builtins.readFile cfg.secretKeyPath;
+        # SECRET_KEY = builtins.readFile cfg.secretKeyPath;
         CSRF_COOKIE_SECURE = "true";
         SESSION_COOKIE_SECURE = "true";
         DATABASE_TYPE = "POSTGRES";
         POSTGRES_HOST = "postgres";
-        POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
+        # POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
         # POSTGRES_PORT = "5432";
       };
     };
