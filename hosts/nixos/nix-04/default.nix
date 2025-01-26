@@ -44,6 +44,35 @@
     defaultNetwork.settings.dns_enabled = true;
   };
 
+  # !!! TEST CONFIG !!! #
+
+  virtualisation.oci-containers.containers."test" = {
+      image = "stefanwalther/docker-test";
+      autoStart = true;
+      ports = [ "7999:7999" ];
+      # volumes = [
+      #   "${cfg.dbDir}:/sqlite_data"
+      #   "${cfg.mediaDir}:/media"
+      # ];
+      log-driver = "journald";
+      # environment = {
+      #   HOST_NAME = "0.0.0.0";
+      #   HOST_PORT = cfg.port;
+      #   ALLOWED_HOSTS = "*";  # In production, you might want to restrict this to specific hostnames
+      #   # SECRET_KEY = builtins.readFile cfg.secretKeyPath;
+      #   SECRET_KEY = "some-secret";
+      #   CSRF_COOKIE_SECURE = "true";
+      #   SESSION_COOKIE_SECURE = "true";
+      #   DATABASE_TYPE = "SQLITE";
+      #   # POSTGRES_HOST = "postgres";
+      #   # POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
+      #   # POSTGRES_PORT = "5432";
+      # };
+      extraOptions = [
+        "--log-level=debug"
+      ];
+    };
+
   clubcotton.zfs_single_root = {
     poolname = "rpool";
     swapSize = "4G"; # 1/4 of 16G
