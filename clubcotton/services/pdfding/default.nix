@@ -66,6 +66,7 @@ in {
         HOST_PORT = cfg.port;
         ALLOWED_HOSTS = "*";  # In production, you might want to restrict this to specific hostnames
         # SECRET_KEY = builtins.readFile cfg.secretKeyPath;
+        SECRET_KEY = "some-secret";
         CSRF_COOKIE_SECURE = "true";
         SESSION_COOKIE_SECURE = "true";
         DATABASE_TYPE = "SQLITE";
@@ -73,22 +74,25 @@ in {
         # POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
         # POSTGRES_PORT = "5432";
       };
+      extraOptions = [
+        "--log-level=debug"
+      ];
     };
 
-    systemd.timers."podman-prune" = {
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "daily";
-        Persistent = true;
-      };
-    };
+    # systemd.timers."podman-prune" = {
+    #   wantedBy = [ "timers.target" ];
+    #   timerConfig = {
+    #     OnCalendar = "daily";
+    #     Persistent = true;
+    #   };
+    # };
 
-    systemd.services."podman-prune" = {
-      serviceConfig.Type = "oneshot";
-      script = ''
-        ${pkgs.podman}/bin/podman system prune -f
-      '';
-    };
+    # systemd.services."podman-prune" = {
+    #   serviceConfig.Type = "oneshot";
+    #   script = ''
+    #     ${pkgs.podman}/bin/podman system prune -f
+    #   '';
+    # };
 
 
     # virtualisation.oci-containers = {
