@@ -33,13 +33,13 @@ in {
       default = "";
     };
 
-    secretKeyPath = mkOption {
+    secretKey = mkOption {
       type = types.path;
       default = config.age.secrets.pdfding-secret-key.path;
       description = "Path to file containing the SECRET_KEY";
     };
 
-    databasePasswordPath = mkOption {
+    databasePassword = mkOption {
       type = types.path;
       default = config.age.secrets.pdfding-database-password.path;
       description = "Path to file containing the PostgreSQL password";
@@ -64,14 +64,10 @@ in {
       environment = {
         HOST_NAME = "pdfding.bobtail-clownfish.ts.net"; # A CSV of allowed hosts, not where it is hosted. 
         HOST_PORT = cfg.port;
-        # SECRET_KEY = builtins.readFile cfg.secretKeyPath;
         SECRET_KEY = "some-secret";
         CSRF_COOKIE_SECURE = "true";
         SESSION_COOKIE_SECURE = "true";
         DATABASE_TYPE = "SQLITE";
-        # POSTGRES_HOST = "postgres";
-        # POSTGRES_PASSWORD = builtins.readFile cfg.databasePasswordPath;
-        # POSTGRES_PORT = "5432";
       };
       extraOptions = [
         "--log-level=debug"

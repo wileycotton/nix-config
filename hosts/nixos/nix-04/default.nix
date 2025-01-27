@@ -34,7 +34,8 @@
     port = "8000";
     dbDir = "/var/lib/pdfding/database";
     mediaDir = "/var/lib/pdfding/media";
-    secretKeyPath = builtins.readFile config.age.secrets."pdfding-secret-key".path;
+    secretKey = builtins.readFile config.age.secrets."pdfding-secret-key".path;
+    databasePassword = builtins.readFile config.age.secrets."pdfding-database-password".path;
     tailnetHostname = "pdfding";
   };
 
