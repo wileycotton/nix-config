@@ -55,7 +55,7 @@ in {
     virtualisation.oci-containers.containers."pdfding" = {
       image = "mrmn/pdfding";
       autoStart = true;
-      ports = [ "${cfg.port}:${cfg.port}" ];
+      ports = ["${cfg.port}:${cfg.port}"];
       volumes = [
         "${cfg.dbDir}:/sqlite_data"
         "${cfg.mediaDir}:/media"
@@ -63,7 +63,7 @@ in {
       ];
       log-driver = "journald";
       environment = {
-        HOST_NAME = "pdfding.bobtail-clownfish.ts.net, 127.0.0.1, localhost, nix-04, nas-01"; # A CSV of allowed hosts, not where it is hosted. 
+        HOST_NAME = "pdfding.bobtail-clownfish.ts.net, 127.0.0.1, localhost, nix-04, nas-01"; # A CSV of allowed hosts, not where it is hosted.
         HOST_PORT = cfg.port;
         SECRET_KEY = "some-secret";
         CSRF_COOKIE_SECURE = "true";
@@ -90,7 +90,6 @@ in {
     #     ${pkgs.podman}/bin/podman system prune -f
     #   '';
     # };
-
 
     # virtualisation.oci-containers = {
     #   containers = {

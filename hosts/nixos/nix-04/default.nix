@@ -18,7 +18,6 @@
   ];
 
   virtualisation.podman.enable = true;
-  services.clubcotton.pdfding.enable = true;
   clubcotton.zfs_single_root.enable = true;
   virtualisation.libvirtd.enable = true;
   programs.zsh.enable = true;
@@ -28,15 +27,6 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKW08oClThlF1YJ+ey3y8XKm9yX/45EtaM/W7hx5Yvzb tomcotton@Toms-MacBook-Pro.local"
     ];
-  };
-
-  services.clubcotton.pdfding = {
-    port = "8000";
-    dbDir = "/var/lib/pdfding/database";
-    mediaDir = "/var/lib/pdfding/media";
-    secretKey = builtins.readFile config.age.secrets."pdfding-secret-key".path;
-    databasePassword = builtins.readFile config.age.secrets."pdfding-database-password".path;
-    tailnetHostname = "pdfding";
   };
 
   virtualisation.podman = {
