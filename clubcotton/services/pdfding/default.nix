@@ -62,9 +62,8 @@ in {
       ];
       log-driver = "journald";
       environment = {
-        HOST_NAME = "0.0.0.0";
+        HOST_NAME = "pdfding.bobtail-clownfish.ts.net"; # A CSV of allowed hosts, not where it is hosted. 
         HOST_PORT = cfg.port;
-        ALLOWED_HOSTS = "*";  # In production, you might want to restrict this to specific hostnames
         # SECRET_KEY = builtins.readFile cfg.secretKeyPath;
         SECRET_KEY = "some-secret";
         CSRF_COOKIE_SECURE = "true";
@@ -127,7 +126,7 @@ in {
 
       services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
-        toURL = "http://127.0.0.1:${toString config.services.pdfding.port}/";
+        toURL = "http://127.0.0.1:${toString cfg.port}/";
       };
     };
   };
