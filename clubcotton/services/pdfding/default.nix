@@ -59,15 +59,17 @@ in {
       volumes = [
         "${cfg.dbDir}:/sqlite_data"
         "${cfg.mediaDir}:/media"
+        "/home/tomcotton/tmp/consume:/home/nonroot/pdfding/consume/1"
       ];
       log-driver = "journald";
       environment = {
-        HOST_NAME = "pdfding.bobtail-clownfish.ts.net"; # A CSV of allowed hosts, not where it is hosted. 
+        HOST_NAME = "pdfding.bobtail-clownfish.ts.net, 127.0.0.1, localhost, nix-04, nas-01"; # A CSV of allowed hosts, not where it is hosted. 
         HOST_PORT = cfg.port;
         SECRET_KEY = "some-secret";
         CSRF_COOKIE_SECURE = "true";
         SESSION_COOKIE_SECURE = "true";
         DATABASE_TYPE = "SQLITE";
+        CONSUME_ENABLE = "true";
       };
       extraOptions = [
         "--log-level=debug"
