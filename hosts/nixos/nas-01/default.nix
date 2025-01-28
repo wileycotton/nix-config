@@ -21,6 +21,7 @@
     jellyfin.enable = true;
     kavita.enable = false;
     lidarr.enable = true;
+    paperless.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
     readarr.enable = true;
@@ -60,6 +61,15 @@
 
   # Set your time zone.
   time.timeZone = "America/Denver";
+
+    services.clubcotton.paperless = {
+    mediaDir = "/media/tomcotton/data/paperless";
+    configDir = "/var/lib/paperless";
+    consumptionDir = "/var/lib/paperless/consume";
+    passwordFile = config.age.secrets."paperless".path;
+    database.createLocally = true;
+    tailnetHostname = "";
+  };
 
   services.clubcotton.sabnzbd = {
     tailnetHostname = "sabnzbd";
