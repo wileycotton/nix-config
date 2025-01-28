@@ -25,6 +25,7 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    inputs.isd.packages."${system}".default
     alsa-utils
     intel-gpu-tools
     libva-utils

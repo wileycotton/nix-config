@@ -6,6 +6,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
 
+    isd.url = "github:isd-project/isd";
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -43,9 +45,10 @@
     tsnsrv,
     vscode-server,
     disko,
+    isd,
     ...
   }: let
-    inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable;};
+    inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable isd;};
 
     # creates correct package sets for specified arch
     genPkgs = system:
