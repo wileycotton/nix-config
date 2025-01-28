@@ -56,7 +56,7 @@
         rules-user = {
           password = "rulespass";
           directory = "/var/lib/webdav/rules-user";
-          permissions = "R";  # Default to no access
+          permissions = "R"; # Default to no access
           rules = [
             {
               regex = ".*";
