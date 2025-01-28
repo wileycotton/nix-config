@@ -16,7 +16,6 @@
   ];
 
   services.clubcotton = {
-    services.tailscale.enable = true;
     sabnzbd.enable = true;
     radarr.enable = true;
     sonarr.enable = true;
@@ -30,6 +29,8 @@
     webdav.enable = true;
     kavita.enable = false;
   };
+
+  services.clubcotton.services.tailscale.enable = true;
 
   networking = {
     hostName = "nas-01";
