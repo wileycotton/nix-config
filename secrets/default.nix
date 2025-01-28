@@ -86,4 +86,10 @@
   age.secrets."pdfding-database-password" = lib.mkIf config.services.clubcotton.pdfding.enable {
     file = ./pdfding-database-password.age;
   };
+
+    age.secrets."paperless" = lib.mkIf config.services.clubcotton.paperless.enable {
+    file = ./paperless.age;
+    owner = "paperless";
+    group = "paperless";
+  };
 }

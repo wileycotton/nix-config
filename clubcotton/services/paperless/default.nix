@@ -10,9 +10,21 @@ with lib; let
 in {
   options.services.clubcotton.paperless = {
     enable = mkEnableOption "PDF reader and archiver for documents.";
+    user = mkOption {
+        type = types.str;
+        default = "paperless";
+    };
+    port = mkOption {
+        type = lib.types.port;
+        default = 28981;
+    };
     mediaDir = lib.mkOption {
       type = lib.types.str;
       default = "";
+    };
+    configDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/paperless";
     };
     consumptionDir = lib.mkOption {
       type = lib.types.str;
@@ -20,10 +32,6 @@ in {
     };
     passwordFile = lib.mkOption {
       type = lib.types.path;
-    };
-    configDir = lib.mkOption {
-      type = lib.types.str;
-      default = "/var/lib/paperless";
     };
 
     tailnetHostname = mkOption {
@@ -36,7 +44,7 @@ in {
     services.paperless = {
       enable = true;
       passwordFile = cfg.passwordFile;
-      user = homelab.user;
+      user = cfg.user;
       mediaDir = cfg.mediaDir;
       consumptionDir = cfg.consumptionDir;
       consumptionDirIsPublic = true;
@@ -45,7 +53,7 @@ in {
           ".DS_STORE/*"
           "desktop.ini"
         ];
-        PAPERLESS_OCR_LANGUAGE = "deu+eng";
+        PAPERLESS_OCR_LANGUAGE = "eng";
         PAPERLESS_OCR_USER_ARGS = {
           optimize = 1;
           pdfa_image_compression = "lossless";

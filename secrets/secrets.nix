@@ -34,4 +34,5 @@ in {
   "kavita-token.age".publicKeys = users ++ systems;
   "pdfding-secret-key.age".publicKeys = users ++ systems;
   "pdfding-database-password.age".publicKeys = users ++ systems;
+  "paperless.age".publicKeys = users ++ systems;
 }
