@@ -42,8 +42,9 @@
       type = "pgsql";
       createLocally = true;
     };
-    selfUrlPath = "https://tt-rss.bobtail-clownfish.ts.net";
-    tailnetHostname = "tt-rss";
+    selfUrlPath = "http://nix-04:8280";
+    # selfUrlPath = "https://tt-rss.bobtail-clownfish.ts.net";
+    # tailnetHostname = "tt-rss";
   };
 
   users.users.root = {
