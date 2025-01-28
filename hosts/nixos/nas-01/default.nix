@@ -127,22 +127,21 @@
         directory = "/media";
         permissions = "R";
         # these are evaluated in reverse order
-          rules = [
-            {
-              regex = ".*";
-              permissions = "none";
-            }
-            # This is the directory listing
-            {
-              regex = "^/$";
-              permissions = "R";
-            }
-            {
-              regex = "music|movies|books";
-              permissions = "R";
-            }
-          ];
-
+        rules = [
+          {
+            regex = ".*";
+            permissions = "none";
+          }
+          # This is the directory listing
+          {
+            regex = "^/$";
+            permissions = "R";
+          }
+          {
+            regex = "music|movies|books";
+            permissions = "R";
+          }
+        ];
       };
     };
   };

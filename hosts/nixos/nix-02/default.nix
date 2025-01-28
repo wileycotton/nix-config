@@ -23,7 +23,8 @@
     # vnc.enable = true;
   };
 
-  services.k3s.role = lib.mkForce "agent";n.
+  services.k3s.role = lib.mkForce "agent";
+  n.
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
