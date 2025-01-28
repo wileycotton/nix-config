@@ -11,12 +11,12 @@ in {
   options.services.clubcotton.paperless = {
     enable = mkEnableOption "PDF reader and archiver for documents.";
     user = mkOption {
-        type = types.str;
-        default = "paperless";
+      type = types.str;
+      default = "paperless";
     };
     port = mkOption {
-        type = lib.types.port;
-        default = 28981;
+      type = lib.types.port;
+      default = 28981;
     };
     mediaDir = lib.mkOption {
       type = lib.types.str;
@@ -33,6 +33,13 @@ in {
     passwordFile = lib.mkOption {
       type = lib.types.path;
     };
+    database.createLocally = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          Configure local PostgreSQL database server for Paperless.
+        '';
+      };
 
     tailnetHostname = mkOption {
       type = types.str;
@@ -41,23 +48,29 @@ in {
   };
 
   config = mkIf cfg.enable {
+    systemd.tmpfiles.rules = [
+      "d '${cfg.mediaDir}' 0750 ${cfg.user} ${cfg.user} - -"
+      "d '${cfg.configDir}' 0750 ${cfg.user} ${cfg.user} - -"
+      "d '${cfg.consumptionDir}' 0750 ${cfg.user} ${cfg.user} - -"
+    ];
+
     services.paperless = {
       enable = true;
       passwordFile = cfg.passwordFile;
       user = cfg.user;
       mediaDir = cfg.mediaDir;
-      consumptionDir = cfg.consumptionDir;
-      consumptionDirIsPublic = true;
+        consumptionDir = cfg.consumptionDir;
+        consumptionDirIsPublic = true;
       settings = {
-        PAPERLESS_CONSUMER_IGNORE_PATTERN = [
-          ".DS_STORE/*"
-          "desktop.ini"
-        ];
-        PAPERLESS_OCR_LANGUAGE = "eng";
-        PAPERLESS_OCR_USER_ARGS = {
-          optimize = 1;
-          pdfa_image_compression = "lossless";
-        };
+            PAPERLESS_CONSUMER_IGNORE_PATTERN = [
+              ".DS_STORE/*"
+              "desktop.ini"
+            ];
+            PAPERLESS_OCR_LANGUAGE = "eng";
+            PAPERLESS_OCR_USER_ARGS = {
+              optimize = 1;
+              pdfa_image_compression = "lossless";
+            };
       };
     };
 

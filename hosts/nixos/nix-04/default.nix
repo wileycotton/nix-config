@@ -17,8 +17,11 @@
     # ../../../modules/apache
   ];
 
+  services.clubcotton = {
+    paperless.enable = true;
+  };
+
   clubcotton.zfs_single_root.enable = true;
-  services.clubcotton.paperless.enable = true;
 
   virtualisation.podman.enable = true;
   virtualisation.libvirtd.enable = true;
@@ -26,10 +29,11 @@
   services.openssh.enable = true; # Enable the OpenSSH daemon.
 
   services.clubcotton.paperless = {
-    mediaDir = "/home/tomcotton/tmp/paperless";
+    mediaDir = "/var/lib/paperless/media";
     configDir = "/var/lib/paperless";
-    consumptionDir = "/home/tomcotton/tmp/paperless-consumption";
-    passwordFile = age.secrets."paperless".path;
+    consumptionDir = "/var/lib/paperless/consume";
+    passwordFile = config.age.secrets."paperless".path;
+    database.createLocally = true;
   };
 
   users.users.root = {
