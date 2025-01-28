@@ -11,7 +11,6 @@
     ./kavita
     ./open-webui
     ./paperless
-    ./pdfding
     ./roon-server
     ./sabnzbd
     ./webdav
