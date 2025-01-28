@@ -15,6 +15,23 @@
     ../../../modules/samba
   ];
 
+  services.clubcotton = {
+    calibre.enable = true;
+    calibre-web.enable = true;
+    jellyfin.enable = true;
+    kavita.enable = false;
+    lidarr.enable = true;
+    prowlarr.enable = true;
+    radarr.enable = true;
+    readarr.enable = true;
+    roon-server.enable = true;
+    sabnzbd.enable = true;
+    sonarr.enable = true;
+    webdav.enable = true;
+  };
+
+  services.clubcotton.services.tailscale.enable = true;
+
   networking = {
     hostName = "nas-01";
     defaultGateway = "192.168.5.1";
@@ -38,8 +55,6 @@
     };
   };
 
-  services.clubcotton.services.tailscale.enable = true;
-
   services.nfs.server.enable = true;
   services.rpcbind.enable = true;
 
@@ -47,32 +62,26 @@
   time.timeZone = "America/Denver";
 
   services.clubcotton.sabnzbd = {
-    enable = true;
     tailnetHostname = "sabnzbd";
   };
 
   services.clubcotton.radarr = {
-    enable = true;
     tailnetHostname = "radarr";
   };
 
   services.clubcotton.sonarr = {
-    enable = true;
     tailnetHostname = "sonarr";
   };
 
   services.clubcotton.prowlarr = {
-    enable = true;
     tailnetHostname = "prowlarr";
   };
 
   services.clubcotton.lidarr = {
-    enable = true;
     tailnetHostname = "lidarr";
   };
 
   services.clubcotton.readarr = {
-    enable = true;
     epub = {
       dataDir = "/var/lib/readarr-epub";
       tailnetHostname = "readarr-epub";
@@ -86,21 +95,16 @@
   };
 
   services.clubcotton.calibre = {
-    enable = true;
     tailnetHostname = "calibre";
   };
 
   services.clubcotton.calibre-web = {
-    enable = true;
     tailnetHostname = "calibre-web";
   };
 
   services.clubcotton.jellyfin = {
-    enable = true;
     tailnetHostname = "jellyfin";
   };
-
-  services.clubcotton.roon-server.enable = true;
 
   systemd.services.webdav.serviceConfig = {
     StateDirectory = "webdav";
@@ -108,7 +112,6 @@
   };
 
   services.clubcotton.webdav = {
-    enable = true;
     users = {
       obsidian-sync = {
         password = "{env}OBSIDIAN_SYNC_PASSWORD";
@@ -145,7 +148,6 @@
   };
 
   services.clubcotton.kavita = {
-    enable = true;
     user = "share";
     port = 8085;
     dataDir = "/var/lib/kavita";

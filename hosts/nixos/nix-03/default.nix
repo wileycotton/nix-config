@@ -17,7 +17,11 @@
     # ../../../modules/frigated
   ];
 
+  services.clubcotton = {
+  };
+
   services.clubcotton.services.tailscale.enable = true;
+
   virtualisation.containers.enable = true;
 
   virtualisation.podman = {
