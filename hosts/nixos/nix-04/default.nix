@@ -18,6 +18,7 @@
 
   services.clubcotton = {
     paperless.enable = true;
+    tt-rss.enable = true;
   };
 
   clubcotton.zfs_single_root.enable = true;
@@ -34,6 +35,15 @@
     passwordFile = config.age.secrets."paperless".path;
     database.createLocally = true;
     tailnetHostname = "paperless";
+  };
+
+  services.clubcotton.tt-rss = {
+    database = {
+      type = "pgsql";
+      createLocally = true;
+    };
+    selfUrlPath = "https://tt-rss.bobtail-clownfish.ts.net";
+    tailnetHostname = "tt-rss";
   };
 
   users.users.root = {
