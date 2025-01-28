@@ -34,6 +34,7 @@
     consumptionDir = "/var/lib/paperless/consume";
     passwordFile = config.age.secrets."paperless".path;
     database.createLocally = true;
+    tailnetHostname = "paperless";
   };
 
   users.users.root = {

@@ -51,7 +51,7 @@ in {
     systemd.tmpfiles.rules = [
       "d '${cfg.mediaDir}' 0750 ${cfg.user} ${cfg.user} - -"
       "d '${cfg.configDir}' 0750 ${cfg.user} ${cfg.user} - -"
-      "d '${cfg.consumptionDir}' 0750 ${cfg.user} ${cfg.user} - -"
+      "d '${cfg.consumptionDir}' 0777 ${cfg.user} ${cfg.user} - -"
     ];
 
     services.paperless = {
