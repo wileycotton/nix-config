@@ -17,7 +17,7 @@
   ];
 
   services.clubcotton = {
-    paperless.enable = true;
+    paperless.enable = false;
     tt-rss.enable = true;
   };
 

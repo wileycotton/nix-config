@@ -13,6 +13,7 @@
     ./paperless
     ./roon-server
     ./sabnzbd
+    ./tt-rss
     ./webdav
   ];
 }
