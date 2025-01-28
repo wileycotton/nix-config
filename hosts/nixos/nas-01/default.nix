@@ -16,18 +16,18 @@
   ];
 
   services.clubcotton = {
-    sabnzbd.enable = true;
-    radarr.enable = true;
-    sonarr.enable = true;
-    prowlarr.enable = true;
-    lidarr.enable = true;
-    readarr.enable = true;
     calibre.enable = true;
     calibre-web.enable = true;
     jellyfin.enable = true;
-    roon-server.enable = true;
-    webdav.enable = true;
     kavita.enable = false;
+    lidarr.enable = true;
+    prowlarr.enable = true;
+    radarr.enable = true;
+    readarr.enable = true;
+    roon-server.enable = true;
+    sabnzbd.enable = true;
+    sonarr.enable = true;
+    webdav.enable = true;
   };
 
   services.clubcotton.services.tailscale.enable = true;
