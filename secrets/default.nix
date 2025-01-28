@@ -78,12 +78,4 @@
   age.secrets."kavita-token" = lib.mkIf config.services.clubcotton.kavita.enable {
     file = ./kavita-token.age;
   };
-
-  age.secrets."pdfding-secret-key" = lib.mkIf config.services.clubcotton.pdfding.enable {
-    file = ./pdfding-secret-key.age;
-  };
-
-  age.secrets."pdfding-database-password" = lib.mkIf config.services.clubcotton.pdfding.enable {
-    file = ./pdfding-database-password.age;
-  };
 }
