@@ -21,6 +21,7 @@
     jellyfin.enable = true;
     kavita.enable = false;
     lidarr.enable = true;
+    navidrome.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
     readarr.enable = true;
@@ -105,6 +106,12 @@
   services.clubcotton.jellyfin = {
     tailnetHostname = "jellyfin";
   };
+
+  services.clubcotton.navidrome = {
+    tailnetHostname = "navidrome";
+  };
+
+  services.clubcotton.roon-server.enable = true;
 
   systemd.services.webdav.serviceConfig = {
     StateDirectory = "webdav";
