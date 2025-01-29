@@ -70,6 +70,7 @@ in {
         "npm"
         "node"
         "tailscale"
+        "television"
       ];
       casks = [
         #"alfred" # you are on alfred4 not 5

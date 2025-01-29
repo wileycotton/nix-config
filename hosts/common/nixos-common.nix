@@ -36,6 +36,7 @@ in {
     nil
     nixos-shell
     synergy
+    television
     qemu
     quickemu
   ];
