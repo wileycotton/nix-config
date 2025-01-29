@@ -106,6 +106,7 @@ in {
         "yt-dlp"
         "pkgconf"
         "openjdk"
+        "docker-compose"
       ];
       casks = [
         "hiddenbar"

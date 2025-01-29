@@ -16,14 +16,27 @@
     ./hardware-configuration.nix
   ];
 
+  virtualisation.podman.enable = true;
+  clubcotton.zfs_single_root.enable = true;
+  virtualisation.libvirtd.enable = true;
+  programs.zsh.enable = true;
+  services.openssh.enable = true; # Enable the OpenSSH daemon.
+
   users.users.root = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKW08oClThlF1YJ+ey3y8XKm9yX/45EtaM/W7hx5Yvzb tomcotton@Toms-MacBook-Pro.local"
     ];
   };
 
+  virtualisation.podman = {
+    dockerSocket.enable = true;
+    dockerCompat = true;
+    autoPrune.enable = true;
+    # Required for containers under podman-compose to be able to talk to each other.
+    defaultNetwork.settings.dns_enabled = true;
+  };
+
   clubcotton.zfs_single_root = {
-    enable = true;
     poolname = "rpool";
     swapSize = "4G"; # 1/4 of 16G
     disk = "/dev/disk/by-id/ata-X12_SSD_256GB_KT2023000020001117";
@@ -44,8 +57,6 @@
     ];
   };
 
-  virtualisation.libvirtd.enable = true;
-
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -55,11 +66,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  programs.zsh.enable = true;
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
