@@ -120,9 +120,12 @@ in {
   config = mkIf cfg.enable {
     assertions = [
       {
-        assertion = all (user: all (rule: 
-          (rule.path != null) != (rule.regex != null)
-        ) user.rules) (attrValues cfg.users);
+        assertion = all (user:
+          all (
+            rule:
+              (rule.path != null) != (rule.regex != null)
+          )
+          user.rules) (attrValues cfg.users);
         message = "Each rule must have exactly one of path or regex set";
       }
     ];
@@ -147,13 +150,16 @@ in {
           (name: user: {
             username = name;
             inherit (user) password directory permissions;
-            rules = map (rule: 
-              filterAttrs (n: v: v != null) {
-                inherit (rule) permissions;
-                path = rule.path;
-                regex = rule.regex;
-              }
-            ) user.rules;
+            rules =
+              map (
+                rule:
+                  filterAttrs (n: v: v != null) {
+                    inherit (rule) permissions;
+                    path = rule.path;
+                    regex = rule.regex;
+                  }
+              )
+              user.rules;
           })
           cfg.users;
       };

@@ -19,6 +19,11 @@
     ../../../modules/docker/audiobookshelf
   ];
 
+  services.clubcotton = {
+    code-server.enable = true;
+    open-webui.enable = true;
+  };
+
   services.k3s.role = lib.mkForce "agent";
 
   # Use the systemd-boot EFI boot loader.
@@ -49,13 +54,11 @@
   services.tailscale.enable = true;
 
   services.clubcotton.code-server = {
-    enable = true;
     tailnetHostname = "nix-01-vscode";
     user = "bcotton";
   };
 
   services.clubcotton.open-webui = {
-    enable = true;
     tailnetHostname = "llm";
     environment = {
       WEBUI_AUTH = "True";
