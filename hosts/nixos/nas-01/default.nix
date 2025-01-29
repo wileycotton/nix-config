@@ -21,6 +21,7 @@
     jellyfin.enable = true;
     kavita.enable = false;
     lidarr.enable = true;
+    navidrome.enable = true;
     paperless.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
@@ -116,6 +117,12 @@
     tailnetHostname = "jellyfin";
   };
 
+  services.clubcotton.navidrome = {
+    tailnetHostname = "navidrome";
+  };
+
+  services.clubcotton.roon-server.enable = true;
+
   systemd.services.webdav.serviceConfig = {
     StateDirectory = "webdav";
     EnvironmentFile = config.age.secrets.webdav.path;
@@ -132,6 +139,11 @@
         password = "{env}ZOTERO_SYNC_PASSWORD";
         directory = "/media/webdav/zotero-sync";
         permissions = "CRUD";
+      };
+      audio-library = {
+        password = "{env}AUDIO_LIBRARY_PASSWORD";
+        directory = "/media/tomcotton/audio-library";
+        permissions = "R";
       };
       media-readonly = {
         password = "{env}MEDIA_RO_PASSWORD";

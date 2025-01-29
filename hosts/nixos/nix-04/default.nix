@@ -50,6 +50,14 @@
     defaultNetwork.settings.dns_enabled = true;
   };
 
+  virtualisation.podman = {
+    dockerSocket.enable = true;
+    dockerCompat = true;
+    autoPrune.enable = true;
+    # Required for containers under podman-compose to be able to talk to each other.
+    defaultNetwork.settings.dns_enabled = true;
+  };
+
   clubcotton.zfs_single_root = {
     poolname = "rpool";
     swapSize = "4G"; # 1/4 of 16G

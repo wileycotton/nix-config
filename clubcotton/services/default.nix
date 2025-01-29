@@ -9,6 +9,7 @@
     ./calibre-web
     ./jellyfin
     ./kavita
+    ./navidrome
     ./open-webui
     ./paperless
     ./roon-server

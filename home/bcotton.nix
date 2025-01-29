@@ -360,6 +360,7 @@ in {
         add-zsh-hook chpwd tmux-window-name
       fi
       source <(kubectl completion zsh)
+      eval "$(tv init zsh)"
 
       bindkey -e
       bindkey '^[[A' up-history
@@ -400,6 +401,7 @@ in {
   };
 
   home.packages = with pkgs; [
+    # television # broken for now? https://github.com/alexpasmantier/television/issues/325
     kubernetes-helm
     kubectx
     kubectl
