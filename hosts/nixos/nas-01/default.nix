@@ -130,6 +130,11 @@
         directory = "/media/webdav/zotero-sync";
         permissions = "CRUD";
       };
+      audio-library = {
+        password = "{env}AUDIO_LIBRARY_PASSWORD";
+        directory = "/media/tomcotton/audio-library";
+        permissions = "R";
+      };
       media-readonly = {
         password = "{env}MEDIA_RO_PASSWORD";
         directory = "/media";
