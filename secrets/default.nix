@@ -72,7 +72,7 @@
   age.secrets."webdav" = lib.mkIf config.services.clubcotton.webdav.enable {
     file = ./webdav.age;
     owner = "webdav";
-    group = "webdav";
+    group = "share";
   };
 
   age.secrets."kavita-token" = lib.mkIf config.services.clubcotton.kavita.enable {

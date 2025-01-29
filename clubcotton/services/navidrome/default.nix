@@ -32,10 +32,10 @@ in {
 
       settings = {
         MusicFolder = "/media/music";
-        DefaultDownsamplingFormat = "aac";
+        Address = "0.0.0.0";
+        DefaultDownsamplingFormat = "mp3";
+        EnableTranscodingConfig = true;
       };
-
-
     };
     systemd.services.navidrome.serviceConfig = {
         EnvironmentFile = config.age.secrets.navidrome.path;
@@ -46,7 +46,7 @@ in {
 
       services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
-        toURL = "http://127.0.0.1:${toString config.services.navidrome.settings.Port}/";
+        toURL = "http://0.0.0.0:${toString config.services.navidrome.settings.Port}/";
       };
     };
   };
