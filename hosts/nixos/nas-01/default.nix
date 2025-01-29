@@ -68,7 +68,7 @@
     consumptionDir = "/var/lib/paperless/consume";
     passwordFile = config.age.secrets."paperless".path;
     database.createLocally = true;
-    tailnetHostname = "";
+    tailnetHostname = "paperless";
   };
 
   services.clubcotton.sabnzbd = {
