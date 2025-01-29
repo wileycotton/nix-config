@@ -62,7 +62,7 @@
   # Set your time zone.
   time.timeZone = "America/Denver";
 
-    services.clubcotton.paperless = {
+  services.clubcotton.paperless = {
     mediaDir = "/media/tomcotton/data/paperless";
     configDir = "/var/lib/paperless";
     consumptionDir = "/var/lib/paperless/consume";

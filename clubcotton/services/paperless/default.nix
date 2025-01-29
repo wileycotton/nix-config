@@ -34,12 +34,12 @@ in {
       type = lib.types.path;
     };
     database.createLocally = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = ''
-          Configure local PostgreSQL database server for Paperless.
-        '';
-      };
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Configure local PostgreSQL database server for Paperless.
+      '';
+    };
 
     tailnetHostname = mkOption {
       type = types.str;
@@ -59,18 +59,18 @@ in {
       passwordFile = cfg.passwordFile;
       user = cfg.user;
       mediaDir = cfg.mediaDir;
-        consumptionDir = cfg.consumptionDir;
-        consumptionDirIsPublic = true;
+      consumptionDir = cfg.consumptionDir;
+      consumptionDirIsPublic = true;
       settings = {
-            PAPERLESS_CONSUMER_IGNORE_PATTERN = [
-              ".DS_STORE/*"
-              "desktop.ini"
-            ];
-            PAPERLESS_OCR_LANGUAGE = "eng";
-            PAPERLESS_OCR_USER_ARGS = {
-              optimize = 1;
-              pdfa_image_compression = "lossless";
-            };
+        PAPERLESS_CONSUMER_IGNORE_PATTERN = [
+          ".DS_STORE/*"
+          "desktop.ini"
+        ];
+        PAPERLESS_OCR_LANGUAGE = "eng";
+        PAPERLESS_OCR_USER_ARGS = {
+          optimize = 1;
+          pdfa_image_compression = "lossless";
+        };
       };
     };
 
