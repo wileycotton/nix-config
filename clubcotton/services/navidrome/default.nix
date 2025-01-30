@@ -38,7 +38,7 @@ in {
       };
     };
     systemd.services.navidrome.serviceConfig = {
-        EnvironmentFile = config.age.secrets.navidrome.path;
+      EnvironmentFile = config.age.secrets.navidrome.path;
     };
     services.tsnsrv = {
       enable = true;

@@ -24,7 +24,21 @@
     enable = true;
     defaultUser = "admin";
     passwordFile = config.age.secrets."freshrss".path;
-    baseUrl = "nix-04";
+    baseUrl = "http://nix-04:8104";
+    virtualHost = "freshrss";
+    authType = "none";
+    extensions = with pkgs.freshrss-extensions; [
+      youtube
+    ];
+  };
+
+  services.nginx.virtualHosts."freshrss" = {
+    listen = [
+      {
+        addr = "0.0.0.0";
+        port = 8104;
+      }
+    ];
   };
 
   clubcotton.zfs_single_root.enable = true;

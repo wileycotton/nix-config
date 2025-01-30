@@ -6,7 +6,7 @@
 }:
 with lib; let
   cfg = config.services.clubcotton.paperless;
-  clubcotton = config.clubcotton; 
+  clubcotton = config.clubcotton;
 in {
   options.services.clubcotton.paperless = {
     enable = mkEnableOption "PDF reader and archiver for documents.";
