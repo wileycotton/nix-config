@@ -28,6 +28,12 @@
   programs.zsh.enable = true;
   services.openssh.enable = true; # Enable the OpenSSH daemon.
 
+  services.clubcotton.freshrss = {
+    passwordFile = config.age.secrets."freshrss".path;
+    authType = "none";
+    tailnetHostname = "freshrss";
+  };
+  
   services.clubcotton.paperless = {
     mediaDir = "/var/lib/paperless/media";
     configDir = "/var/lib/paperless";
