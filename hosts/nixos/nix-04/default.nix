@@ -17,28 +17,8 @@
   ];
 
   services.clubcotton = {
-    paperless.enable = true;
-  };
-
-  services.freshrss = {
-    enable = true;
-    defaultUser = "admin";
-    passwordFile = config.age.secrets."freshrss".path;
-    baseUrl = "http://nix-04:8104";
-    virtualHost = "freshrss";
-    authType = "none";
-    extensions = with pkgs.freshrss-extensions; [
-      youtube
-    ];
-  };
-
-  services.nginx.virtualHosts."freshrss" = {
-    listen = [
-      {
-        addr = "0.0.0.0";
-        port = 8104;
-      }
-    ];
+    freshrss.enable = true;
+    paperless.enable = false;
   };
 
   clubcotton.zfs_single_root.enable = true;

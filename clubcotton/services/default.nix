@@ -7,6 +7,7 @@
     ./arr
     ./calibre
     ./calibre-web
+    ./freshrss
     ./jellyfin
     ./kavita
     ./navidrome
