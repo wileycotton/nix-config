@@ -88,4 +88,8 @@
   age.secrets."navidrome" = lib.mkIf config.services.clubcotton.navidrome.enable {
     file = ./navidrome.age;
   };
+
+  age.secrets."freshrss" = { # lib.mkIf config.services.clubcotton.freshrss.enable {
+    file = ./freshrss.age;
+  };
 }

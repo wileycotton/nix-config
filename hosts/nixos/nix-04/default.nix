@@ -20,6 +20,13 @@
     paperless.enable = true;
   };
 
+  services.freshrss = {
+    enable = true;
+    defaultUser = "admin";
+    passwordFile = config.age.secrets."freshrss".path;
+    baseUrl = "nix-04"
+  };
+
   clubcotton.zfs_single_root.enable = true;
 
   virtualisation.podman.enable = true;
