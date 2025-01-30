@@ -20,7 +20,7 @@ in {
     };
     mediaDir = lib.mkOption {
       type = lib.types.str;
-      default = "";
+      default = "/var/lib/paperless/media";
     };
     configDir = lib.mkOption {
       type = lib.types.str;
@@ -28,7 +28,7 @@ in {
     };
     consumptionDir = lib.mkOption {
       type = lib.types.str;
-      default = "";
+      default = "/var/lib/paperless/consumption";
     };
     passwordFile = lib.mkOption {
       type = lib.types.path;
