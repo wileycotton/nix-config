@@ -24,7 +24,7 @@
     enable = true;
     defaultUser = "admin";
     passwordFile = config.age.secrets."freshrss".path;
-    baseUrl = "nix-04"
+    baseUrl = "nix-04";
   };
 
   clubcotton.zfs_single_root.enable = true;
@@ -47,14 +47,6 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKW08oClThlF1YJ+ey3y8XKm9yX/45EtaM/W7hx5Yvzb tomcotton@Toms-MacBook-Pro.local"
     ];
-  };
-
-  virtualisation.podman = {
-    dockerSocket.enable = true;
-    dockerCompat = true;
-    autoPrune.enable = true;
-    # Required for containers under podman-compose to be able to talk to each other.
-    defaultNetwork.settings.dns_enabled = true;
   };
 
   virtualisation.podman = {
