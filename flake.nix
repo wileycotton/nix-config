@@ -6,6 +6,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
 
+    isd.url = "github:isd-project/isd";
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -43,9 +45,10 @@
     tsnsrv,
     vscode-server,
     disko,
+    isd,
     ...
   }: let
-    inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable;};
+    inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable isd;};
 
     # creates correct package sets for specified arch
     genPkgs = system:
@@ -305,13 +308,13 @@
       dns-01 = nixosSystem "x86_64-linux" "dns-01" ["bcotton"];
       octoprint = nixosSystem "x86_64-linux" "octoprint" ["bcotton" "tomcotton"];
       frigate-host = nixosSystem "x86_64-linux" "frigate-host" ["bcotton"];
-      nixos = nixosSystem "x86_64-linux" "nixos" ["bcotton" "tomcotton"];
+      # nixos = nixosSystem "x86_64-linux" "nixos" ["bcotton" "tomcotton"];
       k3s-01 = nixosSystem "x86_64-linux" "k3s-01" ["bcotton"];
       k3s-02 = nixosSystem "x86_64-linux" "k3s-02" ["bcotton"];
       k3s-03 = nixosSystem "x86_64-linux" "k3s-03" ["bcotton"];
-      nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
-      incus = nixosMinimalSystem "x86_64-linux" "incus" ["bcotton"];
-      nas-test = nixosMinimalSystem "x86_64-linux" "nas-test" ["bcotton"];
+      # nixbox = nixosSystem "x86_64-linux" "nixbox" ["bcotton" "tomcotton"];
+      # incus = nixosMinimalSystem "x86_64-linux" "incus" ["bcotton"];
+      # nas-test = nixosMinimalSystem "x86_64-linux" "nas-test" ["bcotton"];
     };
   };
 }
