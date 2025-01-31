@@ -12,8 +12,8 @@ in {
     enable = mkEnableOption "PDF reader and archiver for documents.";
 
     port = mkOption {
-        type = types.port;
-        default = 8080;
+      type = types.port;
+      default = 8080;
     };
 
     passwordFile = mkOption {
@@ -36,20 +36,21 @@ in {
   };
 
   config = mkIf cfg.enable {
-      services.nginx.virtualHosts."freshrss" = {
-    listen = [
-      {
-        addr = "0.0.0.0";
-        port = cfg.port;
-      }
-    ];
-  };
+    services.nginx.virtualHosts."freshrss" = {
+      listen = [
+        {
+          addr = "0.0.0.0";
+          port = cfg.port;
+        }
+      ];
+    };
 
     services.freshrss = {
-        passwordFile = cfg.passwordFile;
-        baseUrl = "https://127.0.0.1:${cfg.port}";
-        virtualHost = "freshrss";
-        authType = cfg.authType;
+      enable = cfg.enable;
+      passwordFile = cfg.passwordFile;
+      baseUrl = "https://127.0.0.1:${cfg.port}";
+      virtualHost = "freshrss";
+      authType = cfg.authType;
     };
 
     services.tsnsrv = {

@@ -33,7 +33,7 @@
     authType = "none";
     tailnetHostname = "freshrss";
   };
-  
+
   services.clubcotton.paperless = {
     mediaDir = "/var/lib/paperless/media";
     configDir = "/var/lib/paperless";
