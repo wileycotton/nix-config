@@ -29,6 +29,7 @@
   services.openssh.enable = true; # Enable the OpenSSH daemon.
 
   services.clubcotton.freshrss = {
+    port = 8104;
     passwordFile = config.age.secrets."freshrss".path;
     authType = "none";
     tailnetHostname = "freshrss";

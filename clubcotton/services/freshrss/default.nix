@@ -48,7 +48,7 @@ in {
     services.freshrss = {
       enable = cfg.enable;
       passwordFile = cfg.passwordFile;
-      baseUrl = "https://127.0.0.1:${cfg.port}";
+      baseUrl = "https://127.0.0.1:${toString cfg.port}";
       virtualHost = "freshrss";
       authType = cfg.authType;
     };
