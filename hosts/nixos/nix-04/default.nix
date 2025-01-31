@@ -21,6 +21,8 @@
     paperless.enable = false;
   };
 
+  # services.clubcotton.services.tailscale.enable = true;
+
   clubcotton.zfs_single_root.enable = true;
 
   virtualisation.podman.enable = true;
@@ -31,7 +33,7 @@
   services.clubcotton.freshrss = {
     port = 8104;
     passwordFile = config.age.secrets."freshrss".path;
-    authType = "none";
+    authType = "form";
     tailnetHostname = "freshrss";
   };
 

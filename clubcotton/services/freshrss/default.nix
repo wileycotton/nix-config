@@ -9,7 +9,13 @@ with lib; let
   clubcotton = config.clubcotton;
 in {
   options.services.clubcotton.freshrss = {
-    enable = mkEnableOption "PDF reader and archiver for documents.";
+    enable = mkEnableOption "FreshRSS RSS aggregator and reader";
+
+    extensions = mkOption {
+      type = types.listOf types.package;
+      default = [];
+      description = "Additional extensions to be used.";
+    };
 
     port = mkOption {
       type = types.port;
@@ -36,22 +42,21 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.nginx.virtualHosts."freshrss" = {
-      listen = [
-        {
-          addr = "0.0.0.0";
-          port = cfg.port;
-        }
-      ];
-    };
-
     services.freshrss = {
       enable = cfg.enable;
       passwordFile = cfg.passwordFile;
-      baseUrl = "https://127.0.0.1:${toString cfg.port}";
+      baseUrl = "http://127.0.0.1:${toString cfg.port}";
       virtualHost = "freshrss";
       authType = cfg.authType;
+      extensions = with pkgs.freshrss-extensions; [];
     };
+
+    services.nginx.virtualHosts."freshrss".listen = [
+      {
+        addr = "0.0.0.0";
+        port = cfg.port;
+      }
+    ];
 
     services.tsnsrv = {
       enable = true;
