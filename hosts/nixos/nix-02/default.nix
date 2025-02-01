@@ -14,7 +14,7 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/k3s-agent
-    ../../../modules/docker/immich
+    # ../../../modules/docker/immich
     ../../../modules/incus
     # ../../../modules/terminal-server
   ];

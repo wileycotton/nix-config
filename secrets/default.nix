@@ -65,8 +65,11 @@
     # group = "mopidy";
   };
 
-  age.secrets."immich-database" = lib.mkIf config.services.immich.enable {
+  age.secrets."immich-database" = lib.mkIf config.services.clubcotton.postgresql.enable {
     file = ./immich-database.age;
+    owner = "postgres";
+    group = "postgres";
+
   };
 
   age.secrets."webdav" = lib.mkIf config.services.clubcotton.webdav.enable {
@@ -82,4 +85,6 @@
   age.secrets."navidrome" = lib.mkIf config.services.clubcotton.navidrome.enable {
     file = ./navidrome.age;
   };
+
+  
 }

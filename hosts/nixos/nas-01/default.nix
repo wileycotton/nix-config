@@ -11,7 +11,6 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../../modules/node-exporter
-    ../../../modules/tailscale
     ../../../modules/samba
   ];
 
@@ -28,10 +27,10 @@
     roon-server.enable = true;
     sabnzbd.enable = true;
     sonarr.enable = true;
+    tailscale.enable = true;
     webdav.enable = true;
   };
 
-  services.clubcotton.services.tailscale.enable = true;
 
   networking = {
     hostName = "nas-01";
@@ -111,11 +110,31 @@
     tailnetHostname = "navidrome";
   };
 
-  services.clubcotton.roon-server.enable = true;
-
   systemd.services.webdav.serviceConfig = {
     StateDirectory = "webdav";
     EnvironmentFile = config.age.secrets.webdav.path;
+  };
+
+  services.clubcotton.postgresql = {
+    enable = true;
+    dataDir = "/db/postgresql/16";
+    immich = {
+      enable = true;
+      passwordFile = config.age.secrets."immich-database".path;
+    };
+  };
+
+  services.clubcotton.immich = {
+    enable = true;
+    serverConfig.mediaLocation = "/media/photos/immich";
+    serverConfig.logLevel = "debug";
+    secretsFile = config.age.secrets.immich-database.path;
+    database = {
+      enable = false;
+      createDB = false;
+      name = "immich";
+      host = "nas-01";
+    };
   };
 
   services.clubcotton.webdav = {
@@ -214,7 +233,7 @@
     swapSize = "64G";
     disks = [
       "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_24293W800136"
-      "/dev/disk/by-id/wwn-0x500a0751e8afe231"
+      "/dev/disk/by-id/ata-SPCC_Solid_State_Disk_AAAA0000000000006990"
     ];
     useStandardRootFilesystems = true;
     reservedSize = "20GiB";

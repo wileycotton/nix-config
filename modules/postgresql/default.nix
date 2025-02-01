@@ -99,8 +99,26 @@ in {
       };
     };
 
-    systemd.services.postgresql.postStart = mkIf (cfg.postStartCommands != []) ''
-      ${concatStringsSep "\n" cfg.postStartCommands}
-    '';
+    systemd.services = {
+      postgresql-datadir = mkIf (cfg.dataDir != "/var/lib/postgresql/${cfg.package.psqlSchema}") {
+        description = "Create PostgreSQL Data Directory";
+        before = [ "postgresql.service" ];
+        requiredBy = [ "postgresql.service" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
+        script = ''
+          if [ ! -d ${cfg.dataDir} ]; then
+            mkdir -p ${cfg.dataDir}
+            chown postgres:postgres ${cfg.dataDir}
+          fi
+        '';
+      };
+
+      postgresql.postStart = mkIf (cfg.postStartCommands != []) ''
+        ${concatStringsSep "\n" cfg.postStartCommands}
+      '';
+    };
   };
 }

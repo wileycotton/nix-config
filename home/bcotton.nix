@@ -401,7 +401,6 @@ in {
   };
 
   home.packages = with pkgs; [
-    # television # broken for now? https://github.com/alexpasmantier/television/issues/325
     kubernetes-helm
     kubectx
     kubectl

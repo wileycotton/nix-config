@@ -18,9 +18,8 @@
   ];
 
   services.clubcotton = {
+    tailscale.enable = true;
   };
-
-  services.clubcotton.services.tailscale.enable = true;
 
   virtualisation.containers.enable = true;
 
