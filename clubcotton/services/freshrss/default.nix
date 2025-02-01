@@ -64,7 +64,7 @@ in {
 
       services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
         ephemeral = true;
-        toURL = "http://127.0.0.1:${toString cfg.port}/";
+        toURL = "http://localhost:${toString cfg.port}/";
       };
     };
   };
