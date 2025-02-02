@@ -262,6 +262,13 @@
             "name": "Caps to ctrl, no changes",
             "selected": false,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        },
+        {
+            "complex_modifications": {
+            },
+            "name": "no changes",
+            "selected": false,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
 }
