@@ -13,7 +13,7 @@
   age.secrets."grafana-cloud" = {
     file = ./grafana-cloud.age;
   };
-  age.secrets."open-webui" = {
+  age.secrets."open-webui" = lib.mkIf config.services.clubcotton.open-webui.enable {
     file = ./open-webui.age;
   };
   age.secrets."mqtt" = {
@@ -69,7 +69,19 @@
     file = ./immich-database.age;
     owner = "postgres";
     group = "postgres";
+  };
 
+  age.secrets."immich" = lib.mkIf config.services.clubcotton.immich.enable {
+    file = ./immich.age;
+    owner = "immich";
+    group = "immich";
+  };
+
+
+  age.secrets."open-webui-database" = lib.mkIf config.services.clubcotton.postgresql.open-webui.enable {
+    file = ./open-webui-database.age;
+    owner = "postgres";
+    group = "postgres";
   };
 
   age.secrets."webdav" = lib.mkIf config.services.clubcotton.webdav.enable {

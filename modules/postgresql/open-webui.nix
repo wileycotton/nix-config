@@ -41,6 +41,9 @@ in {
           ensureClauses.login = true;
         }
       ];
+    extensions = with pkgs.postgresql_16.pkgs; [
+      pgvector
+    ];
     };
 
     # Set password from file if passwordFile is provided
@@ -59,6 +62,8 @@ in {
 
     services.clubcotton.postgresql.postStartCommands = let
       sqlFile = pkgs.writeText "open-webui-setup.sql" ''
+        CREATE EXTENSION IF NOT EXISTS vector;
+
         ALTER SCHEMA public OWNER TO "${cfg.open-webui.user}";
       '';
     in [

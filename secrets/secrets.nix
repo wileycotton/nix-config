@@ -29,7 +29,9 @@ in {
   "unpoller.age".publicKeys = users ++ systems;
   "grafana-cloud.age".publicKeys = users ++ systems;
   "immich-database.age".publicKeys = users ++ systems;
+  "immich.age".publicKeys = users ++ systems;
   "open-webui.age".publicKeys = users ++ systems;
+  "open-webui-database.age".publicKeys = users ++ systems;
   "webdav.age".publicKeys = users ++ systems;
   "kavita-token.age".publicKeys = users ++ systems;
   "navidrome.age".publicKeys = users ++ systems;

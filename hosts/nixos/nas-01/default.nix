@@ -18,9 +18,12 @@
     calibre.enable = true;
     calibre-web.enable = true;
     jellyfin.enable = true;
+    immich.enable = true;
     kavita.enable = false;
     lidarr.enable = true;
     navidrome.enable = true;
+    open-webui.enable = true;
+    postgresql.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
     readarr.enable = true;
@@ -116,25 +119,38 @@
   };
 
   services.clubcotton.postgresql = {
-    enable = true;
     dataDir = "/db/postgresql/16";
     immich = {
       enable = true;
       passwordFile = config.age.secrets."immich-database".path;
     };
+    open-webui = {
+      enable = true;
+      passwordFile = config.age.secrets."open-webui-database".path;
+    };
   };
 
   services.clubcotton.immich = {
-    enable = true;
     serverConfig.mediaLocation = "/media/photos/immich";
-    serverConfig.logLevel = "debug";
-    secretsFile = config.age.secrets.immich-database.path;
+    serverConfig.logLevel = "log";
+    secretsFile = config.age.secrets.immich.path;
     database = {
       enable = false;
       createDB = false;
       name = "immich";
       host = "nas-01";
     };
+  };
+
+  services.clubcotton.open-webui = {
+    tailnetHostname = "llm";
+    environment = {
+      WEBUI_AUTH = "True";
+      ENABLE_OLLAMA_API = "True";
+      OLLAMA_BASE_URL = "http://toms-mini:11434";
+      OLLAMA_API_BASE_URL = "http://toms-mini:11434";
+    };
+    environmentFile = config.age.secrets.open-webui.path;
   };
 
   services.clubcotton.webdav = {

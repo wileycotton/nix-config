@@ -58,16 +58,6 @@
     user = "bcotton";
   };
 
-  services.clubcotton.open-webui = {
-    tailnetHostname = "llm";
-    environment = {
-      WEBUI_AUTH = "True";
-      ENABLE_OLLAMA_API = "True";
-      OLLAMA_BASE_URL = "http://toms-mini:11434";
-      OLLAMA_API_BASE_URL = "http://toms-mini:11434";
-    };
-    environmentFile = config.age.secrets.open-webui.path;
-  };
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
