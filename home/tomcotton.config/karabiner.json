@@ -65,7 +65,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "u",
+                                    "key_code": "y",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
@@ -76,7 +76,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "y",
+                                    "key_code": "o",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
