@@ -17,17 +17,17 @@
                         ]
                     },
                     {
-                        "description": "Fn + I/J/K/L to Arrow Keys, Fn + U/O option right left, m to mdash, n to uNderscore",
+                        "description": "Fn + H/J/K/L to Arrow Keys, Fn + U/O option right left, m to mdash, n to uNderscore",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "i",
+                                    "key_code": "h",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "key_code": "up_arrow" }],
+                                "to": [{ "key_code": "left_arrow" }],
                                 "type": "basic"
                             },
                             {
@@ -38,7 +38,7 @@
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "key_code": "left_arrow" }],
+                                "to": [{ "key_code": "up_arrow" }],
                                 "type": "basic"
                             },
                             {
@@ -76,7 +76,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "o",
+                                    "key_code": "y",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
@@ -110,11 +110,11 @@
                         ]
                     },
                     {
-                        "description": "Fn + H to Delete, Fn + B to Delete Word",
+                        "description": "Fn + B to Delete, Fn + G to Delete Word",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "h",
+                                    "key_code": "b",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
@@ -125,24 +125,34 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "semicolon",
-                                    "modifiers": {
-                                        "mandatory": ["fn"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [{ "key_code": "delete_forward"}],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "b",
+                                    "key_code": "g",
                                     "modifiers": {
                                         "mandatory": ["fn"], 
                                         "optional": ["any"]
                                     }
                                 },
                                 "to": [{ "key_code": "delete_or_backspace", "modifiers": "left_option" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "T/P Home and End",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "home" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "end" }],
                                 "type": "basic"
                             }
                         ]
@@ -183,12 +193,12 @@
                         ]
                     },
                     {
-                        "description": "Scroll down when fn + spacebar is pressed. shift space is up",
+                        "description": "U/I is scroll up slash down",
                         "manipulators": [
                             { 
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "spacebar",
+                                    "key_code": "u",
                                     "modifiers": {
                                         "mandatory": ["fn"]
                                     }
@@ -204,9 +214,9 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "spacebar",
+                                    "key_code": "i",
                                     "modifiers": {
-                                        "mandatory": ["fn", "shift"]
+                                        "mandatory": ["fn"]
                                     }
                                 },
                                 "to": [
