@@ -142,7 +142,10 @@
                             {
                                 "from": {
                                     "key_code": "t",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": {
+                                        "mandatory": ["fn"], 
+                                        "optional": ["any"]
+                                    }
                                 },
                                 "to": [{ "key_code": "home" }],
                                 "type": "basic"
@@ -150,7 +153,10 @@
                             {
                                 "from": {
                                     "key_code": "p",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": {
+                                        "mandatory": ["fn"], 
+                                        "optional": ["any"]
+                                    }
                                 },
                                 "to": [{ "key_code": "end" }],
                                 "type": "basic"
