@@ -14,25 +14,48 @@
     ../../../modules/node-exporter
     ../../../modules/nfs
     ../../../modules/k3s-agent
-    # ../../../modules/docker/immich
-    ../../../modules/incus
-    # ../../../modules/terminal-server
   ];
 
   services.clubcotton = {
     # vnc.enable = true;
+    tailscale.enable = true;
+  };
+
+  virtualisation.containers.enable = true;
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    dockerSocket.enable = true;
+    # Required for containers under podman-compose to be able to talk to each other.
+    defaultNetwork.settings.dns_enabled = true;
   };
 
   services.k3s.role = lib.mkForce "agent";
+
+  clubcotton.zfs_single_root = {
+    enable = true;
+    poolname = "rpool";
+    swapSize = "64G";
+    disk = "/dev/disk/by-id/nvme-eui.00000000000000000026b738281a43c5";
+    useStandardRootFilesystems = true;
+    reservedSize = "20GiB";
+    volumes = {
+      "local/incus" = {
+        size = "300G";
+      };
+    };
+  };
+
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
+    hostId = "038f8559";
     useDHCP = false;
     hostName = "nix-02";
-    hostId = "038f8559";
     defaultGateway = "192.168.5.1";
     nameservers = ["192.168.5.220"];
     interfaces.enp3s0.ipv4.addresses = [
