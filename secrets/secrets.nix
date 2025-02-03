@@ -4,6 +4,7 @@ let
   bcotton = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com";
   tomcotton = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKW08oClThlF1YJ+ey3y8XKm9yX/45EtaM/W7hx5Yvzb tomcotton@Toms-MacBook-Pro.local";
   users = [bcotton tomcotton];
+  just_bob = [bcotton];
 
   admin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMjeiDeFxI7BcbjDxtPyeWfsUWBW2HKTyjT8/X0719+p root@nixos";
   nix-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJDEJMkba6F8w5b1nDZ3meKEb7PNcWbErBtofbejrIh+ root@nix-01";
@@ -18,6 +19,7 @@ let
 in {
   "atuin.age".publicKeys = users ++ systems;
   "atuin-database.age".publicKeys = users ++ systems;
+  "bcotton-atuin-key.age".publicKeys = users ++ systems;
   "condo-ha-token.age".publicKeys = users ++ systems;
   "grafana-cloud.age".publicKeys = users ++ systems;
   "homeassistant-token.age".publicKeys = users ++ systems;

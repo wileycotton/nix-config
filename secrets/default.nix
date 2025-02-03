@@ -107,6 +107,12 @@
     file = ./kavita-token.age;
   };
 
+  age.secrets."bcotton-atuin-key" = {
+    file = ./bcotton-atuin-key.age;
+    owner = "bcotton";
+    group = "users";
+  };
+
   age.secrets."navidrome" = lib.mkIf config.services.clubcotton.navidrome.enable {
     file = ./navidrome.age;
   };

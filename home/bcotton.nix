@@ -246,7 +246,7 @@ in {
       source = ./dot.config/containers/registries.conf;
     };
     configFile."atuin/config.toml" = {
-      source = ./bcotton.config/atun/config.toml;
+      source = ./bcotton.config/atuin/config.toml;
     };
   };
 
