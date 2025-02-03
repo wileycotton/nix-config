@@ -29,7 +29,7 @@
 # update_check = true
 
 ## address of the sync server
-sync_address = "https://atun.bobtail-clownfish.ts.net"
+sync_address = "https://atiun.bobtail-clownfish.ts.net"
 
 ## how often to sync history. note that this is only triggered when a command
 ## is ran, so sync intervals may well be longer
