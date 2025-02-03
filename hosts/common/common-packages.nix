@@ -92,6 +92,7 @@
       #  skopeo
       #  smartmontools
       #  terraform
+      television
       tree
       ttyplot
       unzip
