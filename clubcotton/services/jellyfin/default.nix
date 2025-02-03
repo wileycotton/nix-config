@@ -35,7 +35,7 @@ in {
     };
     tailnetHostname = mkOption {
       type = types.nullOr types.str;
-      default = "";
+      default = "${service}";
       description = "The tailnet hostname to expose the code-server as.";
     };
   };

@@ -65,26 +65,6 @@
   # Set your time zone.
   time.timeZone = "America/Denver";
 
-  services.clubcotton.sabnzbd = {
-    tailnetHostname = "sabnzbd";
-  };
-
-  services.clubcotton.radarr = {
-    tailnetHostname = "radarr";
-  };
-
-  services.clubcotton.sonarr = {
-    tailnetHostname = "sonarr";
-  };
-
-  services.clubcotton.prowlarr = {
-    tailnetHostname = "prowlarr";
-  };
-
-  services.clubcotton.lidarr = {
-    tailnetHostname = "lidarr";
-  };
-
   services.clubcotton.readarr = {
     epub = {
       dataDir = "/var/lib/readarr-epub";
@@ -96,22 +76,6 @@
       tailnetHostname = "readarr-audio";
       port = 8788;
     };
-  };
-
-  services.clubcotton.calibre = {
-    tailnetHostname = "calibre";
-  };
-
-  services.clubcotton.calibre-web = {
-    tailnetHostname = "calibre-web";
-  };
-
-  services.clubcotton.jellyfin = {
-    tailnetHostname = "jellyfin";
-  };
-
-  services.clubcotton.navidrome = {
-    tailnetHostname = "navidrome";
   };
 
   systemd.services.webdav.serviceConfig = {
@@ -208,7 +172,6 @@
     tailnetHostname = "kavita";
   };
 
-  # Expose this code-server as a host on the tailnet
   # This is here and not in the webdav module because of fuckery
   # rg fuckery
   services.tsnsrv = {

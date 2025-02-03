@@ -19,7 +19,7 @@ in {
     };
     tailnetHostname = mkOption {
       type = types.nullOr types.str;
-      default = "";
+      default = "${service}";
       description = "The tailnet hostname to expose the code-server as.";
     };
   };
@@ -31,10 +31,13 @@ in {
       group = clubcotton.group;
 
       settings = {
+        # LogLevel = "DEBUG";
         MusicFolder = "/media/music";
         Address = "0.0.0.0";
         DefaultDownsamplingFormat = "mp3";
-        EnableTranscodingConfig = true;
+        # EnableTranscodingConfig = true;
+        AutoImportPlaylists = false;
+        Prometheus.Enabled = true;
       };
     };
     systemd.services.navidrome.serviceConfig = {
