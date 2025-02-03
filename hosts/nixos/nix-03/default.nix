@@ -92,7 +92,12 @@
   services.x2goserver.enable = true;
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      X11Forwarding = true;
+    };
+  };
 
   networking.firewall.enable = false;
   system.stateVersion = "23.11"; # Did you read the comment?

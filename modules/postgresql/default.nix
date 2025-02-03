@@ -99,11 +99,22 @@ in {
       };
     };
 
+    services.prometheus.exporters.postgres = {
+      enable = true;
+      runAsLocalSuperUser = true;
+    };
+
+    services.postgresqlBackup = {
+      enable = true;
+      databases = config.services.postgresql.ensureDatabases;
+      location = "/backups/postgresql";
+    };
+
     systemd.services = {
       postgresql-datadir = mkIf (cfg.dataDir != "/var/lib/postgresql/${cfg.package.psqlSchema}") {
         description = "Create PostgreSQL Data Directory";
-        before = [ "postgresql.service" ];
-        requiredBy = [ "postgresql.service" ];
+        before = ["postgresql.service"];
+        requiredBy = ["postgresql.service"];
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;

@@ -41,9 +41,9 @@ in {
           ensureClauses.login = true;
         }
       ];
-    extensions = with pkgs.postgresql_16.pkgs; [
-      pgvector
-    ];
+      extensions = with pkgs.postgresql_16.pkgs; [
+        pgvector
+      ];
     };
 
     # Set password from file if passwordFile is provided

@@ -83,7 +83,6 @@
   # Set your time zone.
   time.timeZone = "America/Denver";
 
-
   programs.zsh.enable = true;
 
   users.users.root = {

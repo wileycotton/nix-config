@@ -34,7 +34,6 @@
     webdav.enable = true;
   };
 
-
   networking = {
     hostName = "nas-01";
     defaultGateway = "192.168.5.1";
@@ -58,7 +57,9 @@
     };
   };
 
-  services.nfs.server.enable = true;
+  services.nfs.server = {
+    enable = true;
+  };
   services.rpcbind.enable = true;
 
   # Set your time zone.

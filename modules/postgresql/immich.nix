@@ -76,7 +76,7 @@ in {
         ALTER SCHEMA public OWNER TO "${cfg.immich.user}";
         ALTER SCHEMA vectors OWNER TO "${cfg.immich.user}";
         GRANT SELECT ON TABLE pg_vector_index_stat TO "${cfg.immich.user}";
-        
+
         ALTER USER immich WITH CREATEDB;
         GRANT pg_read_all_data TO "${cfg.immich.user}";
 

@@ -46,7 +46,6 @@ in {
       description = "The tailnet hostname to expose the server as.";
     };
 
-
     serverConfig = {
       host = mkOption {
         type = types.str;
@@ -217,7 +216,5 @@ in {
         toURL = "http://127.0.0.1:2283/";
       };
     };
-
-
   };
 }
