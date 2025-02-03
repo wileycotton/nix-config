@@ -247,6 +247,10 @@ in {
     configFile."containers/registries.conf" = {
       source = ./dot.config/containers/registries.conf;
     };
+    configFile."atuin/config.toml" = {
+      source = ./tomcotton.config/atun/config.toml;
+    };
+
   };
 
   programs.zsh = {
@@ -353,6 +357,10 @@ in {
       bindkey '\M-\b' backward-delete-word
       bindkey -s "^Z" "^[Qls ^D^U^[G"
       bindkey -s "^X^F" "e "
+
+      # Atun stuff
+      # eval "$(atuin init zsh)"
+
 
       setopt autocd autopushd autoresume cdablevars correct correctall extendedglob globdots histignoredups longlistjobs mailwarning  notify pushdminus pushdsilent pushdtohome rcquotes recexact sunkeyboardhack menucomplete always_to_end hist_allow_clobber no_share_history
       unsetopt bgnice

@@ -245,6 +245,9 @@ in {
     configFile."containers/registries.conf" = {
       source = ./dot.config/containers/registries.conf;
     };
+    configFile."atuin/config.toml" = {
+      source = ./bcotton.config/atun/config.toml;
+    };
   };
 
   programs.zsh = {
@@ -271,7 +274,6 @@ in {
     # atuin register -u bcotton -e bob.cotton@gmail.com
     envExtra = ''
       #export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
-      export ATUIN_SYNC_ADDRESS=https://atuin.bobtail-clownfish.ts.net
       export BAT_THEME="Visual Studio Dark+"
       export DFT_DISPLAY=side-by-side
       export EDITOR=vim

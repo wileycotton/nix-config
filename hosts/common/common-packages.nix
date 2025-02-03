@@ -7,6 +7,9 @@
   ...
 }: {
   config = {
+    # let home-manager override files, but back them up first
+    home-manager.backupFileExtension = "home-manager-backup";
+
     environment.systemPackages = with pkgs; [
       inputs.agenix.packages."${system}".default
       atuin
