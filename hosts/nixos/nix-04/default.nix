@@ -18,7 +18,7 @@
 
   services.clubcotton = {
     freshrss.enable = true;
-    paperless.enable = false;
+    paperless.enable = true;
   };
 
   # services.clubcotton.services.tailscale.enable = true;
