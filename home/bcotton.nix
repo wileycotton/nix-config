@@ -50,6 +50,16 @@
 in {
   home.stateVersion = "23.05";
 
+  imports = [
+    "${nixVsCodeServer}/modules/vscode-server/home.nix"
+    ./modules/atuin.nix
+  ];
+
+  programs.atuin-config = {
+    nixosKeyPath = "/run/agenix/bcotton-atuin-key";
+    darwinKeyPath = "~/.local/share/atuin/key";
+  };
+
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
 
@@ -183,8 +193,8 @@ in {
       set -g renumber-windows on
       set -g set-clipboard on
 
-      set-option -g status-left "#[bg=colour241,fg=colour248] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
-      set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #S "
+      set-option -g status-left "#[bg=colour241,fg=colour248] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
+      set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #S "
 
 
       # https://github.com/samoshkin/tmux-config/blob/master/tmux/tmux.conf
@@ -206,7 +216,7 @@ in {
       # keybind to recursively enable all tmux instances
       set -g @nested_up_recursive_keybind 'M-U'
       # status style of inactive tmux
-      set -g @nested_inactive_status_style '#[fg=black,bg=red] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
+      set -g @nested_inactive_status_style '#[fg=black,bg=red] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
       set -g @nested_inactive_status_style_target 'status-left'
 
       # The above setting need to be set before running the nested.tmux script
@@ -225,9 +235,6 @@ in {
     '';
   };
 
-  imports = [
-    "${nixVsCodeServer}/modules/vscode-server/home.nix"
-  ];
   services.vscode-server.enable = true;
   services.vscode-server.installPath = "$HOME/.vscode-server";
 
@@ -244,9 +251,6 @@ in {
     enable = true;
     configFile."containers/registries.conf" = {
       source = ./dot.config/containers/registries.conf;
-    };
-    configFile."atuin/config.toml" = {
-      source = ./bcotton.config/atuin/config.toml;
     };
   };
 

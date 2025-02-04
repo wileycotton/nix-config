@@ -50,6 +50,17 @@
 in {
   home.stateVersion = "24.05";
 
+  imports = [
+    "${nixVsCodeServer}/modules/vscode-server/home.nix"
+    ./modules/atuin.nix
+  ];
+
+  programs.atuin-config = {
+    # Create this in agenix
+    # nixosKeyPath = "/run/agenix/tomcotton-atuin-key";
+    darwinKeyPath = "~/.local/share/atuin/key";
+  };
+
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
 
@@ -220,9 +231,6 @@ in {
     '';
   };
 
-  imports = [
-    "${nixVsCodeServer}/modules/vscode-server/home.nix"
-  ];
   services.vscode-server.enable = true;
   services.vscode-server.installPath = "$HOME/.vscode-server";
 
