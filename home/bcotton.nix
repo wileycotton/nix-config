@@ -364,7 +364,7 @@ in {
       fi
       source <(kubectl completion zsh)
       eval "$(tv init zsh)"
-      eval "$(atuin init zsh)"
+      eval "$(atuin init zsh --disable-up-arrow)"
 
       bindkey -e
       bindkey '^[[A' up-history

@@ -19,7 +19,7 @@ let
 in {
   "atuin.age".publicKeys = users ++ systems;
   "atuin-database.age".publicKeys = users ++ systems;
-  "bcotton-atuin-key.age".publicKeys = users ++ systems;
+  "bcotton-atuin-key.age".publicKeys = just_bob ++ systems;
   "condo-ha-token.age".publicKeys = users ++ systems;
   "grafana-cloud.age".publicKeys = users ++ systems;
   "homeassistant-token.age".publicKeys = users ++ systems;
