@@ -5,44 +5,6 @@
   unstablePkgs,
   ...
 }: let
-  # See https://haseebmajid.dev/posts/2023-07-10-setting-up-tmux-with-nix-home-manager/
-  tmux-window-name =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-window-name";
-      version = "head";
-      src = pkgs.fetchFromGitHub {
-        owner = "ofirgall";
-        repo = "tmux-window-name";
-        rev = "dc97a79ac35a9db67af558bb66b3a7ad41c924e7";
-        sha256 = "sha256-o7ZzlXwzvbrZf/Uv0jHM+FiHjmBO0mI63pjeJwVJEhE=";
-      };
-    };
-  tmux-fzf-head =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-fzf";
-      version = "head";
-      rtpFilePath = "main.tmux";
-      src = pkgs.fetchFromGitHub {
-        owner = "sainnhe";
-        repo = "tmux-fzf";
-        rev = "6b31cbe454649736dcd6dc106bb973349560a949";
-        sha256 = "sha256-RXoJ5jR3PLiu+iymsAI42PrdvZ8k83lDJGA7MQMpvPY=";
-      };
-    };
-  tmux-nested =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-nested";
-      version = "target-style-config";
-      src = pkgs.fetchFromGitHub {
-        owner = "bcotton";
-        repo = "tmux-nested";
-        rev = "2878b1d05569a8e41c506e74756ddfac7b0ffebe";
-        sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
-      };
-    };
   nixVsCodeServer = fetchTarball {
     url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
     sha256 = "sha256:09j4kvsxw1d5dvnhbsgih0icbrxqv90nzf0b589rb5z6gnzwjnqf";
@@ -53,7 +15,10 @@ in {
   imports = [
     "${nixVsCodeServer}/modules/vscode-server/home.nix"
     ./modules/atuin.nix
+    ./modules/tmux-plugins.nix
   ];
+
+  programs.tmux-plugins.enable = true;
 
   programs.atuin-config = {
     nixosKeyPath = "/run/agenix/bcotton-atuin-key";
@@ -152,22 +117,6 @@ in {
     aggressiveResize = true;
     # escapeTime = 0;
     terminal = "screen-256color";
-    plugins = with pkgs.tmuxPlugins; [
-      gruvbox
-      tmux-colors-solarized
-
-      # Default: <prefix> + u - show and open urls
-      fzf-tmux-url
-
-      # Run the latest tmux-fzf
-      tmux-fzf-head
-
-      # Default <prefix> + space - show a list of things to copy
-      tmux-thumbs
-      {
-        plugin = tmux-window-name;
-      }
-    ];
     extraConfig = ''
       if-shell "uname | grep -q Darwin" {
         set-option -g default-command "reattach-to-user-namespace -l zsh"
@@ -186,8 +135,6 @@ in {
       bind "C-k" select-pane -U
       bind "C-l" select-pane -R
 
-
-      bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
 
       # set-option -g status-position top
       set -g renumber-windows on
@@ -218,9 +165,6 @@ in {
       # status style of inactive tmux
       set -g @nested_inactive_status_style '#[fg=black,bg=red] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
       set -g @nested_inactive_status_style_target 'status-left'
-
-      # The above setting need to be set before running the nested.tmux script
-      run-shell ${tmux-nested}/share/tmux-plugins/tmux-nested/nested.tmux
 
       # tmux-fzf stuff
 
@@ -360,12 +304,6 @@ in {
     };
 
     initExtra = ''
-      tmux-window-name() {
-        (${builtins.toString tmux-window-name}/share/tmux-plugins/tmux-window-name/scripts/rename_session_windows.py &)
-      }
-      if [[ -n "$TMUX" ]]; then
-        add-zsh-hook chpwd tmux-window-name
-      fi
       source <(kubectl completion zsh)
       eval "$(tv init zsh)"
       eval "$(atuin init zsh --disable-up-arrow)"

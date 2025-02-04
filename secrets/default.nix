@@ -3,7 +3,6 @@
   lib,
   ...
 }: {
-  
   # Generate postgres secrets here: https://supercaracal.github.io/scram-sha-256/
 
   # Unconditional secrets (no special permissions needed)

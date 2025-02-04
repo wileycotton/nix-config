@@ -1,6 +1,9 @@
-{ pkgs, lib, config, ... }:
-
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
   cfg = config.programs.atuin-config;
 in {
   options.programs.atuin-config = {
@@ -9,7 +12,7 @@ in {
       default = "/run/agenix/bcotton-atuin-key";
       description = "Path to the atuin key file on NixOS systems";
     };
-    
+
     darwinKeyPath = lib.mkOption {
       type = lib.types.str;
       default = "~/.local/share/atuin/key";
@@ -20,7 +23,8 @@ in {
   config = {
     xdg.configFile."atuin/config.toml" = {
       text = let
-        keyPath = if pkgs.stdenv.isDarwin 
+        keyPath =
+          if pkgs.stdenv.isDarwin
           then cfg.darwinKeyPath
           else cfg.nixosKeyPath;
       in ''

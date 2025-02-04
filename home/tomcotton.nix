@@ -258,7 +258,6 @@ in {
     configFile."atuin/config.toml" = {
       source = ./tomcotton.config/atuin/config.toml;
     };
-
   };
 
   programs.zsh = {
