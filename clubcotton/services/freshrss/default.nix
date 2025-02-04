@@ -48,7 +48,7 @@ in {
       baseUrl = "http://127.0.0.1:${toString cfg.port}";
       virtualHost = "freshrss";
       authType = cfg.authType;
-      extensions = with pkgs.freshrss-extensions; [];
+      extensions = cfg.extensions;
     };
 
     services.nginx.virtualHosts."freshrss" = {
