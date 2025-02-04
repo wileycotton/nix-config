@@ -92,5 +92,7 @@
   age.secrets."freshrss" = {
     # lib.mkIf config.services.clubcotton.freshrss.enable {
     file = ./freshrss.age;
+    owner = "freshrss";
+    group = "freshrss";
   };
 }
