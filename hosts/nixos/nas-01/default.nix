@@ -19,13 +19,13 @@
     calibre.enable = true;
     calibre-web.enable = true;
     freshrss.enable = true;
-    jellyfin.enable = true;
     immich.enable = true;
+    jellyfin.enable = true;
     kavita.enable = false;
     lidarr.enable = true;
     navidrome.enable = true;
-    paperless.enable = true;
     open-webui.enable = true;
+    paperless.enable = true;
     postgresql.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
