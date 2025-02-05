@@ -21,6 +21,9 @@ in {
   "atuin-database.age".publicKeys = users ++ systems;
   "bcotton-atuin-key.age".publicKeys = just_bob ++ systems;
   "condo-ha-token.age".publicKeys = users ++ systems;
+  "freshrss.age".publicKeys = users ++ systems;
+  "freshrss-database.age".publicKeys = users ++ systems;
+  "freshrss-database-raw.age".publicKeys = users ++ systems;
   "grafana-cloud.age".publicKeys = users ++ systems;
   "homeassistant-token.age".publicKeys = users ++ systems;
   "immich-database.age".publicKeys = users ++ systems;
@@ -32,17 +35,14 @@ in {
   "navidrome.age".publicKeys = users ++ systems;
   "open-webui-database.age".publicKeys = users ++ systems;
   "open-webui.age".publicKeys = users ++ systems;
+  "paperless.age".publicKeys = users ++ systems;
+  "paperless-database.age".publicKeys = users ++ systems;
+  "paperless-database-raw.age".publicKeys = users ++ systems;
   "pushover-key.age".publicKeys = users ++ systems;
   "pushover-token.age".publicKeys = users ++ systems;
   "tailscale-keys.env".publicKeys = users ++ systems;
   "tailscale-keys.raw".publicKeys = users ++ systems;
   "unpoller.age".publicKeys = users ++ systems;
   "webdav.age".publicKeys = users ++ systems;
-  "paperless.age".publicKeys = users ++ systems;
-  "paperless-database.age".publicKeys = users ++ systems;
-  "paperless-database-raw.age".publicKeys = users ++ systems;
-  "freshrss.age".publicKeys = users ++ systems;
-  "freshrss-database.age".publicKeys = users ++ systems;
-  "freshrss-database-raw.age".publicKeys = users ++ systems;
   "wireless-config.age".publicKeys = users ++ systems;
 }

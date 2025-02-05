@@ -77,7 +77,8 @@ in {
           pdfa_image_compression = "lossless";
         };
         PAPERLESS_DBENGINE = "postgresql";
-        PAPERLESS_DBHOST = "nas01.lan";
+        PAPERLESS_DBHOST = "nas-01.lan";
+        PAPERLESS_DBPORT = "5432";
         PAPERLESS_DBPASS = "{env}PAPERLESS_DBPASS";
       };
     };
