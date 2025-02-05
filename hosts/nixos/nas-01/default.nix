@@ -68,26 +68,6 @@
   # Set your time zone.
   time.timeZone = "America/Denver";
 
-  services.clubcotton.sabnzbd = {
-    tailnetHostname = "sabnzbd";
-  };
-
-  services.clubcotton.radarr = {
-    tailnetHostname = "radarr";
-  };
-
-  services.clubcotton.sonarr = {
-    tailnetHostname = "sonarr";
-  };
-
-  services.clubcotton.prowlarr = {
-    tailnetHostname = "prowlarr";
-  };
-
-  services.clubcotton.lidarr = {
-    tailnetHostname = "lidarr";
-  };
-
   services.clubcotton.readarr = {
     epub = {
       dataDir = "/var/lib/readarr-epub";
