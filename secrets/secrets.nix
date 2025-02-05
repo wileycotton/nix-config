@@ -38,9 +38,9 @@ in {
   "tailscale-keys.raw".publicKeys = users ++ systems;
   "unpoller.age".publicKeys = users ++ systems;
   "webdav.age".publicKeys = users ++ systems;
-  "kavita-token.age".publicKeys = users ++ systems;
   "paperless.age".publicKeys = users ++ systems;
-  "navidrome.age".publicKeys = users ++ systems;
+  "paperless-database.age".publicKeys = users ++ systems;
   "freshrss.age".publicKeys = users ++ systems;
+  "freshrss-database.age".publicKeys = users ++ systems;
   "wireless-config.age".publicKeys = users ++ systems;
 }
