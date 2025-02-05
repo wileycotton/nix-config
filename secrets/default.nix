@@ -120,8 +120,8 @@
 
   age.secrets."paperless-database-raw" = lib.mkIf config.services.clubcotton.paperless.enable {
     file = ./paperless-database-raw.age;
-    owner = "paperless";
-    group = "paperless";
+    owner = "postgres";
+    group = "postgres";
   };
 
   age.secrets."bcotton-atuin-key" = {
@@ -142,8 +142,8 @@
 
   age.secrets."freshrss-database" = lib.mkIf config.services.clubcotton.freshrss.enable {
     file = ./freshrss-database.age;
-    owner = "freshrss";
-    group = "freshrss";
+    owner = "postgres";
+    group = "postgres";
   };
 
   age.secrets."freshrss-database-raw" = lib.mkIf config.services.clubcotton.freshrss.enable {
