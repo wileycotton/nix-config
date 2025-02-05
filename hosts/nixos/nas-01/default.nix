@@ -18,12 +18,14 @@
     atuin.enable = true;
     calibre.enable = true;
     calibre-web.enable = true;
-    jellyfin.enable = true;
+    freshrss.enable = true;
     immich.enable = true;
+    jellyfin.enable = true;
     kavita.enable = false;
     lidarr.enable = true;
     navidrome.enable = true;
     open-webui.enable = true;
+    paperless.enable = true;
     postgresql.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
@@ -98,6 +100,31 @@
       enable = true;
       passwordFile = config.age.secrets."atuin-database".path;
     };
+    freshrss = {
+      enable = true;
+      passwordFile = config.age.secrets."freshrss-database".path;
+    };
+    paperless = {
+      enable = true;
+      passwordFile = config.age.secrets."paperless-database".path;
+    };
+  };
+
+  services.clubcotton.freshrss = {
+    port = 8104;
+    passwordFile = config.age.secrets."freshrss".path;
+    authType = "form";
+    extensions = with pkgs.freshrss-extensions; [youtube];
+    tailnetHostname = "freshrss";
+  };
+
+  services.clubcotton.paperless = {
+    mediaDir = "/media/documents/paperless";
+    configDir = "/var/lib/paperless";
+    consumptionDir = "/var/lib/paperless/consume";
+    passwordFile = config.age.secrets."paperless".path;
+    database.createLocally = false;
+    tailnetHostname = "paperless";
   };
 
   services.clubcotton.immich = {

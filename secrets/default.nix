@@ -106,6 +106,24 @@
     file = ./kavita-token.age;
   };
 
+  age.secrets."paperless" = lib.mkIf config.services.clubcotton.paperless.enable {
+    file = ./paperless.age;
+    owner = "paperless";
+    group = "paperless";
+  };
+
+  age.secrets."paperless-database" = lib.mkIf config.services.clubcotton.paperless.enable {
+    file = ./paperless-database.age;
+    owner = "postgres";
+    group = "postgres";
+  };
+
+  age.secrets."paperless-database-raw" = lib.mkIf config.services.clubcotton.paperless.enable {
+    file = ./paperless-database-raw.age;
+    owner = "paperless";
+    group = "paperless";
+  };
+
   age.secrets."bcotton-atuin-key" = {
     file = ./bcotton-atuin-key.age;
     owner = "bcotton";
@@ -114,5 +132,23 @@
 
   age.secrets."navidrome" = lib.mkIf config.services.clubcotton.navidrome.enable {
     file = ./navidrome.age;
+  };
+
+  age.secrets."freshrss" = lib.mkIf config.services.clubcotton.freshrss.enable {
+    file = ./freshrss.age;
+    owner = "freshrss";
+    group = "freshrss";
+  };
+
+  age.secrets."freshrss-database" = lib.mkIf config.services.clubcotton.freshrss.enable {
+    file = ./freshrss-database.age;
+    owner = "postgres";
+    group = "postgres";
+  };
+
+  age.secrets."freshrss-database-raw" = lib.mkIf config.services.clubcotton.freshrss.enable {
+    file = ./freshrss-database-raw.age;
+    owner = "freshrss";
+    group = "freshrss";
   };
 }
