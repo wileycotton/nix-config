@@ -25,7 +25,7 @@
     lidarr.enable = true;
     navidrome.enable = true;
     open-webui.enable = true;
-    paperless.enable = true;
+    paperless.enable = false;
     postgresql.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;

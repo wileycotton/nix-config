@@ -46,7 +46,7 @@ in {
     services.freshrss = {
       enable = cfg.enable;
       passwordFile = cfg.passwordFile;
-      baseUrl = "http://127.0.0.1:${toString cfg.port}";
+      baseUrl = "https://freshrss.bobtail-clownfish.ts.net";
       virtualHost = "freshrss";
       authType = cfg.authType;
       extensions = cfg.extensions;

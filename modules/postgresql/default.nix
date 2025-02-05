@@ -9,8 +9,10 @@ with lib; let
 in {
   imports = [
     ./atuin.nix
+    ./freshrss.nix
     ./immich.nix
     ./open-webui.nix
+    ./paperless.nix
   ];
 
   options.services.clubcotton.postgresql = {

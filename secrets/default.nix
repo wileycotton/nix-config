@@ -112,7 +112,7 @@
     group = "paperless";
   };
 
-  age.secrets."paperless-database" = lib.mkIf config.services.clubcotton.paperless.enable {
+  age.secrets."paperless-database" = lib.mkIf config.services.clubcotton.postgresql.paperless.enable {
     file = ./paperless-database.age;
     owner = "postgres";
     group = "postgres";
@@ -140,7 +140,7 @@
     group = "freshrss";
   };
 
-  age.secrets."freshrss-database" = lib.mkIf config.services.clubcotton.freshrss.enable {
+  age.secrets."freshrss-database" = lib.mkIf config.services.clubcotton.postgresql.freshrss.enable {
     file = ./freshrss-database.age;
     owner = "postgres";
     group = "postgres";
