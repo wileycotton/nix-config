@@ -18,6 +18,7 @@
     atuin.enable = true;
     calibre.enable = true;
     calibre-web.enable = true;
+    freshrss.enable = true;
     jellyfin.enable = true;
     immich.enable = true;
     kavita.enable = false;
@@ -66,15 +67,6 @@
 
   # Set your time zone.
   time.timeZone = "America/Denver";
-
-  services.clubcotton.paperless = {
-    mediaDir = "/media/tomcotton/data/paperless";
-    configDir = "/var/lib/paperless";
-    consumptionDir = "/var/lib/paperless/consume";
-    passwordFile = config.age.secrets."paperless".path;
-    database.createLocally = true;
-    tailnetHostname = "paperless";
-  };
 
   services.clubcotton.sabnzbd = {
     tailnetHostname = "sabnzbd";
@@ -136,6 +128,23 @@
       enable = true;
       passwordFile = config.age.secrets."paperless-database".path;
     };
+  };
+
+  services.clubcotton.freshrss = {
+    port = 8104;
+    passwordFile = config.age.secrets."freshrss".path;
+    authType = "form";
+    extensions = with pkgs.freshrss-extensions; [youtube];
+    tailnetHostname = "freshrss";
+  };
+
+  services.clubcotton.paperless = {
+    mediaDir = "/var/lib/paperless/media";
+    configDir = "/var/lib/paperless";
+    consumptionDir = "/var/lib/paperless/consume";
+    passwordFile = config.age.secrets."paperless".path;
+    database.createLocally = false;
+    tailnetHostname = "paperless";
   };
 
   services.clubcotton.immich = {
