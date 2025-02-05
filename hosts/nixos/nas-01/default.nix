@@ -128,6 +128,14 @@
       enable = true;
       passwordFile = config.age.secrets."atuin-database".path;
     };
+    freshrss = {
+      enable = true;
+      passwordFile = config.age.secrets."freshrss-database".path;
+    };
+    paperless = {
+      enable = true;
+      passwordFile = config.age.secrets."paperless-database".path;
+    };
   };
 
   services.clubcotton.immich = {
