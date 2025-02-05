@@ -11,28 +11,30 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../../modules/node-exporter
-    ../../../modules/tailscale
     ../../../modules/samba
   ];
 
   services.clubcotton = {
+    atuin.enable = true;
     calibre.enable = true;
     calibre-web.enable = true;
     jellyfin.enable = true;
+    immich.enable = true;
     kavita.enable = false;
     lidarr.enable = true;
     navidrome.enable = true;
     paperless.enable = true;
+    open-webui.enable = true;
+    postgresql.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
     readarr.enable = true;
     roon-server.enable = true;
     sabnzbd.enable = true;
     sonarr.enable = true;
+    tailscale.enable = true;
     webdav.enable = true;
   };
-
-  services.clubcotton.services.tailscale.enable = true;
 
   networking = {
     hostName = "nas-01";
@@ -57,7 +59,9 @@
     };
   };
 
-  services.nfs.server.enable = true;
+  services.nfs.server = {
+    enable = true;
+  };
   services.rpcbind.enable = true;
 
   # Set your time zone.
@@ -105,27 +109,48 @@
     };
   };
 
-  services.clubcotton.calibre = {
-    tailnetHostname = "calibre";
-  };
-
-  services.clubcotton.calibre-web = {
-    tailnetHostname = "calibre-web";
-  };
-
-  services.clubcotton.jellyfin = {
-    tailnetHostname = "jellyfin";
-  };
-
-  services.clubcotton.navidrome = {
-    tailnetHostname = "navidrome";
-  };
-
-  services.clubcotton.roon-server.enable = true;
-
   systemd.services.webdav.serviceConfig = {
     StateDirectory = "webdav";
     EnvironmentFile = config.age.secrets.webdav.path;
+  };
+
+  services.clubcotton.postgresql = {
+    dataDir = "/db/postgresql/16";
+    immich = {
+      enable = true;
+      passwordFile = config.age.secrets."immich-database".path;
+    };
+    open-webui = {
+      enable = true;
+      passwordFile = config.age.secrets."open-webui-database".path;
+    };
+    atuin = {
+      enable = true;
+      passwordFile = config.age.secrets."atuin-database".path;
+    };
+  };
+
+  services.clubcotton.immich = {
+    serverConfig.mediaLocation = "/media/photos/immich";
+    serverConfig.logLevel = "log";
+    secretsFile = config.age.secrets.immich.path;
+    database = {
+      enable = false;
+      createDB = false;
+      name = "immich";
+      host = "nas-01";
+    };
+  };
+
+  services.clubcotton.open-webui = {
+    tailnetHostname = "llm";
+    environment = {
+      WEBUI_AUTH = "True";
+      ENABLE_OLLAMA_API = "True";
+      OLLAMA_BASE_URL = "http://toms-mini:11434";
+      OLLAMA_API_BASE_URL = "http://toms-mini:11434";
+    };
+    environmentFile = config.age.secrets.open-webui.path;
   };
 
   services.clubcotton.webdav = {
@@ -182,7 +207,6 @@
     tailnetHostname = "kavita";
   };
 
-  # Expose this code-server as a host on the tailnet
   # This is here and not in the webdav module because of fuckery
   # rg fuckery
   services.tsnsrv = {
@@ -224,7 +248,7 @@
     swapSize = "64G";
     disks = [
       "/dev/disk/by-id/ata-WD_Blue_SA510_2.5_1000GB_24293W800136"
-      "/dev/disk/by-id/wwn-0x500a0751e8afe231"
+      "/dev/disk/by-id/ata-SPCC_Solid_State_Disk_AAAA0000000000006990"
     ];
     useStandardRootFilesystems = true;
     reservedSize = "20GiB";

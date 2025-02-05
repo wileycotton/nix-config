@@ -50,6 +50,17 @@
 in {
   home.stateVersion = "24.05";
 
+  imports = [
+    "${nixVsCodeServer}/modules/vscode-server/home.nix"
+    ./modules/atuin.nix
+  ];
+
+  programs.atuin-config = {
+    # Create this in agenix
+    # nixosKeyPath = "/run/agenix/tomcotton-atuin-key";
+    darwinKeyPath = "~/.local/share/atuin/key";
+  };
+
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
 
@@ -220,9 +231,6 @@ in {
     '';
   };
 
-  imports = [
-    "${nixVsCodeServer}/modules/vscode-server/home.nix"
-  ];
   services.vscode-server.enable = true;
   services.vscode-server.installPath = "$HOME/.vscode-server";
 
@@ -246,6 +254,9 @@ in {
     enable = true;
     configFile."containers/registries.conf" = {
       source = ./dot.config/containers/registries.conf;
+    };
+    configFile."atuin/config.toml" = {
+      source = ./tomcotton.config/atuin/config.toml;
     };
   };
 
@@ -353,6 +364,10 @@ in {
       bindkey '\M-\b' backward-delete-word
       bindkey -s "^Z" "^[Qls ^D^U^[G"
       bindkey -s "^X^F" "e "
+
+      # Atun stuff
+      # eval "$(atuin init zsh)"
+
 
       setopt autocd autopushd autoresume cdablevars correct correctall extendedglob globdots histignoredups longlistjobs mailwarning  notify pushdminus pushdsilent pushdtohome rcquotes recexact sunkeyboardhack menucomplete always_to_end hist_allow_clobber no_share_history
       unsetopt bgnice

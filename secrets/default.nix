@@ -3,6 +3,8 @@
   lib,
   ...
 }: {
+  # Generate postgres secrets here: https://supercaracal.github.io/scram-sha-256/
+
   # Unconditional secrets (no special permissions needed)
   age.secrets."tailscale-keys.env" = {
     file = ./tailscale-keys.env;
@@ -13,7 +15,7 @@
   age.secrets."grafana-cloud" = {
     file = ./grafana-cloud.age;
   };
-  age.secrets."open-webui" = {
+  age.secrets."open-webui" = lib.mkIf config.services.clubcotton.open-webui.enable {
     file = ./open-webui.age;
   };
   age.secrets."mqtt" = {
@@ -65,8 +67,33 @@
     # group = "mopidy";
   };
 
-  age.secrets."immich-database" = lib.mkIf config.services.immich.enable {
+  age.secrets."immich-database" = lib.mkIf config.services.clubcotton.postgresql.enable {
     file = ./immich-database.age;
+    owner = "postgres";
+    group = "postgres";
+  };
+
+  age.secrets."immich" = lib.mkIf config.services.clubcotton.immich.enable {
+    file = ./immich.age;
+    owner = "immich";
+    group = "immich";
+  };
+
+  age.secrets."open-webui-database" = lib.mkIf config.services.clubcotton.postgresql.open-webui.enable {
+    file = ./open-webui-database.age;
+    owner = "postgres";
+    group = "postgres";
+  };
+
+  age.secrets."atuin-database" = lib.mkIf config.services.clubcotton.postgresql.atuin.enable {
+    file = ./atuin-database.age;
+    owner = "postgres";
+    group = "postgres";
+  };
+  age.secrets."atuin" = lib.mkIf config.services.clubcotton.atuin.enable {
+    file = ./atuin.age;
+    owner = "atuin";
+    group = "atuin";
   };
 
   age.secrets."webdav" = lib.mkIf config.services.clubcotton.webdav.enable {
@@ -83,6 +110,13 @@
     file = ./paperless.age;
     owner = "paperless";
     group = "paperless";
+  };
+
+
+  age.secrets."bcotton-atuin-key" = {
+    file = ./bcotton-atuin-key.age;
+    owner = "bcotton";
+    group = "users";
   };
 
   age.secrets."navidrome" = lib.mkIf config.services.clubcotton.navidrome.enable {

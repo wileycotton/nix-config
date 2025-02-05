@@ -47,7 +47,6 @@
   services.tailscale.enable = true;
 
   services.clubcotton.code-server = {
-    enable = true;
     tailnetHostname = "admin-vscode";
     user = "bcotton";
   };
