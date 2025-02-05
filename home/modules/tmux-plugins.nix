@@ -51,6 +51,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    _module.args = {
+      inherit tmux-window-name tmux-fzf-head tmux-nested;
+    };
+
     programs.tmux = {
       plugins = with pkgs.tmuxPlugins; [
         gruvbox
@@ -62,7 +66,7 @@ in {
           plugin = tmux-window-name;
         }
       ];
-      extraConfig = ''
+      extraConfig = lib.mkAfter ''
         bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
         run-shell ${tmux-nested}/share/tmux-plugins/tmux-nested/nested.tmux
       '';
@@ -76,9 +80,5 @@ in {
         add-zsh-hook chpwd tmux-window-name
       fi
     '';
-
-    _module.args = {
-      inherit tmux-window-name tmux-fzf-head tmux-nested;
-    };
   };
 }

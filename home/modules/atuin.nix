@@ -7,6 +7,12 @@
   cfg = config.programs.atuin-config;
 in {
   options.programs.atuin-config = {
+    enable-daemon = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to enable the atuin daemon service";
+    };
+
     nixosKeyPath = lib.mkOption {
       type = lib.types.str;
       default = "/run/agenix/bcotton-atuin-key";
@@ -27,6 +33,23 @@ in {
   };
 
   config = {
+    systemd.user.services = lib.mkIf (!pkgs.stdenv.isDarwin) {
+      atuin-daemon = {
+        Unit = {
+          Description = "Atuin daemon for shell history sync";
+          After = ["network.target"];
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.atuin}/bin/atuin daemon";
+          Restart = "always";
+        };
+        Install = {
+          WantedBy = ["default.target"];
+        };
+      };
+    };
+
     xdg.configFile."atuin/config.toml" = {
       text = let
         keyPath =
