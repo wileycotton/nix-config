@@ -5,6 +5,7 @@
   ...
 }:
 with lib; let
+  service = "freshrss";
   cfg = config.services.clubcotton.freshrss;
   clubcotton = config.clubcotton;
 in {
@@ -37,7 +38,7 @@ in {
 
     tailnetHostname = mkOption {
       type = types.str;
-      default = "";
+      default = "${service}";
     };
   };
 

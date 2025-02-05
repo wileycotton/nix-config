@@ -5,6 +5,7 @@
   ...
 }:
 with lib; let
+  service = "paperless";
   cfg = config.services.clubcotton.paperless;
   clubcotton = config.clubcotton;
 in {
@@ -43,7 +44,7 @@ in {
 
     tailnetHostname = mkOption {
       type = types.str;
-      default = "";
+      default = "${service}";
     };
   };
 
