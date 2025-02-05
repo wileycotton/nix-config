@@ -139,7 +139,7 @@
   };
 
   services.clubcotton.paperless = {
-    mediaDir = "/var/lib/paperless/media";
+    mediaDir = "/media/tomcotton/data/paperless";
     configDir = "/var/lib/paperless";
     consumptionDir = "/var/lib/paperless/consume";
     passwordFile = config.age.secrets."paperless".path;
