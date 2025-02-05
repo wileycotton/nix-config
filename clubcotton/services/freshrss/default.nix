@@ -35,6 +35,41 @@ in {
       description = "Authentication type for FreshRSS.";
     };
 
+    database = {
+      type = mkOption {
+        type = types.enum ["sqlite" "pgsql" "mysql"];
+        default = "sqlite";
+        description = "Database type.";
+        example = "pgsql";
+      };
+
+      host = mkOption {
+        type = types.nullOr types.str;
+        default = "localhost";
+        description = "Database host for FreshRSS.";
+      };
+
+      port = mkOption {
+        type = types.nullOr types.port;
+        default = null;
+        description = "Database port for FreshRSS.";
+        example = 3306;
+      };
+
+      user = mkOption {
+        type = types.nullOr types.str;
+        default = "freshrss";
+        description = "Database user for FreshRSS.";
+      };
+
+      passFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = "Database password file for FreshRSS.";
+        example = "/run/secrets/freshrss";
+      };
+    };
+
     tailnetHostname = mkOption {
       type = types.str;
       default = "";

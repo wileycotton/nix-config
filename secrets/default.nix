@@ -112,7 +112,6 @@
     group = "paperless";
   };
 
-
   age.secrets."bcotton-atuin-key" = {
     file = ./bcotton-atuin-key.age;
     owner = "bcotton";
