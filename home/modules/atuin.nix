@@ -18,6 +18,12 @@ in {
       default = "~/.local/share/atuin/key";
       description = "Path to the atuin key file on Darwin systems";
     };
+
+    filter_mode = lib.mkOption {
+      type = lib.types.str;
+      default = "global";
+      description = "The default filter when searching. (global, host, session, directory)";
+    };
   };
 
   config = {
@@ -72,7 +78,7 @@ in {
 
         ## which filter mode to use
         ## possible values: global, host, session, directory
-        # filter_mode = "global"
+        filter_mode = "${cfg.filter_mode}"
 
         ## With workspace filtering enabled, Atuin will filter for commands executed
         ## in any directory within a git repository tree (default: false)

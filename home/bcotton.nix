@@ -6,8 +6,8 @@
   ...
 }: let
   nixVsCodeServer = fetchTarball {
-    url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
-    sha256 = "sha256:09j4kvsxw1d5dvnhbsgih0icbrxqv90nzf0b589rb5z6gnzwjnqf";
+    url = "https://github.com/zeyugao/nixos-vscode-server/tarball/master";
+    sha256 = "sha256:0p0dz0q1rbccncjgw4na680a5i40w59nbk5ip34zcac8rg8qx381";
   };
 in {
   home.stateVersion = "23.05";
@@ -23,6 +23,7 @@ in {
   programs.atuin-config = {
     nixosKeyPath = "/run/agenix/bcotton-atuin-key";
     darwinKeyPath = "~/.local/share/atuin/key";
+    filter_mode = "session";
   };
 
   # list of programs
@@ -180,7 +181,10 @@ in {
   };
 
   services.vscode-server.enable = true;
-  services.vscode-server.installPath = "$HOME/.vscode-server";
+  services.vscode-server.installPath = [
+    "$HOME/.vscode-server"
+    "$HOME/.cursor-server"
+  ];
 
   # TODO: add ~/bin
   # code --remote ssh-remote+<remoteHost> <remotePath>
