@@ -118,6 +118,12 @@
     group = "paperless";
   };
 
+  age.secrets."paperless-database-raw" = lib.mkIf config.services.clubcotton.paperless.enable {
+    file = ./paperless-database-raw.age;
+    owner = "paperless";
+    group = "paperless";
+  };
+
   age.secrets."bcotton-atuin-key" = {
     file = ./bcotton-atuin-key.age;
     owner = "bcotton";
@@ -134,8 +140,14 @@
     group = "freshrss";
   };
 
-  age.secrets."freshrss-databse" = lib.mkIf config.services.clubcotton.freshrss.enable {
-    file = ./freshrss-databse.age;
+  age.secrets."freshrss-database" = lib.mkIf config.services.clubcotton.freshrss.enable {
+    file = ./freshrss-database.age;
+    owner = "freshrss";
+    group = "freshrss";
+  };
+
+  age.secrets."freshrss-database-raw" = lib.mkIf config.services.clubcotton.freshrss.enable {
+    file = ./freshrss-database-raw.age;
     owner = "freshrss";
     group = "freshrss";
   };

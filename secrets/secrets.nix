@@ -40,7 +40,9 @@ in {
   "webdav.age".publicKeys = users ++ systems;
   "paperless.age".publicKeys = users ++ systems;
   "paperless-database.age".publicKeys = users ++ systems;
+  "paperless-database-raw.age".publicKeys = users ++ systems;
   "freshrss.age".publicKeys = users ++ systems;
   "freshrss-database.age".publicKeys = users ++ systems;
+  "freshrss-database-raw.age".publicKeys = users ++ systems;
   "wireless-config.age".publicKeys = users ++ systems;
 }

@@ -54,6 +54,11 @@ in {
       "d '${cfg.consumptionDir}' 0777 ${cfg.user} ${cfg.user} - -"
     ];
 
+    systemd.services.paperless.serviceConfig = {
+      StateDirectory = "paperless";
+      EnvironmentFile = config.age.secrets."paperless-database-raw".path;
+    };
+
     services.paperless = {
       enable = true;
       passwordFile = cfg.passwordFile;
@@ -71,6 +76,9 @@ in {
           optimize = 1;
           pdfa_image_compression = "lossless";
         };
+        PAPERLESS_DBENGINE = "postgresql";
+        PAPERLESS_DBHOST = "nas01.lan";
+        PAPERLESS_DBPASS = "{env}PAPERLESS_DBPASS";
       };
     };
 

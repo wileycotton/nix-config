@@ -51,9 +51,9 @@ in {
       extensions = cfg.extensions;
       database = {
         type = "pgsql";
-        host = "nas-01";
+        host = "nas-01.lan";
         port = 5432;
-        passFile = config.age.secrets."freshrss-database".path;
+        passFile = config.age.secrets."freshrss-database-raw".path;
       };
     };
 
