@@ -58,22 +58,22 @@ in {
           port = cfg.port;
         }
       ];
-      
+
       extraConfig = ''
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header Host $host;
-        
+
         # PHP Session handling
         fastcgi_param PHP_VALUE "session.cookie_httponly=1; session.cookie_secure=1; session.use_only_cookies=1";
         fastcgi_param HTTPS on;
         fastcgi_param HTTP_PROXY "";
-        
+
         # Cookie handling
         proxy_cookie_path / "/; secure; HttpOnly; SameSite=Strict";
         proxy_cookie_domain $host $host;
-        
+
         # Additional security headers
         add_header X-Content-Type-Options nosniff;
         add_header X-Frame-Options SAMEORIGIN;
