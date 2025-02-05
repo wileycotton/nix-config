@@ -114,14 +114,14 @@
 
   age.secrets."paperless-database" = lib.mkIf config.services.clubcotton.paperless.enable {
     file = ./paperless-database.age;
-    owner = "paperless";
-    group = "paperless";
+    owner = "postgres";
+    group = "postgres";
   };
 
   age.secrets."paperless-database-raw" = lib.mkIf config.services.clubcotton.paperless.enable {
     file = ./paperless-database-raw.age;
-    owner = "postgres";
-    group = "postgres";
+    owner = "paperless";
+    group = "paperless";
   };
 
   age.secrets."bcotton-atuin-key" = {
