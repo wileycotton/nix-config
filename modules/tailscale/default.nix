@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.services.clubcotton.services.tailscale;
+  cfg = config.services.clubcotton.tailscale;
 in {
-  options.services.clubcotton.services.tailscale = {
+  options.services.clubcotton.tailscale = {
     enable = mkEnableOption "tailscale service";
   };
 

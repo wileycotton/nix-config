@@ -13,6 +13,7 @@
   monitoredExporters = [
     "node"
     "zfs"
+    "postgres"
   ];
 
   # Find all enabled exporters for a given host
@@ -107,7 +108,7 @@
   #   hostName: The name of the host to check
   #   host: The NixOS configuration for the host
   # Returns: Attribute set of configured tsnsrv services
-  enabledTsnsrvServicesF = hostName: host: 
+  enabledTsnsrvServicesF = hostName: host:
     host.config.services.tsnsrv.services or {};
 
   # Generate blackbox scrape configs for tsnsrv services
@@ -118,8 +119,8 @@
   mkTsnsrvBlackboxConfigF = hostname: services:
     lib.mapAttrsToList (name: _: {
       targets = ["https://${name}${tailscaleDomain}"];
-    }) services;
-
+    })
+    services;
 in {
   # Export the domain constant
   inherit tailscaleDomain;
@@ -166,9 +167,10 @@ in {
   in {
     # Export all generated configurations
     inherit tsnsrvBlackboxConfigs;
-    
+
     # Combine all auto-generated scrape configs
-    autogenScrapeConfigs = lib.flatten (map builtins.attrValues (builtins.attrValues scrapeConfigsByHost)) 
+    autogenScrapeConfigs =
+      lib.flatten (map builtins.attrValues (builtins.attrValues scrapeConfigsByHost))
       ++ tailscaleScrapeConfigs;
   };
 }

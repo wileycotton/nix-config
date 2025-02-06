@@ -3,6 +3,7 @@
   pkgs,
   unstablePkgs,
   inputs,
+  lib,
   ...
 }: {
   config = {
@@ -27,6 +28,22 @@
       u.to = {
         type = "path";
         path = inputs.nixpkgs-unstable;
+      };
+    };
+
+
+    # This can't be in home manager, so put in in the darwin config
+    # it checks against the home-manager users to see if the daemon should be enabled
+    # taken from: https://www.danielcorin.com/til/nix-darwin/launch-agents/
+    launchd.user.agents = lib.mkIf (pkgs.stdenv.isDarwin && builtins.any (user: config.home-manager.users.${user}.programs.atuin-config.enable-daemon) (builtins.attrNames config.home-manager.users)) {
+      atuin-daemon = {
+        serviceConfig = {
+          ProgramArguments = ["${pkgs.atuin}/bin/atuin" "daemon"];
+          KeepAlive = true;
+          RunAtLoad = true;
+          StandardOutPath = "/tmp/atuin-daemon.log";
+          StandardErrorPath = "/tmp/atuin-daemon.error.log";
+        };
       };
     };
   };

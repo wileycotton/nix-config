@@ -5,50 +5,27 @@
   unstablePkgs,
   ...
 }: let
-  # See https://haseebmajid.dev/posts/2023-07-10-setting-up-tmux-with-nix-home-manager/
-  tmux-window-name =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-window-name";
-      version = "head";
-      src = pkgs.fetchFromGitHub {
-        owner = "ofirgall";
-        repo = "tmux-window-name";
-        rev = "dc97a79ac35a9db67af558bb66b3a7ad41c924e7";
-        sha256 = "sha256-o7ZzlXwzvbrZf/Uv0jHM+FiHjmBO0mI63pjeJwVJEhE=";
-      };
-    };
-  tmux-fzf-head =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-fzf";
-      version = "head";
-      rtpFilePath = "main.tmux";
-      src = pkgs.fetchFromGitHub {
-        owner = "sainnhe";
-        repo = "tmux-fzf";
-        rev = "6b31cbe454649736dcd6dc106bb973349560a949";
-        sha256 = "sha256-RXoJ5jR3PLiu+iymsAI42PrdvZ8k83lDJGA7MQMpvPY=";
-      };
-    };
-  tmux-nested =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-nested";
-      version = "target-style-config";
-      src = pkgs.fetchFromGitHub {
-        owner = "bcotton";
-        repo = "tmux-nested";
-        rev = "2878b1d05569a8e41c506e74756ddfac7b0ffebe";
-        sha256 = "sha256-w0bKtbxrRZFxs2hekljI27IFzM1pe1HvAg31Z9ccs0U=";
-      };
-    };
   nixVsCodeServer = fetchTarball {
-    url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
-    sha256 = "sha256:09j4kvsxw1d5dvnhbsgih0icbrxqv90nzf0b589rb5z6gnzwjnqf";
+    url = "https://github.com/zeyugao/nixos-vscode-server/tarball/master";
+    sha256 = "sha256:0p0dz0q1rbccncjgw4na680a5i40w59nbk5ip34zcac8rg8qx381";
   };
 in {
   home.stateVersion = "23.05";
+
+  imports = [
+    "${nixVsCodeServer}/modules/vscode-server/home.nix"
+    ./modules/atuin.nix
+    ./modules/tmux-plugins.nix
+  ];
+
+  programs.tmux-plugins.enable = true;
+
+  programs.atuin-config = {
+    enable-daemon = true;
+    nixosKeyPath = "/run/agenix/bcotton-atuin-key";
+    darwinKeyPath = "~/.local/share/atuin/key";
+    filter_mode = "session";
+  };
 
   # list of programs
   # https://mipmip.github.io/home-manager-option-search
@@ -142,22 +119,6 @@ in {
     aggressiveResize = true;
     # escapeTime = 0;
     terminal = "screen-256color";
-    plugins = with pkgs.tmuxPlugins; [
-      gruvbox
-      tmux-colors-solarized
-
-      # Default: <prefix> + u - show and open urls
-      fzf-tmux-url
-
-      # Run the latest tmux-fzf
-      tmux-fzf-head
-
-      # Default <prefix> + space - show a list of things to copy
-      tmux-thumbs
-      {
-        plugin = tmux-window-name;
-      }
-    ];
     extraConfig = ''
       if-shell "uname | grep -q Darwin" {
         set-option -g default-command "reattach-to-user-namespace -l zsh"
@@ -177,14 +138,12 @@ in {
       bind "C-l" select-pane -R
 
 
-      bind-key "C-f" run-shell -b "${tmux-fzf-head}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
-
       # set-option -g status-position top
       set -g renumber-windows on
       set -g set-clipboard on
 
-      set-option -g status-left "#[bg=colour241,fg=colour248] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
-      set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #S "
+      set-option -g status-left "#[bg=colour241,fg=colour248] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
+      set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #S "
 
 
       # https://github.com/samoshkin/tmux-config/blob/master/tmux/tmux.conf
@@ -206,11 +165,8 @@ in {
       # keybind to recursively enable all tmux instances
       set -g @nested_up_recursive_keybind 'M-U'
       # status style of inactive tmux
-      set -g @nested_inactive_status_style '#[fg=black,bg=red] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
+      set -g @nested_inactive_status_style '#[fg=black,bg=red] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]'
       set -g @nested_inactive_status_style_target 'status-left'
-
-      # The above setting need to be set before running the nested.tmux script
-      run-shell ${tmux-nested}/share/tmux-plugins/tmux-nested/nested.tmux
 
       # tmux-fzf stuff
 
@@ -225,11 +181,11 @@ in {
     '';
   };
 
-  imports = [
-    "${nixVsCodeServer}/modules/vscode-server/home.nix"
-  ];
   services.vscode-server.enable = true;
-  services.vscode-server.installPath = "$HOME/.vscode-server";
+  services.vscode-server.installPath = [
+    "$HOME/.vscode-server"
+    "$HOME/.cursor-server"
+  ];
 
   # TODO: add ~/bin
   # code --remote ssh-remote+<remoteHost> <remotePath>
@@ -268,24 +224,24 @@ in {
       dl = "$HOME/Downloads";
     };
 
+    # atuin register -u bcotton -e bob.cotton@gmail.com
     envExtra = ''
-      export DFT_DISPLAY=side-by-side
-      export XDG_CONFIG_HOME="$HOME/.config"
-      export LESS="-iMSx4 -FXR"
-      export PAGER=less
-      export EDITOR=vim
-      export FULLNAME='Bob Cotton'
-      export EMAIL=bob.cotton@gmail.com
-      export GOPATH=$HOME/go
-      export PATH=$GOPATH/bin:/opt/homebrew/share/google-cloud-sdk/bin:~/projects/deployment_tools/scripts/gcom:~/projects/grafana-app-sdk/target:$PATH
-      export OKTA_MFA_OPTION=1
-
-      export GOPRIVATE="github.com/grafana/*"
-      export QMK_HOME=~/projects/qmk_firmware
       #export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
-      export EXA_COLORS="da=1;35"
       export BAT_THEME="Visual Studio Dark+"
+      export DFT_DISPLAY=side-by-side
+      export EDITOR=vim
+      export EMAIL=bob.cotton@gmail.com
+      export EXA_COLORS="da=1;35"
+      export FULLNAME='Bob Cotton'
+      export GOPATH=$HOME/go
+      export GOPRIVATE="github.com/grafana/*"
+      export LESS="-iMSx4 -FXR"
+      export OKTA_MFA_OPTION=1
+      export PAGER=less
+      export PATH=$GOPATH/bin:/opt/homebrew/share/google-cloud-sdk/bin:~/projects/deployment_tools/scripts/gcom:~/projects/grafana-app-sdk/target:$PATH
+      export QMK_HOME=~/projects/qmk_firmware
       export TMPDIR=/tmp/
+      export XDG_CONFIG_HOME="$HOME/.config"
 
       export FZF_CTRL_R_OPTS="--reverse"
       export FZF_TMUX_OPTS="-p"
@@ -325,16 +281,18 @@ in {
         "dotenv"
         "fzf"
         "git"
+        "git-reflog-fzf"
         "gh"
         "kubectl"
         "kube-ps1"
         "ssh-agent"
         "tmux"
-        "z"
       ];
     };
 
     shellAliases = {
+      # Automatically run `go test` for a package when files change.
+      autotest = "watchexec -c clear -o do-nothing --delay-run 100ms --exts go 'pkg=\".\${WATCHEXEC_COMMON_PATH/\$PWD/}/...\"; echo \"running tests for \$pkg\"; go test \"\$pkg\"'";
       batj = "bat -l json";
       batly = "bat -l yaml";
       batmd = "bat -l md";
@@ -348,19 +306,14 @@ in {
       tree = "exa -Tl --color=always";
       # watch = "watch --color "; # Note the trailing space for alias expansion https://unix.stackexchange.com/questions/25327/watch-command-alias-expansion
       watch = "viddy ";
-      # Automatically run `go test` for a package when files change.
-      autotest = "watchexec -c clear -o do-nothing --delay-run 100ms --exts go 'pkg=\".\${WATCHEXEC_COMMON_PATH/\$PWD/}/...\"; echo \"running tests for \$pkg\"; go test \"\$pkg\"'";
+      # z = "zoxide";
     };
 
     initExtra = ''
-      tmux-window-name() {
-        (${builtins.toString tmux-window-name}/share/tmux-plugins/tmux-window-name/scripts/rename_session_windows.py &)
-      }
-      if [[ -n "$TMUX" ]]; then
-        add-zsh-hook chpwd tmux-window-name
-      fi
       source <(kubectl completion zsh)
       eval "$(tv init zsh)"
+      eval "$(atuin init zsh --disable-up-arrow)"
+      eval "$(zoxide init zsh)"
 
       bindkey -e
       bindkey '^[[A' up-history
@@ -401,12 +354,12 @@ in {
   };
 
   home.packages = with pkgs; [
-    # television # broken for now? https://github.com/alexpasmantier/television/issues/325
     kubernetes-helm
     kubectx
     kubectl
     unstablePkgs.aider-chat
     tldr
+    zoxide
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform

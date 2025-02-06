@@ -11,7 +11,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-server.url = "github:zeyugao/nixos-vscode-server";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -154,7 +154,9 @@
             tsnsrv.nixosModules.default
             ./clubcotton
             ./secrets
+            ./modules/immich
             ./modules/code-server
+            ./modules/postgresql
             ./modules/tailscale
             ./modules/zfs
 

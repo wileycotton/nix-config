@@ -5,6 +5,7 @@
   ...
 }:
 with lib; let
+  service = "webdav";
   cfg = config.services.clubcotton.webdav;
   # clubcotton = config.clubcotton; # this fails in tests with the following error aka fuckery
   #

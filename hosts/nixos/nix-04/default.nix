@@ -16,11 +16,36 @@
     ./hardware-configuration.nix
   ];
 
-  virtualisation.podman.enable = true;
+  services.clubcotton = {
+    freshrss.enable = false;
+    paperless.enable = false;
+  };
+
+  # services.clubcotton.services.tailscale.enable = true;
+
   clubcotton.zfs_single_root.enable = true;
+
+  virtualisation.podman.enable = true;
   virtualisation.libvirtd.enable = true;
   programs.zsh.enable = true;
   services.openssh.enable = true; # Enable the OpenSSH daemon.
+
+  services.clubcotton.freshrss = {
+    port = 8104;
+    passwordFile = config.age.secrets."freshrss".path;
+    authType = "form";
+    extensions = with pkgs.freshrss-extensions; [youtube];
+    tailnetHostname = "freshrss";
+  };
+
+  services.clubcotton.paperless = {
+    mediaDir = "/var/lib/paperless/media";
+    configDir = "/var/lib/paperless";
+    consumptionDir = "/var/lib/paperless/consume";
+    passwordFile = config.age.secrets."paperless".path;
+    database.createLocally = true;
+    tailnetHostname = "paperless";
+  };
 
   users.users.root = {
     openssh.authorizedKeys.keys = [

@@ -4,6 +4,7 @@ let
   bcotton = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA51nSUvq7WevwvTYzD1S2xSr9QU7DVuYu3k/BGZ7vJ0 bob.cotton@gmail.com";
   tomcotton = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKW08oClThlF1YJ+ey3y8XKm9yX/45EtaM/W7hx5Yvzb tomcotton@Toms-MacBook-Pro.local";
   users = [bcotton tomcotton];
+  just_bob = [bcotton];
 
   admin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMjeiDeFxI7BcbjDxtPyeWfsUWBW2HKTyjT8/X0719+p root@nixos";
   nix-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJDEJMkba6F8w5b1nDZ3meKEb7PNcWbErBtofbejrIh+ root@nix-01";
@@ -16,21 +17,32 @@ let
 
   systems = [admin nix-01 nix-02 nix-03 nix-04 nas-01 octoprint frigate-host];
 in {
+  "atuin.age".publicKeys = users ++ systems;
+  "atuin-database.age".publicKeys = users ++ systems;
+  "bcotton-atuin-key.age".publicKeys = just_bob ++ systems;
+  "condo-ha-token.age".publicKeys = users ++ systems;
+  "freshrss.age".publicKeys = users ++ systems;
+  "freshrss-database.age".publicKeys = users ++ systems;
+  "freshrss-database-raw.age".publicKeys = users ++ systems;
+  "grafana-cloud.age".publicKeys = users ++ systems;
+  "homeassistant-token.age".publicKeys = users ++ systems;
+  "immich-database.age".publicKeys = users ++ systems;
+  "immich.age".publicKeys = users ++ systems;
+  "kavita-token.age".publicKeys = users ++ systems;
   "librespot.age".publicKeys = users ++ systems;
   "mopidy.age".publicKeys = users ++ systems;
+  "mqtt.age".publicKeys = users ++ systems;
+  "navidrome.age".publicKeys = users ++ systems;
+  "open-webui-database.age".publicKeys = users ++ systems;
+  "open-webui.age".publicKeys = users ++ systems;
+  "paperless.age".publicKeys = users ++ systems;
+  "paperless-database.age".publicKeys = users ++ systems;
+  "paperless-database-raw.age".publicKeys = users ++ systems;
+  "pushover-key.age".publicKeys = users ++ systems;
+  "pushover-token.age".publicKeys = users ++ systems;
   "tailscale-keys.env".publicKeys = users ++ systems;
   "tailscale-keys.raw".publicKeys = users ++ systems;
-  "pushover-token.age".publicKeys = users ++ systems;
-  "pushover-key.age".publicKeys = users ++ systems;
-  "condo-ha-token.age".publicKeys = users ++ systems;
-  "homeassistant-token.age".publicKeys = users ++ systems;
-  "wireless-config.age".publicKeys = users ++ systems;
-  "mqtt.age".publicKeys = users ++ systems;
   "unpoller.age".publicKeys = users ++ systems;
-  "grafana-cloud.age".publicKeys = users ++ systems;
-  "immich-database.age".publicKeys = users ++ systems;
-  "open-webui.age".publicKeys = users ++ systems;
   "webdav.age".publicKeys = users ++ systems;
-  "kavita-token.age".publicKeys = users ++ systems;
-  "navidrome.age".publicKeys = users ++ systems;
+  "wireless-config.age".publicKeys = users ++ systems;
 }

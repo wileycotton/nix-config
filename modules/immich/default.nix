@@ -8,6 +8,7 @@
 }:
 with lib; let
   cfg = config.services.clubcotton.immich;
+  clubcotton = config.clubcotton;
 in {
   options.services.clubcotton.immich = {
     enable = mkEnableOption "Immich media server";
@@ -37,6 +38,12 @@ in {
         DB_PASSWORD=<pass>
         ```
       '';
+    };
+
+    tailnetHostname = mkOption {
+      type = types.nullOr types.str;
+      default = "immich";
+      description = "The tailnet hostname to expose the server as.";
     };
 
     serverConfig = {
@@ -197,6 +204,16 @@ in {
       settings = {
         shared_preload_libraries = "vectors.so";
         search_path = "\"$user\", public, vectors";
+      };
+    };
+
+    services.tsnsrv = {
+      enable = true;
+      defaults.authKeyPath = clubcotton.tailscaleAuthKeyPath;
+
+      services."${cfg.tailnetHostname}" = mkIf (cfg.tailnetHostname != "") {
+        ephemeral = true;
+        toURL = "http://127.0.0.1:2283/";
       };
     };
   };
