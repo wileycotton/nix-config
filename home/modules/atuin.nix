@@ -193,7 +193,7 @@ in {
         # secrets_filter = true
 
         ## Defaults to true. If enabled, upon hitting enter Atuin will immediately execute the command. Press tab to return to the shell and edit.
-        # This applies for new installs. Old installs will keep the old behaviour unless configured otherwise.
+        ## This applies for new installs. Old installs will keep the old behaviour unless configured otherwise.
         enter_accept = true
 
         ## Defaults to "emacs".  This specifies the keymap on the startup of `atuin

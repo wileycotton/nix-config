@@ -21,6 +21,7 @@ in {
   programs.tmux-plugins.enable = true;
 
   programs.atuin-config = {
+    enable-daemon = true;
     nixosKeyPath = "/run/agenix/bcotton-atuin-key";
     darwinKeyPath = "~/.local/share/atuin/key";
     filter_mode = "session";
