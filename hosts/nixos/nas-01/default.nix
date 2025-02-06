@@ -114,7 +114,7 @@
     port = 8104;
     passwordFile = config.age.secrets."freshrss".path;
     authType = "form";
-    extensions = with pkgs.freshrssExtensions; [youtube readable];
+    extensions = with pkgs.freshrss-extensions; [youtube];
     tailnetHostname = "freshrss";
   };
 
