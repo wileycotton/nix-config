@@ -204,7 +204,7 @@
                             { 
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "u",
+                                    "key_code": "b",
                                     "modifiers": {
                                         "mandatory": ["fn"]
                                     }
@@ -220,7 +220,7 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "i",
+                                    "key_code": "g",
                                     "modifiers": {
                                         "mandatory": ["fn"]
                                     }

@@ -144,6 +144,7 @@ in {
         "Tailscale" = 1475387142;
         # "Adobe Photoshop" = 1457771281;
         "Flow - Focus & Pomodoro Timer" = 1423210932;
+        "Fluent Reader" = 1520907427;
         # "iStat Menus 7" = 6499559693;
         # "BookPlayer" = 1138219998;
 
