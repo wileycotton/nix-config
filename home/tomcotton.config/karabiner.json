@@ -17,7 +17,7 @@
                         ]
                     },
                     {
-                        "description": "Fn + H/J/K/L to Arrow Keys, Fn + U/O option right left, m to mdash, n to uNderscore",
+                        "description": "Fn + H/J/K/L to Arrow Keys, Fn + U/O option right left, m to mdash",
                         "manipulators": [
                             {
                                 "from": {
@@ -65,7 +65,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "y",
+                                    "key_code": "n",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
@@ -76,7 +76,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "o",
+                                    "key_code": "period",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
@@ -94,17 +94,6 @@
                                     }
                                 },
                                 "to": [{ "key_code": "hyphen" }],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "n",
-                                    "modifiers": {
-                                        "mandatory": ["fn"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [{ "key_code": "hyphen" , "modifiers": "left_shift" }],
                                 "type": "basic"
                             }
                         ]
@@ -137,11 +126,11 @@
                         ]
                     },
                     {
-                        "description": "T/P Home and End",
+                        "description": "Y/O Home and End",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "t",
+                                    "key_code": "y",
                                     "modifiers": {
                                         "mandatory": ["fn"], 
                                         "optional": ["any"]
@@ -152,7 +141,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "p",
+                                    "key_code": "o",
                                     "modifiers": {
                                         "mandatory": ["fn"], 
                                         "optional": ["any"]
@@ -199,39 +188,27 @@
                         ]
                     },
                     {
-                        "description": "U/I is scroll up slash down",
+                        "description": "U/I is page up slash down",
                         "manipulators": [
                             { 
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "b",
+                                    "key_code": "u",
                                     "modifiers": {
                                         "mandatory": ["fn"]
                                     }
                                 },
-                                "to": [
-                                    {
-                                        "mouse_key": {
-                                            "vertical_wheel": 65
-                                        }
-                                    }
-                                ]
+                                "to": [{ "key_code": "page_up" }]
                             },
-                            {
+                            { 
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "g",
+                                    "key_code": "i",
                                     "modifiers": {
                                         "mandatory": ["fn"]
                                     }
                                 },
-                                "to": [
-                                    {
-                                        "mouse_key": {
-                                            "vertical_wheel": -65
-                                        }
-                                    }
-                                ]
+                                "to": [{ "key_code": "page_down" }]
                             }
                         ]
                     }
