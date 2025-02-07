@@ -36,6 +36,7 @@ in {
   };
 
   programs.fzf = {
+    package = unstablePkgs.fzf;
     enable = true;
     enableZshIntegration = true;
     tmux.enableShellIntegration = true;
@@ -137,13 +138,63 @@ in {
       bind "C-k" select-pane -U
       bind "C-l" select-pane -R
 
+      # Recommended for sesh
+      bind-key x kill-pane # skip "kill-pane 1? (y/n)" prompt
+      set -g detach-on-destroy off  # don't exit from tmux when closing a session
+      bind -N "last-session (via sesh) " L run-shell "sesh last"
+
+      bind -n "M-k" \
+        run-shell "sesh connect \"$(
+        sesh list --icons | fzf-tmux -p 80%,70% \
+          --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+          --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
+          --bind 'tab:down,btab:up' \
+          --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+          --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+          --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+          --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+          --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+          --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+          --preview-window 'right:55%' \
+          --preview 'sesh preview {}'
+        )\""
+
+      # bind -n "M-k" run-shell "sesh connect \"$(
+      #     sesh list --icons  | fzf-tmux -p 100%,100% --no-border \
+      #       --ansi \
+      #       --list-border \
+      #       --no-sort --prompt '⚡  ' \
+      #       --color 'list-border:6,input-border:3,preview-border:2,header-bg:-1,header-border:6' \
+      #       --input-border \
+      #       --header-border \
+      #       --bind 'tab:down,btab:up' \
+      #       --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+      #       --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+      #       --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+      #       --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+      #       --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+      #       --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+      #       --preview-window 'right:70%' \
+      #       --preview 'sesh preview {}' \
+      # )\""      
 
       # set-option -g status-position top
       set -g renumber-windows on
       set -g set-clipboard on
 
-      set-option -g status-left "#[bg=colour241,fg=colour248] #h #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
-      set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #S "
+      # Status left configuration:
+      # - #[bg=colour241,fg=colour248]: Sets grey background with light text
+      # - Second #[...]: Configures separator styling
+      # - #S: Displays current session name
+      set-option -g status-left "#[bg=colour241,fg=colour248] #S #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
+
+      # Status right configuration:
+      # - First #[...]: Sets up transition styling
+      # - %Y-%m-%d: Shows date in YYYY-MM-DD format
+      # - %H:%M: Shows time in 24-hour format
+      # - #h: Displays hostname
+      # - Second #[...]: Configures styling for session name
+      set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #h "
 
 
       # https://github.com/samoshkin/tmux-config/blob/master/tmux/tmux.conf
@@ -281,12 +332,15 @@ in {
         "dotenv"
         "fzf"
         "git"
-        "git-reflog-fzf"
         "gh"
         "kubectl"
         "kube-ps1"
         "ssh-agent"
         "tmux"
+
+        # these are custom
+        "git-reflog-fzf"
+        "sesh"
       ];
     };
 
@@ -332,11 +386,12 @@ in {
     #initExtra = (builtins.readFile ../mac-dot-zshrc);
   };
 
-  programs.eza.enable = true;
   programs.home-manager.enable = true;
+  programs.eza.enable = true;
+  
   #  programs.neovim.enable = true;
   programs.nix-index.enable = true;
-  #  programs.zoxide.enable = true;
+  programs.zoxide.enable = true;
 
   programs.ssh = {
     enable = true;
@@ -354,12 +409,14 @@ in {
   };
 
   home.packages = with pkgs; [
+    unstablePkgs.aider-chat
     kubernetes-helm
     kubectx
     kubectl
-    unstablePkgs.aider-chat
+    unstablePkgs.sesh
+    # TODO: write an overlay for this
+    # unstablePkgs.ghostty
     tldr
-    zoxide
     #   ## unstable
     #   unstablePkgs.yt-dlp
     #   unstablePkgs.terraform
