@@ -252,6 +252,9 @@ in {
     configFile."containers/registries.conf" = {
       source = ./dot.config/containers/registries.conf;
     };
+    configFile."ghostty/config" = {
+      source = ./bcotton.config/ghostty/config;
+    };
   };
 
   programs.zsh = {
