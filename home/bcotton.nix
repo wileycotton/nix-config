@@ -176,7 +176,7 @@ in {
       #       --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
       #       --preview-window 'right:70%' \
       #       --preview 'sesh preview {}' \
-      # )\""      
+      # )\""
 
       # set-option -g status-position top
       set -g renumber-windows on
@@ -388,7 +388,7 @@ in {
 
   programs.home-manager.enable = true;
   programs.eza.enable = true;
-  
+
   #  programs.neovim.enable = true;
   programs.nix-index.enable = true;
   programs.zoxide.enable = true;

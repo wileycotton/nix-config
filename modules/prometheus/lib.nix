@@ -115,12 +115,20 @@
   # Args:
   #   hostname: The name of the host
   #   services: Attribute set of tsnsrv services
+  #   excludeList: Optional list of service names to exclude from monitoring
   # Returns: List of blackbox exporter targets for the services
-  mkTsnsrvBlackboxConfigF = hostname: services:
+  mkTsnsrvBlackboxConfigF = hostname: services: excludeList:
     lib.mapAttrsToList (name: _: {
       targets = ["https://${name}${tailscaleDomain}"];
     })
-    services;
+    (lib.filterAttrs
+      (name: _:
+        !(builtins.elem name (
+          if excludeList == null
+          then []
+          else excludeList
+        )))
+      services);
 in {
   # Export the domain constant
   inherit tailscaleDomain;
@@ -141,8 +149,9 @@ in {
   # Generate complete scrape configurations for all monitored services
   # Args:
   #   self: The flake's self reference containing nixosConfigurations
+  #   tsnsrvExcludeList: Optional list of tsnsrv services to exclude from monitoring
   # Returns: List of all scrape configurations
-  mkScrapeConfigs = self: let
+  mkScrapeConfigs = self: tsnsrvExcludeList: let
     # Get all enabled exporters across hosts
     enabledExporters = builtins.mapAttrs enabledExportersF self.nixosConfigurations;
 
@@ -162,7 +171,7 @@ in {
 
     # Generate blackbox configs for tsnsrv services
     tsnsrvBlackboxConfigs = lib.flatten (
-      lib.mapAttrsToList mkTsnsrvBlackboxConfigF enabledTsnsrvServices
+      lib.mapAttrsToList (hostname: services: mkTsnsrvBlackboxConfigF hostname services tsnsrvExcludeList) enabledTsnsrvServices
     );
   in {
     # Export all generated configurations

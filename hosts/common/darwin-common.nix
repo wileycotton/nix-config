@@ -31,7 +31,6 @@
       };
     };
 
-
     # This can't be in home manager, so put in in the darwin config
     # it checks against the home-manager users to see if the daemon should be enabled
     # taken from: https://www.danielcorin.com/til/nix-darwin/launch-agents/
