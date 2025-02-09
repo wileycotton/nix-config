@@ -12,7 +12,7 @@ function kg() {
     [ -z "$resource_type" ] && return 1
 
     # Build the preview command with proper width handling
-    preview_cmd="COLUMNS=\$FZF_PREVIEW_COLUMNS kubectl get $resource_type {1} -o yaml $namespace_opt | yq -C"
+    preview_cmd="COLUMNS=\$FZF_PREVIEW_COLUMNS kubectl get $resource_type {1} -o yaml $namespace_opt | bat -f -l yaml --style numbers"
 
     # Main fzf command with preview
     kubectl get "$resource_type" $namespace_opt | \
