@@ -125,7 +125,6 @@ in {
         set-option -g default-command "reattach-to-user-namespace -l zsh"
       }
 
-      new-session -s main
       # Vim style pane selection
       bind h select-pane -L
       bind j select-pane -D
@@ -145,7 +144,8 @@ in {
 
       bind -n "M-k" \
         run-shell "sesh connect \"$(
-        sesh list --icons | fzf-tmux -p 80%,70% \
+        ~/go/bin/sesh list --icons | fzf-tmux -p 80%,70% \
+          --reverse \
           --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
           --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
           --bind 'tab:down,btab:up' \
@@ -156,7 +156,7 @@ in {
           --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
           --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
           --preview-window 'right:55%' \
-          --preview 'sesh preview {}'
+          --preview '~/go/bin/sesh preview {}'
         )\""
 
       # bind -n "M-k" run-shell "sesh connect \"$(
@@ -186,7 +186,7 @@ in {
       # - #[bg=colour241,fg=colour248]: Sets grey background with light text
       # - Second #[...]: Configures separator styling
       # - #S: Displays current session name
-      set-option -g status-left "#[bg=colour241,fg=colour248] #S #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
+      set-option -g status-left "#[bg=colour241,fg=colour46] #S #[bg=colour237,fg=colour241,nobold,noitalics,nounderscore]"
 
       # Status right configuration:
       # - First #[...]: Sets up transition styling
@@ -342,6 +342,7 @@ in {
         "tmux"
 
         # these are custom
+        "kubectl-fzf-get"
         "git-reflog-fzf"
         "sesh"
       ];
@@ -413,6 +414,7 @@ in {
 
   home.packages = with pkgs; [
     unstablePkgs.aider-chat
+    fx
     kubernetes-helm
     kubectx
     kubectl
