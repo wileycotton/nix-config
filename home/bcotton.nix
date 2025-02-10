@@ -419,7 +419,8 @@ in {
     kubectx
     kubectl
     unstablePkgs.sesh
-    # TODO: write an overlay for this
+    unstablePkgs.uv
+    # TODO: write an overlay for this or use the flake
     # unstablePkgs.ghostty
     tldr
     #   ## unstable

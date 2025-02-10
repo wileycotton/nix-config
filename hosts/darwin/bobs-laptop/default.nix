@@ -98,6 +98,7 @@ in {
         #      "nextcloud"
         #      "notion"
         #      "obs"
+        "netnewswire"
         "obsidian"
         "omnidisksweeper"
         "openscad"
