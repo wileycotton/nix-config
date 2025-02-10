@@ -272,7 +272,7 @@ in {
 
         [daemon]
         ## Enables using the daemon to sync. Requires the daemon to be running in the background. Start it with `atuin daemon`
-        # enabled = false
+        enabled = ${lib.boolToString cfg.enable-daemon}
 
         ## How often the daemon should sync in seconds
         # sync_frequency = 300
