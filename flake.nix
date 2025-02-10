@@ -48,6 +48,14 @@
     isd,
     ...
   }: let
+    localPackages = system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    in {
+      primp = pkgs.callPackage ./pkgs/primp {};
+    };
     inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable isd;};
 
     # creates correct package sets for specified arch
@@ -77,7 +85,7 @@
       nixos-generators.nixosGenerate
       {
         format = "lxc";
-        specialArgs = {inherit self system inputs;};
+        specialArgs = {inherit self system inputs localPackages;};
         modules =
           [
             # adds unstable to be available in top-level evals (like in common-packages)
@@ -86,6 +94,7 @@
                 unstablePkgs = unstablePkgs;
                 system = system;
                 inputs = inputs;
+                localPackages = localPackages;
               };
             }
             ./overlays.nix
@@ -121,7 +130,7 @@
       nixpkgs.lib.nixosSystem
       {
         inherit system;
-        specialArgs = {inherit self system inputs;};
+        specialArgs = {inherit self system inputs localPackages;};
         modules =
           [
             # adds unstable to be available in top-level evals (like in common-packages)
@@ -130,6 +139,7 @@
                 unstablePkgs = unstablePkgs;
                 system = system;
                 inputs = inputs;
+                localPackages = localPackages;
               };
             }
             # Nixinate configuration with conditional host setting. There is a potentation that
@@ -288,6 +298,15 @@
     };
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
+
+    packages.x86_64-linux = let
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
+    in {
+      primp = pkgs.python3Packages.callPackage ./pkgs/primp {};
+    };
 
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;

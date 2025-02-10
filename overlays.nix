@@ -1,8 +1,9 @@
 {
-  config,
+config,
   pkgs,
   lib,
   unstablePkgs,
+  localPackages,
   ...
 }: {
   options.programs.television = {
@@ -14,6 +15,7 @@
     (final: prev: lib.foldl' lib.recursiveUpdate {} [
       # Core tools that should always be available
       ((import ./overlays/yq.nix { inherit config pkgs lib unstablePkgs; }) final prev)
+      ((import ./overlays/primp.nix { inherit config pkgs lib unstablePkgs; }) final prev)
 
       # Conditional overlays based on service/module usage
       (lib.optionalAttrs (config.services.jellyfin.enable or false)
