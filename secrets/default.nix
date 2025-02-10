@@ -6,22 +6,22 @@
   # Generate postgres secrets here: https://supercaracal.github.io/scram-sha-256/
 
   # Unconditional secrets (no special permissions needed)
-  age.secrets."tailscale-keys.env" = {
+  age.secrets."tailscale-keys.env" = lib.mkIf config.services.tailscale.enable {
     file = ./tailscale-keys.env;
   };
-  age.secrets."tailscale-keys" = {
+  age.secrets."tailscale-keys" = lib.mkIf config.services.tailscale.enable {
     file = ./tailscale-keys.raw;
   };
-  age.secrets."grafana-cloud" = {
+  age.secrets."grafana-cloud" = lib.mkIf config.services.alloy.enable {
     file = ./grafana-cloud.age;
   };
   age.secrets."open-webui" = lib.mkIf config.services.clubcotton.open-webui.enable {
     file = ./open-webui.age;
   };
-  age.secrets."mqtt" = {
+  age.secrets."mqtt" = lib.mkIf config.services.frigate.enable {
     file = ./mqtt.age;
   };
-  age.secrets."wireless-config" = {
+  age.secrets."wireless-config" = lib.mkIf config.networking.wireless.enable {
     file = ./wireless-config.age;
   };
 
@@ -124,7 +124,7 @@
     group = "paperless";
   };
 
-  age.secrets."bcotton-atuin-key" = {
+  age.secrets."bcotton-atuin-key" = lib.mkIf config.services.clubcotton.atuin.enable {
     file = ./bcotton-atuin-key.age;
     owner = "bcotton";
     group = "users";
