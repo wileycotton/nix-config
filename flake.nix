@@ -2,10 +2,11 @@
   inputs = {
     agenix.url = "github:ryantm/agenix";
     nixinate.url = "github:matthewcroughan/nixinate";
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    nixpkgs-darwin = {
+    nix-darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -18,9 +19,6 @@
     vscode-server.url = "github:zeyugao/nixos-vscode-server";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    nix-darwin.url = "github:lnl7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-shell.url = "github:Mic92/nixos-shell";
 
@@ -41,11 +39,10 @@
     nixinate,
     nixpkgs,
     nixpkgs-unstable,
-    nixpkgs-darwin,
+    nix-darwin,
     nixos-generators,
     nixos-shell,
     home-manager,
-    nix-darwin,
     tsnsrv,
     vscode-server,
     disko,
@@ -69,7 +66,7 @@
         config.allowUnfree = true;
       };
     genDarwinPkgs = system:
-      import nixpkgs-darwin {
+      import nix-darwin {
         inherit system;
         config.allowUnfree = true;
       };
