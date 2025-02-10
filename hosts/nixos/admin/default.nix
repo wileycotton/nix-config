@@ -21,7 +21,7 @@
     ../../../modules/prometheus
     ../../../modules/unpoller
     ../../../modules/grafana
-    ../../../modules/grafana-alloy
+    # ../../../modules/grafana-alloy
     ../../../modules/tmate-ssh-server
     ../../../modules/code-server
   ];
