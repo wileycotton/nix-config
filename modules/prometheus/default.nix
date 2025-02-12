@@ -2,18 +2,31 @@
   config,
   pkgs,
   self,
+  lib,
   ...
 }: let
   # Import the prometheus configuration library
   promLib = import ./lib.nix {lib = pkgs.lib;};
   # Get all scrape configurations
-  scrapeConfigs = promLib.mkScrapeConfigs self;
+  scrapeConfigs = promLib.mkScrapeConfigs self (config.services.prometheus.tsnsrvExcludeList or []);
 in {
   imports = [
     ./alert-manager.nix
   ];
 
-  services.prometheus = {
+  options.services.prometheus = {
+    tsnsrvExcludeList = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      example = ["service1" "service2"];
+      description = lib.mdDoc ''
+        List of tsnsrv service names to exclude from blackbox monitoring.
+        These services will not be included in the blackbox exporter targets.
+      '';
+    };
+  };
+
+  config.services.prometheus = {
     enable = true;
     port = 9001;
     extraFlags = [

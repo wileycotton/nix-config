@@ -47,6 +47,9 @@ fmt:
 nixinate hostname:
   nix run ".#apps.nixinate.{{hostname}}"
 
+build-host hostname:
+  nix build '.#nixosConfigurations.{{hostname}}.config.system.build.toplevel'
+
 nix-all:
   for i in `(nix flake show --json | jq -r '.nixosConfigurations |keys[]' | grep -v admin ) 2>/dev/null `; do nix run ".#apps.nixinate.$i" ; done
 

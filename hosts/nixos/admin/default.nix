@@ -21,7 +21,7 @@
     ../../../modules/prometheus
     ../../../modules/unpoller
     ../../../modules/grafana
-    ../../../modules/grafana-alloy
+    # ../../../modules/grafana-alloy
     ../../../modules/tmate-ssh-server
     ../../../modules/code-server
   ];
@@ -132,6 +132,9 @@
   # See https://xeiaso.net/blog/prometheus-grafana-loki-nixos-2020-11-20/
   # Turn on node_exporter
   services.prometheus = {
+    # Exclude webdav service from blackbox monitoring
+    tsnsrvExcludeList = ["webdav"];
+
     exporters = {
     };
   };

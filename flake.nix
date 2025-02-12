@@ -2,9 +2,14 @@
   inputs = {
     agenix.url = "github:ryantm/agenix";
     nixinate.url = "github:matthewcroughan/nixinate";
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
+
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     isd.url = "github:isd-project/isd";
 
@@ -14,9 +19,6 @@
     vscode-server.url = "github:zeyugao/nixos-vscode-server";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    nix-darwin.url = "github:lnl7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-shell.url = "github:Mic92/nixos-shell";
 
@@ -37,17 +39,24 @@
     nixinate,
     nixpkgs,
     nixpkgs-unstable,
-    nixpkgs-darwin,
+    nix-darwin,
     nixos-generators,
     nixos-shell,
     home-manager,
-    nix-darwin,
     tsnsrv,
     vscode-server,
     disko,
     isd,
     ...
   }: let
+    localPackages = system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    in {
+      primp = pkgs.callPackage ./pkgs/primp {};
+    };
     inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable isd;};
 
     # creates correct package sets for specified arch
@@ -57,7 +66,7 @@
         config.allowUnfree = true;
       };
     genDarwinPkgs = system:
-      import nixpkgs-darwin {
+      import nix-darwin {
         inherit system;
         config.allowUnfree = true;
       };
@@ -77,7 +86,7 @@
       nixos-generators.nixosGenerate
       {
         format = "lxc";
-        specialArgs = {inherit self system inputs;};
+        specialArgs = {inherit self system inputs localPackages;};
         modules =
           [
             # adds unstable to be available in top-level evals (like in common-packages)
@@ -86,6 +95,7 @@
                 unstablePkgs = unstablePkgs;
                 system = system;
                 inputs = inputs;
+                localPackages = localPackages;
               };
             }
             ./overlays.nix
@@ -121,7 +131,7 @@
       nixpkgs.lib.nixosSystem
       {
         inherit system;
-        specialArgs = {inherit self system inputs;};
+        specialArgs = {inherit self system inputs localPackages;};
         modules =
           [
             # adds unstable to be available in top-level evals (like in common-packages)
@@ -130,6 +140,7 @@
                 unstablePkgs = unstablePkgs;
                 system = system;
                 inputs = inputs;
+                localPackages = localPackages;
               };
             }
             # Nixinate configuration with conditional host setting. There is a potentation that
@@ -289,6 +300,15 @@
 
     apps.nixinate = (nixinate.nixinate.x86_64-linux self).nixinate;
 
+    packages.x86_64-linux = let
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
+    in {
+      primp = pkgs.python3Packages.callPackage ./pkgs/primp {};
+    };
+
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
     formatter.x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.alejandra;
@@ -307,6 +327,7 @@
       nix-02 = nixosSystem "x86_64-linux" "nix-02" ["bcotton" "tomcotton"];
       nix-03 = nixosSystem "x86_64-linux" "nix-03" ["bcotton" "tomcotton"];
       nix-04 = nixosSystem "x86_64-linux" "nix-04" ["bcotton" "tomcotton"];
+      imac-01 = nixosSystem "x86_64-linux" "imac-01" ["bcotton" "tomcotton"];
       dns-01 = nixosSystem "x86_64-linux" "dns-01" ["bcotton"];
       octoprint = nixosSystem "x86_64-linux" "octoprint" ["bcotton" "tomcotton"];
       frigate-host = nixosSystem "x86_64-linux" "frigate-host" ["bcotton"];

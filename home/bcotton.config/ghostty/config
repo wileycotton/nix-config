@@ -1,0 +1,14 @@
+# New Tab for tmux
+keybind = cmd+t=text:\x00\x63
+keybind = cmd+left=text:\x00\x6f
+keybind = cmd+right=text:\x00\x6f
+keybind = cmd+alt+left=text:\x00\x70
+keybind = cmd+alt+right=text:\x00\x6e
+
+keybind = cmd+k=text:\x1b\x6b
+
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+theme = Desert
