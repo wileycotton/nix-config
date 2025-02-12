@@ -327,6 +327,7 @@
       nix-02 = nixosSystem "x86_64-linux" "nix-02" ["bcotton" "tomcotton"];
       nix-03 = nixosSystem "x86_64-linux" "nix-03" ["bcotton" "tomcotton"];
       nix-04 = nixosSystem "x86_64-linux" "nix-04" ["bcotton" "tomcotton"];
+      imac-01 = nixosSystem "x86_64-linux" "imac-01" ["bcotton" "tomcotton"];
       dns-01 = nixosSystem "x86_64-linux" "dns-01" ["bcotton"];
       octoprint = nixosSystem "x86_64-linux" "octoprint" ["bcotton" "tomcotton"];
       frigate-host = nixosSystem "x86_64-linux" "frigate-host" ["bcotton"];

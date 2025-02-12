@@ -19,6 +19,10 @@
     # ../../../modules/docker/audiobookshelf
   ];
 
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
   virtualisation.containers.enable = true;
   virtualisation.podman = {
     enable = true;
