@@ -58,6 +58,7 @@
       #  fira-mono
       fd
       gh
+      inputs.ghostty.packages."${system}".default
       go_1_23
       glow
       go-migrate

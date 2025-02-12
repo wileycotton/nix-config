@@ -22,6 +22,8 @@
 
     nixos-shell.url = "github:Mic92/nixos-shell";
 
+    ghostty.url = "github:ghostty-org/ghostty";
+
     tsnsrv = {
       url = "github:boinkor-net/tsnsrv";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,6 +38,7 @@
   outputs = inputs @ {
     self,
     agenix,
+    ghostty,
     nixinate,
     nixpkgs,
     nixpkgs-unstable,
@@ -57,7 +60,7 @@
     in {
       primp = pkgs.callPackage ./pkgs/primp {};
     };
-    inputs = {inherit agenix disko nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable isd;};
+    inputs = {inherit agenix disko ghostty nixinate nixos-shell nix-darwin home-manager tsnsrv nixpkgs nixpkgs-unstable isd;};
 
     # creates correct package sets for specified arch
     genPkgs = system:

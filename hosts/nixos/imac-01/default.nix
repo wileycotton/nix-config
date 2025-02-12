@@ -79,5 +79,11 @@
 
   virtualisation.libvirtd.enable = true;
 
+  environment.systemPackages = with pkgs; [
+    firefox
+    code-cursor
+  ];
+
+
   system.stateVersion = "24.11"; # Did you read the comment?
 }
