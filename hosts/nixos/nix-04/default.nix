@@ -20,6 +20,18 @@
     freshrss.enable = false;
     paperless.enable = false;
     filebrowser.enable = true;
+    tailscale.enable = true;
+  };
+
+    users = {
+    groups.share = {
+      gid = 993;
+    };
+    users.share = {
+      uid = 994;
+      isSystemUser = true;
+      group = "share";
+    };
   };
 
   # services.clubcotton.services.tailscale.enable = true;

@@ -59,8 +59,8 @@ in {
         "${cfg.dataDir}/settings.json:/config/settings.json"
       ];
       environment = {
-        PUID = toString (lib.mkDefault 1000);
-        PGID = toString (lib.mkDefault 1000);
+        PUID = toString config.users.users.share.uid;
+        PGID = toString config.users.groups.share.gid;
       };
       ports = ["${toString cfg.port}:80"];
     };
