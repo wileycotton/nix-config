@@ -113,11 +113,11 @@
                         ]
                     },
                     {
-                        "description": "F/A End and Home",
+                        "description": "G/S End and Home",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "f",
+                                    "key_code": "g",
                                     "modifiers": {
                                         "mandatory": ["fn"], 
                                         "optional": ["any"]
@@ -128,7 +128,7 @@
                             },
                             {
                                 "from": {
-                                    "key_code": "a",
+                                    "key_code": "s",
                                     "modifiers": {
                                         "mandatory": ["fn"], 
                                         "optional": ["any"]
@@ -140,12 +140,12 @@
                         ]
                     },
                     {
-                        "description": "D/S is page up / down",
+                        "description": "F/D is page up / down",
                         "manipulators": [
                             { 
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "d",
+                                    "key_code": "f",
                                     "modifiers": {
                                         "mandatory": ["fn"]
                                     }
@@ -155,7 +155,7 @@
                             { 
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "s",
+                                    "key_code": "d",
                                     "modifiers": {
                                         "mandatory": ["fn"]
                                     }
