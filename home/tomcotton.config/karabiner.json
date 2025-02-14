@@ -11,24 +11,11 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Caps Lock to Left CMD",
+                        "description": "caps to Fn for layer",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "left_command" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "LCMD to Fn for layer",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "left_command",
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [{ "key_code": "fn" }],
@@ -97,11 +84,11 @@
                         ]
                     },
                     {
-                        "description": "Fn + B to Delete",
+                        "description": "Fn + n to Delete",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "b",
+                                    "key_code": "n",
                                     "modifiers": {
                                         "mandatory": ["fn"],
                                         "optional": ["any"]
