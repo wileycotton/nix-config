@@ -23,10 +23,36 @@
 
   # services.clubcotton.services.tailscale.enable = true;
 
+    virtualisation.oci-containers.containers = {
+    filebrowser = {
+      image = "filebrowser/filebrowser:latest";
+      autoStart = true;
+      volumes = [
+        "/var/lib/filebrowser/files:/srv"
+        "/var/lib/filebrowser/database.db:/database/filebrowser.db"
+        "/var/lib/filebrowser/settings.json:/config/settings.json"
+      ];
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
+      ports = ["8082:80"];
+    };
+  };
+
   clubcotton.zfs_single_root.enable = true;
 
   virtualisation.podman.enable = true;
   virtualisation.libvirtd.enable = true;
+
+  # Create required directories and set permissions for filebrowser
+  systemd.tmpfiles.rules = [
+    "d /var/lib/filebrowser 0755 root root -"
+    "d /var/lib/filebrowser/files 0755 root root -"
+    "f /var/lib/filebrowser/database.db 0644 root root -"
+    "f /var/lib/filebrowser/settings.json 0644 root root - '{\"port\": 80,\"baseURL\": \"\",\"address\": \"\",\"log\": \"stdout\",\"database\": \"/database/filebrowser.db\",\"root\": \"/srv\"}'"
+  ];
+
   programs.zsh.enable = true;
   services.openssh.enable = true; # Enable the OpenSSH daemon.
 
