@@ -69,7 +69,7 @@ in {
       "d ${cfg.dataDir} 0755 ${cfg.user} ${cfg.group} -"
       "d ${cfg.filesDir} 0755 ${cfg.user} ${cfg.group} -"
       "f ${cfg.dataDir}/database.db 0644 ${cfg.user} ${cfg.group} -"
-      "f ${cfg.dataDir}/settings.json 0644 ${cfg.user} ${cfg.group} - " # '{\"port\": 80,\"baseURL\": \"\",\"address\": \"\",\"log\": \"stdout\",\"database\": \"/database/filebrowser.db\",\"root\": \"/srv\"}'"
+      "f ${cfg.dataDir}/settings.json 0644 ${cfg.user} ${cfg.group} - "
     ];
 
     services.tsnsrv = {
