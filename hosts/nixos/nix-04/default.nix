@@ -23,7 +23,7 @@
     tailscale.enable = true;
   };
 
-    users = {
+  users = {
     groups.share = {
       gid = 993;
     };

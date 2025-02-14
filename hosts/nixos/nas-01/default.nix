@@ -111,7 +111,7 @@
     };
   };
 
-    services.clubcotton.filebrowser = {
+  services.clubcotton.filebrowser = {
     port = 8082;
     tailnetHostname = "files";
   };
