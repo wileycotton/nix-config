@@ -19,7 +19,7 @@
   services.clubcotton = {
     freshrss.enable = false;
     paperless.enable = false;
-    filebrowser.enable = true;
+    filebrowser.enable = false;
     tailscale.enable = true;
   };
 
@@ -43,11 +43,6 @@
 
   programs.zsh.enable = true;
   services.openssh.enable = true; # Enable the OpenSSH daemon.
-
-  services.clubcotton.filebrowser = {
-    port = 8082;
-    tailnetHostname = "files";
-  };
 
   services.clubcotton.freshrss = {
     port = 8104;
