@@ -267,7 +267,7 @@ in {
     configFile."sesh/sesh.toml" = {
       source = ./bcotton.config/sesh/sesh.toml;
     };
-    configFile."sesh/cp-kubeconfig" = {
+    configFile."tmux/cp-kubeconfig" = {
       executable = true;
       source = ./bcotton.config/tmux/cp-kubeconfig;
     };
