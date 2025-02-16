@@ -18,6 +18,7 @@
     atuin.enable = true;
     calibre.enable = true;
     calibre-web.enable = true;
+    filebrowser.enable = true;
     freshrss.enable = true;
     immich.enable = true;
     jellyfin.enable = true;
@@ -108,6 +109,10 @@
       enable = true;
       passwordFile = config.age.secrets."paperless-database".path;
     };
+  };
+
+  services.clubcotton.filebrowser = {
+    filesDir = "/var/lib/filebrowser/files"; # Change this to somewhere on the media pool. Maybe /media/shared-files/filebrowser or something?
   };
 
   services.clubcotton.freshrss = {
