@@ -6,10 +6,10 @@
 }:
 with lib; let
   service = "filebrowser";
-  cfg = config.services.clubcotton.filebrowser;
+  cfg = config.services.clubcotton.${service};
   clubcotton = config.clubcotton;
 in {
-  options.services.clubcotton.filebrowser = {
+  options.services.clubcotton.${service} = {
     enable = mkEnableOption "Filebrowser web file manager";
 
     port = mkOption {
@@ -20,13 +20,13 @@ in {
 
     dataDir = mkOption {
       type = types.str;
-      default = "/var/lib/filebrowser";
+      default = "/var/lib/${service}";
       description = "Directory to store Filebrowser data";
     };
 
     filesDir = mkOption {
       type = types.str;
-      default = "/var/lib/filebrowser/files";
+      default = "/var/lib/${service}/files";
       description = "Directory to serve files from";
     };
 
@@ -44,13 +44,13 @@ in {
 
     tailnetHostname = mkOption {
       type = types.str;
-      default = "";
+      default = "${service}";
       description = "Tailscale hostname for the service";
     };
   };
 
   config = mkIf cfg.enable {
-    virtualisation.oci-containers.containers.filebrowser = {
+    virtualisation.oci-containers.containers.${service} = {
       image = "filebrowser/filebrowser:latest";
       autoStart = true;
       volumes = [

@@ -112,7 +112,6 @@
   };
 
   services.clubcotton.filebrowser = {
-    tailnetHostname = "files";
   };
 
   services.clubcotton.freshrss = {
