@@ -112,6 +112,7 @@
   };
 
   services.clubcotton.filebrowser = {
+    filesDir = "/var/lib/filebrowser/files"; # Change this to somewhere on the media pool. Maybe /media/shared-files/filebrowser or something?
   };
 
   services.clubcotton.freshrss = {
