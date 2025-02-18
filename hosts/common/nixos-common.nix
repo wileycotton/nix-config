@@ -39,6 +39,7 @@ in {
     television
     qemu
     quickemu
+    inputs.ghostty.packages."${system}".default
   ];
 
   ## pins to stable as unstable updates very often

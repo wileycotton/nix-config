@@ -16,9 +16,31 @@ in {
     "${nixVsCodeServer}/modules/vscode-server/home.nix"
     ./modules/atuin.nix
     ./modules/tmux-plugins.nix
+    # ./modules/sesh.nix
   ];
 
   programs.tmux-plugins.enable = true;
+
+  # programs.sesh-config = {
+  #   enable = true;
+  #   sessions = [
+  #     {
+  #       name = "default";
+  #     }
+  #     {
+  #       name = "just";
+  #       startup_command = "cd ~/nix-config && just";
+  #     }
+  #     {
+  #       name = "admin";
+  #       startup_command = "ssh admin -t 'tmux a'";
+  #     }
+  #     {
+  #       name = "nix-03";
+  #       startup_command = "ssh -q nix-03 -L 10350:localhost:10350 -L 3000:localhost:3000  -t 'tmux a'";
+  #     }
+  #   ];
+  # };
 
   programs.atuin-config = {
     enable-daemon = true;
@@ -125,6 +147,9 @@ in {
         set-option -g default-command "reattach-to-user-namespace -l zsh"
       }
 
+      # Bring these environment variables into tmux on re-attach
+      set-option -g update-environment "SSH_AUTH_SOCK SSH_CONNECTION DISPLAY"
+
       # Vim style pane selection
       bind h select-pane -L
       bind j select-pane -D
@@ -142,41 +167,25 @@ in {
       set -g detach-on-destroy off  # don't exit from tmux when closing a session
       bind -N "last-session (via sesh) " L run-shell "sesh last"
 
-      bind -n "M-k" \
-        run-shell "sesh connect \"$(
-        ~/go/bin/sesh list --icons | fzf-tmux -p 80%,70% \
-          --reverse \
-          --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
-          --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
-          --bind 'tab:down,btab:up' \
-          --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-          --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
-          --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
-          --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
-          --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-          --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
-          --preview-window 'right:55%' \
-          --preview '~/go/bin/sesh preview {}'
-        )\""
-
-      # bind -n "M-k" run-shell "sesh connect \"$(
-      #     sesh list --icons  | fzf-tmux -p 100%,100% --no-border \
-      #       --ansi \
-      #       --list-border \
-      #       --no-sort --prompt '⚡  ' \
-      #       --color 'list-border:6,input-border:3,preview-border:2,header-bg:-1,header-border:6' \
-      #       --input-border \
-      #       --header-border \
-      #       --bind 'tab:down,btab:up' \
-      #       --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-      #       --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
-      #       --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
-      #       --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
-      #       --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-      #       --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
-      #       --preview-window 'right:70%' \
-      #       --preview 'sesh preview {}' \
-      # )\""
+      bind -n "M-k" run-shell "sesh connect \"$(
+          ~/go/bin/sesh list --icons | fzf-tmux -p 80%,70% --no-border \
+            --reverse \
+            --ansi \
+            --list-border \
+            --no-sort --prompt '⚡  ' \
+            --color 'list-border:6,input-border:3,preview-border:2,header-bg:-1,header-border:6' \
+            --input-border \
+            --header-border \
+            --bind 'tab:down,btab:up' \
+            --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+            --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+            --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+            --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+            --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+            --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+            --preview-window 'right:70%' \
+            --preview '~/go/bin/sesh preview {}' \
+      )\""
 
       # set-option -g status-position top
       set -g renumber-windows on
@@ -196,6 +205,9 @@ in {
       # - Second #[...]: Configures styling for session name
       set-option -g status-right "#[bg=colour237,fg=colour239 nobold, nounderscore, noitalics]#[bg=colour239,fg=colour246] %Y-%m-%d  %H:%M #[bg=colour239,fg=colour248,nobold,noitalics,nounderscore]#[bg=colour248,fg=colour237] #h "
 
+      # Per session kubeconfig
+      set-hook -g session-created 'run-shell "~/.config/tmux/cp-kubeconfig start #{hook_session_name}"'
+      set-hook -g session-closed 'run-shell "~/.config/tmux/cp-kubeconfig stop #{hook_session_name}"'
 
       # https://github.com/samoshkin/tmux-config/blob/master/tmux/tmux.conf
       set -g buffer-limit 20
@@ -238,9 +250,6 @@ in {
     "$HOME/.cursor-server"
   ];
 
-  # TODO: add ~/bin
-  # code --remote ssh-remote+<remoteHost> <remotePath>
-
   home.file."oh-my-zsh-custom" = {
     enable = true;
     source = ./oh-my-zsh-custom;
@@ -254,6 +263,13 @@ in {
     };
     configFile."ghostty/config" = {
       source = ./bcotton.config/ghostty/config;
+    };
+    configFile."sesh/sesh.toml" = {
+      source = ./bcotton.config/sesh/sesh.toml;
+    };
+    configFile."tmux/cp-kubeconfig" = {
+      executable = true;
+      source = ./bcotton.config/tmux/cp-kubeconfig;
     };
   };
 
@@ -311,6 +327,22 @@ in {
          export DOCKER_BUILDKIT=0
       fi
 
+      if [ -n "$TMUX" ]; then
+        function refresh {
+          export $(tmux show-environment | grep "^SSH_AUTH_SOCK") > /dev/null
+          export $(tmux show-environment | grep "^DISPLAY") > /dev/null
+          export $(tmux show-environment | grep "^KUBECONFIG") > /dev/null
+        }
+      else
+        function refresh { }
+      fi
+
+      function preexec {
+         refresh
+      }
+
+
+
       [ -e ~/.config/sensitive/.zshenv ] && \. ~/.config/sensitive/.zshenv
     '';
 
@@ -351,6 +383,7 @@ in {
     shellAliases = {
       # Automatically run `go test` for a package when files change.
       autotest = "watchexec -c clear -o do-nothing --delay-run 100ms --exts go 'pkg=\".\${WATCHEXEC_COMMON_PATH/\$PWD/}/...\"; echo \"running tests for \$pkg\"; go test \"\$pkg\"'";
+      cd = "z";
       batj = "bat -l json";
       batly = "bat -l yaml";
       batmd = "bat -l md";
@@ -368,6 +401,17 @@ in {
     };
 
     initExtra = ''
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+      if [ -e "/var/run/user/1000/podman/podman.sock" ]; then
+         export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+         export DOCKER_BUILDKIT=0
+      fi
+
+      [ -e ~/.config/sensitive/.zshenv ] && \. ~/.config/sensitive/.zshenv
+
       source <(kubectl completion zsh)
       eval "$(tv init zsh)"
       eval "$(atuin init zsh --disable-up-arrow)"
@@ -386,8 +430,6 @@ in {
 
 
     '';
-
-    #initExtra = (builtins.readFile ../mac-dot-zshrc);
   };
 
   programs.home-manager.enable = true;
@@ -418,54 +460,12 @@ in {
     kubernetes-helm
     kubectx
     kubectl
+    llm
     unstablePkgs.sesh
     unstablePkgs.uv
     # TODO: write an overlay for this or use the flake
     # unstablePkgs.ghostty
     tldr
-    #   ## unstable
-    #   unstablePkgs.yt-dlp
-    #   unstablePkgs.terraform
-
-    #   ## stable
-    #   ansible
-    #   asciinema
-    #   bitwarden-cli
-    #   coreutils
-    #   # direnv # programs.direnv
-    #   #docker
-    #   drill
-    #   du-dust
-    #   dua
-    #   duf
-    #   esptool
-    #   ffmpeg
-    #   fd
-    #   #fzf # programs.fzf
-    #   #git # programs.git
-    #   gh
-    #   go
-    #   gnused
-    #   #htop # programs.htop
-    #   hub
-    #   hugo
-    #   ipmitool
-    #   jetbrains-mono # font
-    #   just
-    #   jq
-    #   mas # mac app store cli
-    #   mc
-    #   mosh
-    #   neofetch
-    #    nmap
-    #      (python311.withPackages(ps: with ps; [ libtmux ]))
-    #   ripgrep
-    #   skopeo
-    #   smartmontools
-    #   tree
-    #   unzip
-    #   watch
-    #   wget
-    #   wireguard-tools
+    unstablePkgs.zed-editor
   ];
 }

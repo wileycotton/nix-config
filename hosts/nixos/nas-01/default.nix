@@ -26,7 +26,7 @@
     lidarr.enable = true;
     navidrome.enable = true;
     open-webui.enable = true;
-    paperless.enable = false;
+    paperless.enable = true;
     postgresql.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
@@ -288,6 +288,12 @@
         "/dev/disk/by-id/wwn-0x5000c500cb5e1c80"
         "/dev/disk/by-id/wwn-0x5000c500f6f25ea9"
       ];
+    };
+  };
+
+  services.sanoid = {
+    datasets."ssdpool/local/database" = {
+      useTemplate = ["backup"];
     };
   };
 
