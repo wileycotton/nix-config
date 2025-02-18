@@ -169,7 +169,7 @@ in {
       }
     ];
     extraConfig = ''
-      if-shell "uname | grep -q Darwin" {
+        if-shell "uname | grep -q Darwin" {
         set-option -g default-command "reattach-to-user-namespace -l zsh"
       }
 

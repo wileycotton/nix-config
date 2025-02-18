@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  unstablePkgs,
   ...
 }:
 with lib; let
@@ -55,13 +56,26 @@ in {
       "d '${cfg.consumptionDir}' 0777 ${cfg.user} ${cfg.user} - -"
     ];
 
-    systemd.services.paperless.serviceConfig = {
-      StateDirectory = "paperless";
-      EnvironmentFile = config.age.secrets."paperless-database-raw".path;
-    };
+    systemd.services = builtins.listToAttrs (map (serviceName: {
+        name = serviceName;
+        value = {
+          serviceConfig = {
+            StateDirectory = "paperless";
+            EnvironmentFile = config.age.secrets."paperless-database-raw".path;
+            PrivateNetwork = lib.mkForce false;
+          };
+        };
+      }) [
+        "paperless"
+        "paperless-consumer"
+        "paperless-scheduler"
+        "paperless-task-queue"
+        "paperless-web"
+      ]);
 
     services.paperless = {
       enable = true;
+      package = unstablePkgs.paperless-ngx;
       passwordFile = cfg.passwordFile;
       user = cfg.user;
       mediaDir = cfg.mediaDir;
