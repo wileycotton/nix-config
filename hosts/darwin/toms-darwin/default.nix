@@ -169,10 +169,11 @@ in {
       };
     };
 
-    /* Nonmanaged Apps
+    /*
+       Nonmanaged Apps
     Wwise Launcher: https://www.audiokinetic.com/en/download/
-    Epic Games Launcher: https://store.epicgames.com/en-US/download 
-    
+    Epic Games Launcher: https://store.epicgames.com/en-US/download
+
 
     */
 
