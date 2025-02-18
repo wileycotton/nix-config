@@ -111,6 +111,13 @@
     };
   };
 
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "0 * * * *  root  rsync --recursive --update --delete-after --chown=share:share /media/tomcotton/data/TTRPG\ Library/ /var/lib/filebrowser/files/ttrpgs/"
+    ];
+  };
+
   services.clubcotton.filebrowser = {
     filesDir = "/var/lib/filebrowser/files"; # Change this to somewhere on the media pool. Maybe /media/shared-files/filebrowser or something?
   };

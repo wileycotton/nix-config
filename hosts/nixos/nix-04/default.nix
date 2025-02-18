@@ -34,6 +34,7 @@
     };
   };
 
+
   # services.clubcotton.services.tailscale.enable = true;
 
   clubcotton.zfs_single_root.enable = true;
