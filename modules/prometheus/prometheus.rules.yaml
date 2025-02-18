@@ -123,4 +123,11 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: 'BLE sensor {{ $labels.entity }} on {{ $labels.instance }} is not respinding'
+      description: 'BLE sensor {{ $labels.entity }} on {{ $labels.instance }} is not responding.'
+  - alert: Main Temp too Low
+    expr: sum(homeassistant_sensor_temperature_celsius{friendly_name="Main Temperature", instance="homeassistant:8123"}) - sum(homeassistant_climate_target_temperature_celsius{friendly_name="Main Thermostat", instance="homeassistant:8123"}) < -1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: 'Main temp is colder than set point by {{ printf "%.0f" $value }}C. Cycle the hot water.'
