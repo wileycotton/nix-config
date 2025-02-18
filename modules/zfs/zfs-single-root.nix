@@ -106,5 +106,14 @@ in {
     disko.devices = zfsLib.makeZfsSingleRootConfig {
       inherit (cfg) poolname disk swapSize filesystems volumes useStandardRootFilesystems reservedSize;
     };
+
+    services.sanoid = {
+      datasets."rpool/local/lib" = {
+        useTemplate = ["backup"];
+      };
+      datasets."rpool/safe/home" = {
+        useTemplate = ["backup"];
+      };
+    };
   };
 }

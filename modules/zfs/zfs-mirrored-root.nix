@@ -129,5 +129,14 @@ in {
         }) (range 0 ((length cfg.disks) - 1));
       };
     };
+
+    services.sanoid = {
+      datasets."rpool/local/lib" = {
+        useTemplate = ["backup"];
+      };
+      datasets."rpool/safe/home" = {
+        useTemplate = ["backup"];
+      };
+    };
   };
 }

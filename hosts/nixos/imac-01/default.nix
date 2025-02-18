@@ -57,9 +57,17 @@
         prefixLength = 24;
       }
     ];
+    wireless.enable = true;
+    wireless.userControlled.enable = true;
+    wireless.secretsFile = config.age.secrets.wireless-config.path;
+    wireless.networks = {
+      "clubcotton2_5G" = {
+        pskRaw = "ext:PSK";
+      };
+    };
   };
-  services.tailscale.enable = true;
 
+  services.tailscale.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -78,6 +86,11 @@
   networking.firewall.enable = false;
 
   virtualisation.libvirtd.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    firefox
+    code-cursor
+  ];
 
   system.stateVersion = "24.11"; # Did you read the comment?
 }

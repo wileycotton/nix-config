@@ -10,6 +10,17 @@
     ./zfs-raidz1.nix
   ];
 
+  services.sanoid = {
+    enable = true;
+    templates.backup = {
+      hourly = 36;
+      daily = 30;
+      monthly = 3;
+      autoprune = true;
+      autosnap = true;
+    };
+  };
+
   services.prometheus.exporters =
     lib.mkIf (
       config.clubcotton.zfs_single_root.enable
