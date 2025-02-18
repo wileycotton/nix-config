@@ -169,6 +169,10 @@ in {
       }
     ];
     extraConfig = ''
+        if-shell "uname | grep -q Darwin" {
+        set-option -g default-command "reattach-to-user-namespace -l zsh"
+      }
+
       new-session -s main
       # Vim style pane selection
       bind h select-pane -L
