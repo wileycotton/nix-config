@@ -193,6 +193,11 @@
           }
         ];
       };
+      paperless-bcotton = {
+        password = "{env}BCOTTON_PAPERLESS_PASSWORD";
+        directory = "/var/lib/paperless/consume/bcotton";
+        permissions = "CRUD";
+      };
     };
   };
 
